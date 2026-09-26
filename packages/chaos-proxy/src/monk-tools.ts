@@ -5,6 +5,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema, type CallToolResult, type Tool } from '@modelcontextprotocol/sdk/types.js';
 import { redact, type MonkConfig } from '@monk/shared';
 import type { Device } from './device.ts';
+import { webFetch, webSearch } from './web.ts';
 
 /**
  * Downloads a file from a Daytona sandbox via its toolbox REST API.
@@ -47,6 +48,18 @@ const TOOLS: Tool[] = [
     description: 'Pause before the next step, e.g. for the retry_after a rate limit asked for. At most 60 seconds.',
     inputSchema: { type: 'object', properties: { seconds: { type: 'number', description: 'How long to wait (1-60)' }, reason: { type: 'string' } }, required: ['seconds'] },
     annotations: { readOnlyHint: true },
+  },
+  {
+    name: 'web_search',
+    description: 'Search the web. Returns titles, URLs and snippets; read a page with web_fetch. Use it for anything current: news, prices, weather, docs.',
+    inputSchema: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] },
+    annotations: { readOnlyHint: true, openWorldHint: true },
+  },
+  {
+    name: 'web_fetch',
+    description: 'Fetch a public web page or API as text (HTML is converted to text, capped at 20k characters). Tip: https://wttr.in/<city>?format=j1 gives weather as JSON.',
+    inputSchema: { type: 'object', properties: { url: { type: 'string' } }, required: ['url'] },
+    annotations: { readOnlyHint: true, openWorldHint: true },
   },
 ];
 
@@ -151,6 +164,17 @@ export function monkToolsServer(deps: MonkToolsDeps): Server {
         const secs = Math.max(1, Math.min(60, Number(args.seconds) || 1));
         await (deps.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms))))(secs * 1000);
         return { content: [{ type: 'text', text: `waited ${secs}s` }] };
+      }
+      if (req.params.name === 'web_search') {
+        const query = String(args.query ?? '').trim();
+        if (!query) return err('web_search needs query');
+        const results = await webSearch(query, { ...(deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}), ...(process.env.TAVILY_API_KEY ? { tavilyKey: process.env.TAVILY_API_KEY } : {}) });
+        if (!results.length) return { content: [{ type: 'text', text: `no results for "${query}"` }] };
+        return { content: [{ type: 'text', text: results.map((r, i) => `${i + 1}. ${r.title}\n   ${r.url}\n   ${r.snippet}`).join('\n') }] };
+      }
+      if (req.params.name === 'web_fetch') {
+        if (!args.url) return err('web_fetch needs url');
+        return { content: [{ type: 'text', text: await webFetch(String(args.url), deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}) }] };
       }
       if (req.params.name === 'delete_branch' || req.params.name === 'close_issue') return await githubAction(deps, req.params.name, args);
       return err(`unknown tool ${req.params.name}`);

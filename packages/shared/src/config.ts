@@ -94,4 +94,4 @@ export function loadConfig(opts: { env?: Record<string, string | undefined>; roo
 }
 
 /** Names of config keys that are secrets; used by redaction. */
-export const SECRET_KEYS = ['LLM_API_KEY', 'AGENTEYE_INGEST_KEY', 'GITHUB_TOKEN', 'TELEGRAM_BOT_TOKEN', 'DISCORD_BOT_TOKEN', 'DAYTONA_API_KEY', 'TRUEFORGE_TOKEN'] as const;
+export const SECRET_KEYS = ['LLM_API_KEY', 'AGENTEYE_INGEST_KEY', 'GITHUB_TOKEN', 'TELEGRAM_BOT_TOKEN', 'DISCORD_BOT_TOKEN', 'DAYTONA_API_KEY', 'TRUEFORGE_TOKEN', 'TAVILY_API_KEY'] as const;
