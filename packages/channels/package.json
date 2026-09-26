@@ -1,0 +1,20 @@
+{
+  "name": "@monk/channels",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@monk/shared": "workspace:*",
+    "discord.js": "^14.27.0",
+    "drizzle-orm": "^0.45.3",
+    "grammy": "^1.46.0",
+    "zod": "^4.6.5"
+  }
+}
