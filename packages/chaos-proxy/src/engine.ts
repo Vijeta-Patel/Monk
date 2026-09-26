@@ -16,6 +16,24 @@ type PendingFault = { id: string; tool: string; faultType: FaultType; index: num
 type SessionState = { index: number; autoFaults: number; pending: PendingFault[]; lastOk: Map<string, CallToolResult> };
 type Queued = { fault: FaultType; tool: string | null; mcpSessionId: string | null };
 
+/**
+ * TrueForge hands the model only text (and image) blocks, so an embedded resource such as the file
+ * body GitHub's get_file_contents returns would be dropped. Inline text resources as text blocks.
+ */
+export function inlineResources(result: CallToolResult): CallToolResult {
+  if (!result.content?.some((b) => b.type === 'resource')) return result;
+  return {
+    ...result,
+    content: result.content.map((b) => {
+      if (b.type !== 'resource') return b;
+      const r = b.resource;
+      if ('text' in r && typeof r.text === 'string') return { type: 'text', text: `${r.uri}\n${r.text}` };
+      const size = 'blob' in r && typeof r.blob === 'string' ? Math.floor((r.blob.length * 3) / 4) : 0;
+      return { type: 'text', text: `${r.uri}: binary file (${r.mimeType ?? 'unknown type'}, about ${size} bytes), not shown` };
+    }),
+  };
+}
+
 /** Local utilities with no upstream to fail: a fault on them tests nothing real and blocks recovery (waiting out a rate limit). */
 const NEVER_FAULTED = new Set(['wait_seconds']);
 
@@ -244,7 +262,7 @@ export class ChaosEngine {
         return errorResult('Closing an issue is irreversible and needs the user\'s ok: use the close_issue tool instead.');
       }
       try {
-        return await pool.call(upstream, name, args);
+        return inlineResources(await pool.call(upstream, name, args));
       } catch (err) {
         return errorResult(redact(err instanceof Error ? err.message : String(err)));
       }

@@ -197,3 +197,21 @@ describe('ChaosEngine', () => {
     expect(f).toEqual({ outcome: 'recovered', recovery_steps: 2 });
   });
 });
+
+describe('inlineResources', () => {
+  it('turns embedded text resources into text blocks and describes binary ones', async () => {
+    const { inlineResources } = await import('../src/engine.ts');
+    const out = inlineResources({
+      content: [
+        { type: 'text', text: 'successfully downloaded text file' },
+        { type: 'resource', resource: { uri: 'repo://o/r/contents/README.md', mimeType: 'text/plain', text: '# hello' } },
+        { type: 'resource', resource: { uri: 'repo://o/r/contents/logo.png', mimeType: 'image/png', blob: 'AAAA' } },
+      ],
+    });
+    expect(out.content).toEqual([
+      { type: 'text', text: 'successfully downloaded text file' },
+      { type: 'text', text: 'repo://o/r/contents/README.md\n# hello' },
+      { type: 'text', text: 'repo://o/r/contents/logo.png: binary file (image/png, about 3 bytes), not shown' },
+    ]);
+  });
+});
