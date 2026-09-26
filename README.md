@@ -54,6 +54,9 @@ Needs Node 23.6+ (Node 24+ recommended; the TypeScript runs directly), pnpm 10+,
    approvals on every irreversible tool.
 5. **Talk to it**: `pnpm tui` (or `pnpm tui --continue`), or message the bot.
 6. **Check everything**: `pnpm monk doctor`.
+7. **Keep it running** (Linux): `pnpm monk stack install` installs TrueForge, the Monk services and AgentEye as
+   systemd user services that restart on failure and start at login. After that, `pnpm tui` is all you need.
+   `pnpm monk stack status|restart|stop|logs` manages them.
 
 Docker: `docker compose up` runs TrueForge and the Monk services. The TUI still runs on your host.
 Inside Docker the GitHub MCP server is reached over its hosted endpoint (`GITHUB_MCP=remote`).

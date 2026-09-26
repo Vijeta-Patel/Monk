@@ -1,0 +1,19 @@
+[Unit]
+Description=Monk: chaos proxy, API + dashboard, Telegram, cron, AgentEye export
+After=monk-trueforge.service monk-agenteye.service
+Wants=monk-trueforge.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Desktop/Projects/Monk
+Environment=PATH=@NODE_BIN@:%h/.bun/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=@NODE_BIN@/node packages/cli/src/bin.ts up
+KillSignal=SIGINT
+TimeoutStopSec=20
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:%h/Desktop/Projects/Monk/data/monk-up.log
+StandardError=append:%h/Desktop/Projects/Monk/data/monk-up.log
+
+[Install]
+WantedBy=default.target

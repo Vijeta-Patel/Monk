@@ -6,7 +6,7 @@ import { exportSession, sessionsToExport } from '@monk/agenteye';
 import { learnFromRecentSessions, retireSkills } from '@monk/learn';
 import { ABLATION_VARIANTS, githubFromConfig, resetRepo, runSuite, type AblationVariant, type Suite } from '@monk/evals';
 import { MONK_AGENT_NAME, blendedCost, findRootDir, listProxyModels, loadConfig, rankForAgent, redact, runMonkTurn, type TurnInput } from '@monk/shared';
-import { benchAblate, benchReport, benchRun } from './bench.ts';
+import { benchAblate, benchReport, benchRun, learnVerifier } from './bench.ts';
 import { context, log, remoteChaos } from './context.ts';
 import { doctor, printChecks } from './doctor.ts';
 import { runTrueForge } from './trueforge.ts';
@@ -25,6 +25,8 @@ usage
   monk ask "<message>" [--approve]
                                  one headless turn with Monk; irreversible steps are denied unless --approve
   monk models [--all]            models on the LLM proxy, cheapest with tool calling first
+  monk stack [install|status|restart|stop|logs]
+                                 the stack as background services (TrueForge, monk up, AgentEye)
   monk agenteye up               start the local, Monk-only AgentEye (docker)
   monk agenteye setup            keys, plus AgentEye's evaluations and audit for Monk (integrations/agenteye)
   monk agenteye export [--bench <id>] [--session <id>]
@@ -93,6 +95,25 @@ async function main(argv: string[]): Promise<number> {
   }
 
   if (cmd === 'doctor') return printChecks(await doctor(context())) ? 0 : 1;
+
+  if (cmd === 'stack') {
+    const root = findRootDir();
+    const units = ['monk-trueforge', 'monk-up', 'monk-agenteye'];
+    const run = (bin: string, args: string[]) =>
+      new Promise<number>((resolve) => spawn(bin, args, { stdio: 'inherit' }).on('exit', (code) => resolve(code ?? 0)));
+    switch (sub ?? 'status') {
+      case 'install':
+        return run('bash', [join(root, 'deploy/systemd/install.sh')]);
+      case 'restart':
+        return run('systemctl', ['--user', 'restart', ...units]);
+      case 'stop':
+        return run('systemctl', ['--user', 'stop', 'monk-up', 'monk-trueforge']);
+      case 'logs':
+        return run('tail', ['-n', '60', '-f', join(root, 'data/monk-up.log'), join(root, 'data/trueforge.log')]);
+      default:
+        return run('systemctl', ['--user', '--no-pager', 'status', ...units]);
+    }
+  }
 
   if (cmd === 'agenteye') {
     const root = findRootDir();
@@ -180,7 +201,7 @@ async function main(argv: string[]): Promise<number> {
   if (cmd === 'learn') {
     const { values } = parseArgs({ args: argv.slice(1), options: { since: { type: 'string', default: '24h' } } });
     const ctx = context();
-    const report = await learnFromRecentSessions({ ...ctx, since: new Date(Date.now() - parseDuration(values.since ?? '24h')) });
+    const report = await learnFromRecentSessions({ ...ctx, since: new Date(Date.now() - parseDuration(values.since ?? '24h')), verifier: learnVerifier(ctx, remoteChaos(ctx.cfg)) });
     const retired = await retireSkills({ ...ctx, client: ctx.client });
     process.stdout.write(`${JSON.stringify({ ...report, retired }, null, 2)}\n`);
     return 0;

@@ -1,0 +1,16 @@
+[Unit]
+Description=Monk: TrueForge agent harness (stock, standalone) on :8790
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Desktop/Projects/Monk
+Environment=PATH=@NODE_BIN@:%h/.bun/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=@NODE_BIN@/node packages/cli/src/bin.ts trueforge
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:%h/Desktop/Projects/Monk/data/trueforge.log
+StandardError=append:%h/Desktop/Projects/Monk/data/trueforge.log
+
+[Install]
+WantedBy=default.target
