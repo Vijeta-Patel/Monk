@@ -1,0 +1,21 @@
+{
+  "name": "@monk/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@truefoundry/trueforge-sdk": "^0.2.0",
+    "dotenv": "^18.0.3",
+    "drizzle-orm": "^0.45.3",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  }
+}

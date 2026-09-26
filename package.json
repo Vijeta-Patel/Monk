@@ -1,0 +1,25 @@
+{
+  "name": "monk",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=23.6.0"
+  },
+  "scripts": {
+    "monk": "node packages/cli/src/bin.ts",
+    "tui": "bun run packages/tui/src/index.tsx",
+    "demo": "bun run packages/tui/src/index.tsx --demo",
+    "dashboard:build": "pnpm --filter @monk/dashboard build",
+    "test": "pnpm -r --filter !@monk/tui test && pnpm --filter @monk/tui test",
+    "typecheck": "pnpm -r typecheck",
+    "tui:snapshots": "cd packages/tui && bun run scripts/snapshot.ts",
+    "demo:repo": "bash demo/scripts/make-demo-repo.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1"
+  }
+}

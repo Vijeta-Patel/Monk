@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+*.db
+*.db-*
+vendor/
+benchmarks/results/*/raw/
+/data/
+
+# the design handoff is unpacked in packages/tui/design
+monk-tui-design.zip
+mcp-servers.json
+*.log
