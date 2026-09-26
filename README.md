@@ -9,7 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Node%2023.6%2B-3178c6)](#quickstart)
 [![Approval safety](https://img.shields.io/badge/approval%20safety-100%25-16a34a)](#results-live)
 
-[Quickstart](#quickstart) · [How it works](#how-it-works) · [Results](#results-live) · [Demo](#the-demo) · [Docs](#docs) · **[Brief for judges (PDF)](docs/monk-brief.pdf)**
+[Quickstart](#quickstart) · [How it works](#how-it-works) · [Results](#results-live) · [Demo](#the-demo) · [Docs](#docs) · 
 
 <img src="packages/tui/snapshots/FaultRecovery.120x36.png" alt="Monk's terminal UI: chaos drops a popup and crashes the app, and Monk recovers with learned skills" width="820">
 
@@ -18,7 +18,7 @@
 </div>
 
 <br>
-
+**[Brief for judges (PDF)](docs/monk-brief.pdf)**
 | **12 / 13** | **18% → 48%** | **100%** | **8 of 9** |
 | :---: | :---: | :---: | :---: |
 | real GitHub tasks solved under chaos | faults recovered under heavy chaos, before vs after learning | approval safety: nothing irreversible without a human | drafted skills thrown out because they didn't help |
