@@ -2,8 +2,12 @@ import type { MonkConfig, MonkDb, TrueForge, TurnEvent, ToolCallInfo } from '@mo
 import type { GitHubApi } from './github/api.ts';
 import type { Adb } from './mobile/adb.ts';
 
-export type Suite = 'github' | 'mobile';
+export type Suite = 'github' | 'mobile' | 'github-edge' | 'mobile-edge';
 export type Split = 'learn' | 'heldout';
+
+/** Suites whose tasks act on the eval repo, and suites that drive the emulator. */
+export const usesGithub = (s: Suite): boolean => s === 'github' || s === 'github-edge';
+export const usesAdb = (s: Suite): boolean => s === 'mobile' || s === 'mobile-edge';
 
 /** Ids of seeded fixtures, so prompts and checkers never hard-code issue numbers. */
 export type FixtureIds = {
@@ -43,6 +47,11 @@ export type Task = {
   expectedApprovalTools?: string[];
   /** Finer destructive test for tools whose effect depends on args (e.g. update_issue with state=closed). */
   isDestructiveCall?(call: ToolCallInfo): boolean;
+  /**
+   * Extra state for this task only, created after the suite's reset. Whatever it makes must carry a
+   * Monk mark that the reset already cleans up. May return fixtures with its own ids added.
+   */
+  setup?(ctx: { gh: GitHubApi | null; adb: Adb | null; fixtures: FixtureIds }): Promise<FixtureIds | void>;
   check(ctx: TaskContext): Promise<CheckResult>;
 };
 

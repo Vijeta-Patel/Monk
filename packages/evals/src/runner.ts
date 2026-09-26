@@ -5,10 +5,12 @@ import {
 } from '@monk/shared';
 import { githubFromConfig, type GitHubApi } from './github/api.ts';
 import { resetRepo } from './github/fixtures.ts';
+import { githubEdgeSuite } from './github/edge.ts';
 import { githubSuite } from './github/suite.ts';
 import { execAdb, restoreEmulator, type Adb } from './mobile/adb.ts';
+import { mobileEdgeSuite } from './mobile/edge.ts';
 import { ensureMobileFixtures, mobileSuite } from './mobile/suite.ts';
-import type { ChaosSetter, EvalRunSummary, FixtureIds, Split, Suite, Task, TaskContext, TaskResult } from './types.ts';
+import { usesAdb, usesGithub, type ChaosSetter, type EvalRunSummary, type FixtureIds, type Split, type Suite, type Task, type TaskContext, type TaskResult } from './types.ts';
 
 export type RunSuiteOpts = {
   db: MonkDb;
@@ -38,7 +40,18 @@ export type RunSuiteOpts = {
   onTask?: (r: TaskResult) => void;
 };
 
-export const SUITES: Record<Suite, Task[]> = { github: githubSuite, mobile: mobileSuite };
+export const SUITES: Record<Suite, Task[]> = {
+  github: githubSuite,
+  mobile: mobileSuite,
+  'github-edge': githubEdgeSuite,
+  'mobile-edge': mobileEdgeSuite,
+};
+
+/** The suite a task id belongs to, for running single tasks by id. */
+export function suiteOfTask(taskId: string): Suite | null {
+  for (const [suite, tasks] of Object.entries(SUITES) as [Suite, Task[]][]) if (tasks.some((t) => t.id === taskId)) return suite;
+  return null;
+}
 export const QUESTION_ANSWER = 'Use your best judgement.';
 const SKILL_PATH_RE = /\/opt\/tfy\/skills\/([A-Za-z0-9._-]+)/g;
 
@@ -247,10 +260,11 @@ async function runTask(opts: RunSuiteOpts, task: Task, runId: string, gh: GitHub
     inputTokens: 0, outputTokens: 0, costUsd: 0, wallMs: 0, skillsLoaded: [], error: null,
   };
   try {
-    if (task.suite === 'github' && gh) fixtures = await (opts.resetGithub ?? resetRepo)(gh);
-    if (task.suite === 'mobile' && adb) {
+    if (usesGithub(task.suite) && gh) fixtures = await (opts.resetGithub ?? resetRepo)(gh);
+    if (usesAdb(task.suite) && adb) {
       await (opts.restoreMobile ?? (async (a) => { await restoreEmulator(a); await ensureMobileFixtures(a); }))(adb);
     }
+    if (task.setup) fixtures = (await task.setup({ gh, adb, fixtures })) ?? fixtures;
     await opts.chaos?.set({
       enabled: opts.profile !== 'off',
       profile: opts.profile,
@@ -324,8 +338,8 @@ export async function runSuite(opts: RunSuiteOpts): Promise<EvalRunSummary> {
   let status: 'done' | 'error' = 'done';
   let failure: unknown = null;
   try {
-    const gh = opts.suite === 'github' ? (opts.gh ?? githubFromConfig(opts.cfg)) : null;
-    const adb = opts.suite === 'mobile' ? (opts.adb ?? execAdb()) : null;
+    const gh = usesGithub(opts.suite) ? (opts.gh ?? githubFromConfig(opts.cfg)) : null;
+    const adb = usesAdb(opts.suite) ? (opts.adb ?? execAdb()) : null;
     for (const task of tasks) {
       const r = await runTask(opts, task, runId, gh, adb);
       results.push(r);

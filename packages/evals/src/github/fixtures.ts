@@ -72,8 +72,11 @@ export const FIXTURE_FILES: { path: string; content: string }[] = [
   },
 ];
 
-/** Titles of issues the agent creates in tasks 3 and 4; reset closes the agent's own leftovers. */
-export const LEFTOVER_TITLE_RE = /empty csv|monkRollingChecksum/i;
+/**
+ * Titles of issues the agent creates in tasks 3 and 4 (and a wrongly created duplicate in edge task
+ * ghe-06); reset closes the agent's own leftovers. Keyed fixture issues are skipped before this runs.
+ */
+export const LEFTOVER_TITLE_RE = /empty csv|monkRollingChecksum|^upload fails for files over 10 mb$/i;
 
 const DAY = 86_400_000;
 
