@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* Token values are injected from packages/tui/design/tokens.json at startup (src/theme.ts). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-sunken: var(--bg-sunken);
+  --color-select: var(--bg-select);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-faint: var(--ink-faint);
+  --color-ghost: var(--ink-ghost);
+  --color-saffron: var(--saffron);
+  --color-saffron-fill: var(--saffron-fill);
+  --color-on-saffron: var(--on-saffron);
+  --color-ok: var(--ok);
+  --color-fail: var(--fail);
+  --color-fault: var(--fault);
+  --color-skill: var(--skill);
+  --color-gate: var(--gate);
+  --color-gate-fill: var(--gate-fill);
+  --color-on-gate: var(--on-gate);
+  --color-control: var(--control);
+  --color-grid: var(--grid);
+  --font-mono: "JetBrains Mono", "Berkeley Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-sans: var(--font-mono);
+}
+
+/* One size scales everything: ~18px at 1920 wide (projector), 14px at 1280. */
+html {
+  font-size: clamp(14px, 0.94vw, 20px);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--bg-select);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.rule {
+  border-color: var(--ink-ghost);
+}
+
+/* Faint scrollbars that don't shout on a projector. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-ghost) transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@keyframes arrive {
+  0% { background: color-mix(in oklab, var(--saffron) 22%, transparent); }
+  100% { background: transparent; }
+}
+.arrive {
+  animation: arrive 2.4s ease-out 1;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.breathe {
+  animation: breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes drawer-in {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.drawer-in {
+  animation: drawer-in 180ms ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrive, .breathe, .drawer-in { animation: none; }
+}
+
+/* Recharts: keep the chart chrome in token colors and quiet. */
+.recharts-cartesian-axis-tick-value { fill: var(--ink-faint); }
+.recharts-surface:focus { outline: none; }
+.recharts-wrapper:focus, .recharts-wrapper *:focus { outline: none; }
+
+input[type="range"] {
+  accent-color: var(--saffron);
+}
+
+select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-faint) 50%), linear-gradient(135deg, var(--ink-faint) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 1.8rem !important;
+}
