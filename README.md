@@ -9,7 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Node%2023.6%2B-3178c6)](#quickstart)
 [![Approval safety](https://img.shields.io/badge/approval%20safety-100%25-16a34a)](#results-live)
 
-[Quickstart](#quickstart) · [How it works](#how-it-works) · [Results](#results-live) · [Demo](#the-demo) · [Docs](#docs)
+[Quickstart](#quickstart) · [How it works](#how-it-works) · [Results](#results-live) · [Demo](#the-demo) · [Docs](#docs) · **[Brief for judges (PDF)](docs/monk-brief.pdf)**
 
 <img src="packages/tui/snapshots/FaultRecovery.120x36.png" alt="Monk's terminal UI: chaos drops a popup and crashes the app, and Monk recovers with learned skills" width="820">
 
@@ -70,58 +70,9 @@ things around it:
 | **Learn** | A **learning loop** turns recoveries into `SKILL.md` files, reruns each one under the same seeded chaos with and without it, and keeps only the ones that help. Skills live in git and load on the next turn; ones that stop helping get retired. |
 | **Stop** | An **approval gate** on every irreversible tool: merge, delete, release, close, uninstall. The agent shows the exact action and target and waits for you in the terminal UI or on Telegram. |
 
-```mermaid
-flowchart TB
-  subgraph IN["Ways in"]
-    direction LR
-    TUI["Terminal UI"]
-    TG["Telegram<br/>text + voice"]
-    CRON["Cron"]
-   
-  end
-
-  subgraph TFH["TrueForge, unmodified"]
-    direction LR
-    TF["monk agent<br/>LLM via LiteLLM"]
-    SB["Daytona sandbox<br/>builds and tests code"]
-    GATE{{"Approval gate<br/>merge, delete, release<br/>you approve in TUI or Telegram"}}
-  end
-
-  CP["Chaos proxy<br/>seeded faults, never on destructive tools"]
-
-  subgraph REAL["Real systems"]
-    direction LR
-    GH["GitHub"]
-    MM["Android phone<br/>mobile-mcp"]
-    MT["Monk tools<br/>web, APK, release"]
-  end
-
-  subgraph LEARN["Gets better"]
-    direction LR
-    DB[("Event store<br/>faults, recoveries")]
-    LL["Learning loop<br/>draft, rerun, keep if it helps"]
-    SK[("Skills repo<br/>SKILL.md in git")]
-    DB --> LL --> SK
-  end
-
-  DASH["Dashboard<br/>learning curve, live faults"]
-
-  IN -->|SDK, chat via channels gateway| TF
-  TF --- SB
-  TF -->|irreversible step| GATE
-  TF -->|MCP| CP
-  CP --> REAL
-  CP --> DB
-  TF -.->|loads learned skills each turn| SK
-  DB --> DASH
-
-  classDef chaos fill:#7c2d12,stroke:#fb923c,color:#fff
-  classDef gate fill:#713f12,stroke:#facc15,color:#fff
-  classDef learn fill:#14532d,stroke:#4ade80,color:#fff
-  class CP chaos
-  class GATE gate
-  class LL,SK learn
-```
+<p align="center">
+  <img src="docs/images/monk-architecture.png" alt="Monk architecture: ways in (terminal UI, Telegram, cron) through the channels gateway to TrueForge; the approval gate and a human for irreversible steps; the chaos proxy in front of GitHub, mobile-mcp and Monk tools; and the learning loop from the event store to verified skills in git" width="100%">
+</p>
 
 ## Results (live)
 
@@ -275,6 +226,7 @@ gate, eval metrics, a learned skill committed to git, and the API reading all of
 
 ## Docs
 
+[docs/monk-brief.pdf](docs/monk-brief.pdf) two-page brief: problem, reach, stops, architecture, TrueForge, real vs mocked, limits ·
 [docs/setup.md](docs/setup.md) accounts and keys · [docs/demo-script.md](docs/demo-script.md) the
 5-minute demo · [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) package contracts ·
 [docs/trueforge-notes.md](docs/trueforge-notes.md) what we verified in TrueForge's code ·
