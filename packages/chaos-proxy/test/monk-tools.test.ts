@@ -5,7 +5,7 @@ import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { loadConfig } from '@monk/shared';
 import { monkToolsServer } from '../src/monk-tools.ts';
 
-async function connect(fetchImpl: typeof fetch, sleep = async () => {}) {
+async function connect(fetchImpl: typeof fetch, sleep: (ms: number) => Promise<void> = async () => {}) {
   const cfg = loadConfig({ env: { GITHUB_TOKEN: 'ghp_testtesttesttesttesttest0000' }, rootDir: '/tmp' });
   const server = monkToolsServer({ cfg, device: async () => null, fetchImpl, sleep });
   const [a, b] = InMemoryTransport.createLinkedPair();

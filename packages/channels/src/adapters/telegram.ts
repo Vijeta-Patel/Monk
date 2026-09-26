@@ -1,4 +1,4 @@
-import { Bot, GrammyError, InputFile } from 'grammy';
+import { Bot, GrammyError, HttpError, InputFile } from 'grammy';
 import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'grammy/types';
 import { mdToPlain, mdToTelegramHtml } from '../format.ts';
 import type { Button, ChannelAdapter, InboundMessage, OutboundMessage } from '../types.ts';
@@ -30,15 +30,19 @@ function isNotModified(err: unknown): boolean {
   return err instanceof GrammyError && /message is not modified/i.test(err.description);
 }
 
-/** Retries once on a 429 (flood control), waiting the time Telegram asks for. */
-async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
+/** Retries a 429 (flood control) after the time Telegram asks for, and network errors up to 3 times with backoff. */
+async function withRetry<T>(fn: () => Promise<T>, attempt = 0): Promise<T> {
   try {
     return await fn();
   } catch (err) {
-    if (err instanceof GrammyError && err.error_code === 429) {
+    if (err instanceof GrammyError && err.error_code === 429 && attempt === 0) {
       const wait = (err.parameters.retry_after ?? 1) * 1000;
       await new Promise((r) => setTimeout(r, Math.min(wait, 30_000)));
-      return fn();
+      return withRetry(fn, attempt + 1);
+    }
+    if (err instanceof HttpError && attempt < 3) {
+      await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt));
+      return withRetry(fn, attempt + 1);
     }
     throw err;
   }
@@ -71,7 +75,7 @@ export function telegramAdapter(opts: { token: string }): ChannelAdapter {
       return String(m.message_id);
     } catch (err) {
       if (!isParseError(err)) throw err;
-      const m = await bot.api.sendMessage(chat(chatId), mdToPlain(out.text), markup);
+      const m = await withRetry(() => bot.api.sendMessage(chat(chatId), mdToPlain(out.text), markup));
       return String(m.message_id);
     }
   }
