@@ -7,5 +7,8 @@ mkdir -p ~/.config/systemd/user
 node_bin="$(dirname "$(command -v node)")"
 for f in "$here"/monk-*.service; do sed "s#@NODE_BIN@#$node_bin#g" "$f" > ~/.config/systemd/user/"$(basename "$f")"; done
 systemctl --user daemon-reload
-systemctl --user enable --now monk-agenteye.service monk-trueforge.service monk-up.service
-systemctl --user --no-pager status monk-trueforge monk-up monk-agenteye | grep -E "●|Active:"
+units=(monk-agenteye.service monk-trueforge.service monk-up.service)
+# The phone half only when an AVD named monk exists (scripts/emulator.sh setup).
+if [[ -d ~/.android/avd/monk.avd ]]; then units=(monk-emulator.service "${units[@]}"); fi
+systemctl --user enable --now "${units[@]}"
+systemctl --user --no-pager status monk-trueforge monk-up monk-agenteye monk-emulator | grep -E "●|Active:"

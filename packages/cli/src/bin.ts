@@ -99,7 +99,7 @@ async function main(argv: string[]): Promise<number> {
 
   if (cmd === 'stack') {
     const root = findRootDir();
-    const units = ['monk-trueforge', 'monk-up', 'monk-agenteye'];
+    const units = ['monk-trueforge', 'monk-up', 'monk-agenteye', 'monk-emulator'];
     const run = (bin: string, args: string[]) =>
       new Promise<number>((resolve) => spawn(bin, args, { stdio: 'inherit' }).on('exit', (code) => resolve(code ?? 0)));
     switch (sub ?? 'status') {

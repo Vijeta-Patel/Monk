@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Headless Android emulator for Monk's phone half (monk up --phone).
 #   scripts/emulator.sh setup   install the system image, create the "monk" AVD (Pixel 7, API 34)
-#   scripts/emulator.sh start   boot it headless and wait until it's ready
+#   scripts/emulator.sh start   boot it headless and wait until it's ready (run + ready)
 #   scripts/emulator.sh snapshot  save the clean state the eval runner restores before every task
 #   scripts/emulator.sh stop
 # Needs the Android command-line tools: https://developer.android.com/studio#command-tools
@@ -13,19 +13,27 @@ export PATH="$SDK/cmdline-tools/latest/bin:$SDK/platform-tools:$SDK/emulator:$PA
 case "${1:-}" in
   setup)
     command -v sdkmanager >/dev/null || { echo "sdkmanager not found under $SDK/cmdline-tools/latest/bin"; exit 1; }
-    yes | sdkmanager --licenses >/dev/null
+    # yes dies of SIGPIPE when sdkmanager closes stdin; don't let pipefail abort on it.
+    (yes || true) | sdkmanager --licenses >/dev/null || true
     sdkmanager "platform-tools" "emulator" "$IMAGE"
-    echo no | avdmanager create avd -n monk -k "$IMAGE" -d pixel_7 --force
+    (echo no || true) | avdmanager create avd -n monk -k "$IMAGE" -d pixel_7 --force
     echo "✓ AVD monk created. next: scripts/emulator.sh start"
     ;;
-  start)
-    nohup emulator -avd monk -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot-save >/tmp/monk-emulator.log 2>&1 &
+  run)
+    # Foreground, for the systemd service (deploy/systemd/monk-emulator.service).
+    exec emulator -avd monk -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot-save
+    ;;
+  ready)
     adb wait-for-device
     until [[ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" == "1" ]]; do sleep 2; done
     adb shell settings put global window_animation_scale 0
     adb shell settings put global transition_animation_scale 0
     adb shell settings put global animator_duration_scale 0
     echo "✓ emulator booted ($(adb shell getprop ro.build.version.release | tr -d '\r'))"
+    ;;
+  start)
+    nohup "$0" run >/tmp/monk-emulator.log 2>&1 &
+    "$0" ready
     ;;
   snapshot)
     adb emu avd snapshot save monk-clean

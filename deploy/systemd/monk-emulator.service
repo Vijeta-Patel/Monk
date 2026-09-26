@@ -1,0 +1,21 @@
+[Unit]
+Description=Monk: headless Android emulator (AVD monk) for the phone half
+After=default.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Desktop/Projects/Monk
+Environment=ANDROID_HOME=%h/Android/Sdk
+Environment=PATH=%h/Android/Sdk/platform-tools:%h/Android/Sdk/emulator:/usr/local/bin:/usr/bin:/bin
+ExecStart=/bin/bash scripts/emulator.sh run
+ExecStartPost=/usr/bin/timeout 300 /bin/bash scripts/emulator.sh ready
+ExecStop=%h/Android/Sdk/platform-tools/adb emu kill
+TimeoutStartSec=330
+TimeoutStopSec=30
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:%h/Desktop/Projects/Monk/data/emulator.log
+StandardError=append:%h/Desktop/Projects/Monk/data/emulator.log
+
+[Install]
+WantedBy=default.target

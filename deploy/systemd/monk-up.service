@@ -1,12 +1,13 @@
 [Unit]
 Description=Monk: chaos proxy, API + dashboard, Telegram, cron, AgentEye export
-After=monk-trueforge.service monk-agenteye.service
+After=monk-trueforge.service monk-agenteye.service monk-emulator.service
 Wants=monk-trueforge.service
 
 [Service]
 Type=simple
 WorkingDirectory=%h/Desktop/Projects/Monk
-Environment=PATH=@NODE_BIN@:%h/.bun/bin:/usr/local/bin:/usr/bin:/bin
+Environment=ANDROID_HOME=%h/Android/Sdk
+Environment=PATH=@NODE_BIN@:%h/Android/Sdk/platform-tools:%h/.bun/bin:/usr/local/bin:/usr/bin:/bin
 ExecStart=@NODE_BIN@/node packages/cli/src/bin.ts up
 KillSignal=SIGINT
 TimeoutStopSec=20
