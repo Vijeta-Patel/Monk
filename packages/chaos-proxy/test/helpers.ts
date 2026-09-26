@@ -14,6 +14,7 @@ export const GITHUB_TOOLS: Tool[] = [
   { name: 'get_issue', description: 'Get one issue', inputSchema: obj },
   { name: 'delete_branch', description: 'Delete a branch', inputSchema: obj },
   { name: 'always_fails', description: 'Upstream error', inputSchema: obj },
+  { name: 'wait_seconds', description: 'Pause', inputSchema: obj },
 ];
 export const MOBILE_TOOLS: Tool[] = [
   { name: 'mobile_list_elements_on_screen', description: 'List elements', inputSchema: obj },

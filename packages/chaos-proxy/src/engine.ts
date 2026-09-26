@@ -16,6 +16,9 @@ type PendingFault = { id: string; tool: string; faultType: FaultType; index: num
 type SessionState = { index: number; autoFaults: number; pending: PendingFault[]; lastOk: Map<string, CallToolResult> };
 type Queued = { fault: FaultType; tool: string | null; mcpSessionId: string | null };
 
+/** Local utilities with no upstream to fail: a fault on them tests nothing real and blocks recovery (waiting out a rate limit). */
+const NEVER_FAULTED = new Set(['wait_seconds']);
+
 export type ToolInfo = { name: string; description: string; destructive: boolean; upstream: string };
 
 export type EngineDeps = {
@@ -221,7 +224,7 @@ export class ChaosEngine {
 
     let fault: FaultType | null = null;
     let manual = false;
-    if (this.enabled && !protectedTool) {
+    if (this.enabled && !protectedTool && !NEVER_FAULTED.has(name)) {
       fault = this.takeQueued(mcpSessionId, name, entry.mobile);
       manual = fault !== null;
       if (!fault) {

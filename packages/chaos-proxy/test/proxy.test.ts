@@ -38,7 +38,7 @@ describe('chaos proxy over streamable HTTP', () => {
     expect(transport.sessionId).toMatch(/[0-9a-f-]{36}/);
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual(
-      ['always_fails', 'delete_branch', 'get_issue', 'list_issues', 'mobile_click_on_screen_at_coordinates', 'mobile_list_elements_on_screen', 'mobile_uninstall_app'].sort(),
+      ['always_fails', 'delete_branch', 'get_issue', 'list_issues', 'mobile_click_on_screen_at_coordinates', 'mobile_list_elements_on_screen', 'mobile_uninstall_app', 'wait_seconds'].sort(),
     );
     const del = tools.find((t) => t.name === 'delete_branch');
     expect(del?.annotations?.destructiveHint).toBe(true);

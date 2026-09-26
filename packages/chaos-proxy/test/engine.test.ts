@@ -130,6 +130,14 @@ describe('ChaosEngine', () => {
     expect(inj?.data).toMatchObject({ tfSessionId: 'tf1', mcpSessionId: 's1', manual: true });
   });
 
+  it('never faults wait_seconds, so a rate limit can always be waited out', async () => {
+    const { db, engine } = await setup();
+    await engine.set({ faultRate: 1 });
+    await engine.registerSession('s');
+    for (let i = 0; i < 10; i++) await engine.handleCall('s', 'wait_seconds', {});
+    expect((db.raw.prepare('SELECT COUNT(*) AS n FROM faults').get() as { n: number }).n).toBe(0);
+  });
+
   it('caps automatic faults per session', async () => {
     const { db, engine } = await setup();
     await engine.set({ profile: 'light', faultRate: 1 });
