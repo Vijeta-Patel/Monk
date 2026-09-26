@@ -11,3 +11,5 @@ benchmarks/results/*/raw/
 monk-tui-design.zip
 mcp-servers.json
 *.log
+*.swp
+*.swo
