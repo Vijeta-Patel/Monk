@@ -16,6 +16,7 @@ export type BenchRequest = {
   stress?: boolean;
   keepSkills?: boolean;
   benchId?: string;
+  taskIds?: string[];
 };
 
 function wiring(ctx: Ctx, chaos: ChaosSetter) {
@@ -43,6 +44,7 @@ export async function benchRun(ctx: Ctx, chaos: ChaosSetter, req: BenchRequest, 
     chaosOffControl: req.chaosOffControl ?? true,
     stress: req.stress ?? false,
     ...(req.benchId ? { benchId: req.benchId } : {}),
+    ...(req.taskIds ? { taskIds: req.taskIds } : {}),
     chaos,
     learner,
     ...(req.keepSkills ? {} : { resetSkills: toggles.resetSkills }),

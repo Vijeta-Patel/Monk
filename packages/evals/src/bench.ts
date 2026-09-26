@@ -32,7 +32,7 @@ export type BenchOpts = {
   stress?: boolean;
   benchId?: string;
   onRun?: (s: EvalRunSummary) => void;
-} & Pick<RunSuiteOpts, 'chaos' | 'gh' | 'adb' | 'stepCap' | 'taskTimeoutMs' | 'agentName' | 'resetGithub' | 'restoreMobile' | 'faultRate'>;
+} & Pick<RunSuiteOpts, 'chaos' | 'gh' | 'adb' | 'stepCap' | 'taskTimeoutMs' | 'agentName' | 'resetGithub' | 'restoreMobile' | 'faultRate' | 'taskIds'>;
 
 export function seedList(seeds: number | number[]): number[] {
   return Array.isArray(seeds) ? seeds : Array.from({ length: seeds }, (_, i) => 42 + i);
@@ -61,6 +61,7 @@ async function runCurve(opts: BenchOpts, benchId: string, variant: AblationVaria
     ...(opts.agentName ? { agentName: opts.agentName } : {}),
     ...(opts.resetGithub ? { resetGithub: opts.resetGithub } : {}),
     ...(opts.restoreMobile ? { restoreMobile: opts.restoreMobile } : {}),
+    ...(opts.taskIds ? { taskIds: opts.taskIds } : {}),
   };
   const run = async (o: { suite: Suite; profile: string; seed: number; generation: number; variant?: string }) => {
     const s = await runSuite({ ...common, ...(opts.faultRate !== undefined && o.profile !== CHAOS_OFF_PROFILE ? { faultRate: opts.faultRate } : {}), ...o });

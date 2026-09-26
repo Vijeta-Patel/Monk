@@ -192,6 +192,7 @@ async function main(argv: string[]): Promise<number> {
         stress: { type: 'boolean' },
         'keep-skills': { type: 'boolean' },
         'no-control': { type: 'boolean' },
+        tasks: { type: 'string' },
       },
     });
     const ctx = context();
@@ -222,6 +223,7 @@ async function main(argv: string[]): Promise<number> {
         chaosOffControl: !values['no-control'],
         stress: values.stress ?? false,
         keepSkills: values['keep-skills'] ?? false,
+        ...(values.tasks ? { taskIds: values.tasks.split(',').map((t) => t.trim()).filter(Boolean) } : {}),
       });
       log(`bench ${benchId} done. monk bench report to write REPORT.md`);
       return 0;
