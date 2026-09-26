@@ -1,0 +1,36 @@
+# TrueForge (stock, standalone) + Monk services. The terminal UI runs on your host: `pnpm tui`.
+# Inside Docker the GitHub MCP server is reached over its hosted endpoint (GITHUB_MCP=remote).
+services:
+  trueforge:
+    image: node:24-bookworm-slim
+    command: ["npx", "-y", "@truefoundry/trueforge@latest", "--port", "8790"]
+    environment:
+      HOST: 0.0.0.0
+      # Lets TrueForge call the chaos proxy by its compose hostname.
+      OUTBOUND_URL_ALLOWED_HOSTS: '["monk","localhost","127.0.0.1"]'
+    ports: ["8790:8790"]
+    volumes: ["trueforge-data:/root/.local/share"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8790/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      retries: 30
+
+  monk:
+    build: .
+    env_file: .env
+    environment:
+      TRUEFORGE_URL: http://trueforge:8790
+      MONK_DB_PATH: /data/monk.db
+      SKILLS_REPO_PATH: /data/skills-repo
+      GITHUB_MCP: remote
+      MONK_BIND_HOST: 0.0.0.0
+      CHAOS_PROXY_PUBLIC_URL: http://monk:8787/mcp
+    ports: ["8787:8787", "8788:8788"]
+    volumes: ["monk-data:/data"]
+    depends_on:
+      trueforge:
+        condition: service_healthy
+
+volumes:
+  trueforge-data:
+  monk-data:

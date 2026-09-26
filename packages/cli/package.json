@@ -1,0 +1,30 @@
+{
+  "name": "@monk/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p .",
+    "monk": "node src/bin.ts"
+  },
+  "dependencies": {
+    "@monk/agenteye": "workspace:*",
+    "@monk/channels": "workspace:*",
+    "@monk/chaos-proxy": "workspace:*",
+    "@monk/cron": "workspace:*",
+    "@monk/evals": "workspace:*",
+    "@monk/learn": "workspace:*",
+    "@monk/server": "workspace:*",
+    "@monk/shared": "workspace:*"
+  },
+  "bin": {
+    "monk": "./src/bin.ts"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  }
+}
