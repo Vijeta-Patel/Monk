@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 import { exportSession, sessionsToExport } from '@monk/agenteye';
 import { learnFromRecentSessions, retireSkills } from '@monk/learn';
-import { ABLATION_VARIANTS, githubFromConfig, resetRepo, runSuite, type AblationVariant, type Suite } from '@monk/evals';
+import { ABLATION_VARIANTS, SUITES, githubFromConfig, resetRepo, runSuite, suiteOfTask, usesGithub, type AblationVariant, type Suite } from '@monk/evals';
 import { MONK_AGENT_NAME, blendedCost, findRootDir, listProxyModels, loadConfig, rankForAgent, redact, runMonkTurn, type TurnInput } from '@monk/shared';
 import { benchAblate, benchReport, benchRun, learnVerifier } from './bench.ts';
 import { context, log, remoteChaos } from './context.ts';
@@ -36,6 +36,7 @@ usage
   monk bench task <id,...> [--profile moderate] [--seed 42]
                                  run single benchmark tasks (e.g. gh-01-list-bugs) and print their results
   monk bench run --suite github,mobile --profile moderate --seeds 3 --generations 5 [--stress] [--keep-skills]
+                                 suites: github, mobile, github-edge, mobile-edge (edge cases; ghe-*, mobe-* task ids)
   monk bench ablate --suite github --variants all --seeds 3 --generations 3
   monk bench report --format md,json
 `;
@@ -48,7 +49,7 @@ function parseDuration(s: string): number {
 
 function suites(v: string | undefined): Suite[] {
   const list = (v ?? 'github').split(',').map((s) => s.trim()).filter(Boolean);
-  for (const s of list) if (s !== 'github' && s !== 'mobile') throw new Error(`unknown suite "${s}"`);
+  for (const s of list) if (!Object.hasOwn(SUITES, s)) throw new Error(`unknown suite "${s}" (known: ${Object.keys(SUITES).join(', ')})`);
   return list as Suite[];
 }
 
@@ -233,9 +234,12 @@ async function main(argv: string[]): Promise<number> {
     if (sub === 'task') {
       const ids = (argv[2] ?? '').split(',').map((t) => t.trim()).filter(Boolean);
       if (!ids.length) throw new Error('usage: monk bench task <task-id>[,<task-id>…]');
-      const suite: Suite = ids[0]!.startsWith('mob') ? 'mobile' : 'github';
+      const suite = suiteOfTask(ids[0]!);
+      if (!suite) throw new Error(`unknown task "${ids[0]}"`);
+      const other = ids.find((id) => suiteOfTask(id) !== suite);
+      if (other) throw new Error(`${other} is not in suite ${suite}; run one suite's tasks at a time`);
       const { values: v } = parseArgs({ args: argv.slice(3), options: { profile: { type: 'string', default: 'moderate' }, seed: { type: 'string', default: '42' } } });
-      const s = await runSuite({ ...ctx, suite, profile: v.profile ?? 'moderate', seed: Number(v.seed), generation: 0, variant: 'check', taskIds: ids, chaos, ...(suite === 'github' ? { gh: githubFromConfig(ctx.cfg) } : {}) });
+      const s = await runSuite({ ...ctx, suite, profile: v.profile ?? 'moderate', seed: Number(v.seed), generation: 0, variant: 'check', taskIds: ids, chaos, ...(usesGithub(suite) ? { gh: githubFromConfig(ctx.cfg) } : {}) });
       for (const r of s.results) log(`${r.passed ? '✓' : '✗'} ${r.taskId}  ${r.detail}  · ${r.steps} steps · faults ${r.faultsInjected}/${r.faultsRecovered} recovered · $${r.costUsd.toFixed(4)}${r.tfSessionId ? ` · ${r.tfSessionId}` : ''}`);
       return s.results.every((r) => r.passed) ? 0 : 1;
     }
