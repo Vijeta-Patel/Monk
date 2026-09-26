@@ -107,7 +107,7 @@ proxy, one seed (42). Tables come from the stored runs: `node scripts/bench-tabl
   **18% to 48%** (3/17 → 13/27) with 4 verified skills (e.g. `call-tool-http-429-retry-after`,
   `github-safe-delete-merged-pr-branches`). Task success did **not** move overall (3/6 → 3/6): two
   learned tasks flipped to pass (issue from template, close duplicates) and two flipped to fail
-  (list bugs, and the held-out release notes). Recovering more cost more steps and tokens ($0.040 →
+  (list bugs, and the held-out release notes, which failed on a model-provider overload: the LLM proxy returned 429 "No deployments available" mid-run). Recovering more cost more steps and tokens ($0.040 →
   $0.053 per solved task). With one seed, the success change is within noise; the recovery gain
   is the clearest signal so far. More seeds and generations are the next run.
 
