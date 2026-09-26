@@ -1,5 +1,6 @@
 import type { FixtureIds } from '../types.ts';
 import type { GhIssue, GitHubApi } from './api.ts';
+import { CODE_BUGS, CODE_FILES } from './code-fixture.ts';
 
 // Everything Monk creates in the eval repo carries one of these marks; reset touches nothing else.
 export const FIXTURE_LABEL = 'monk-fixture';
@@ -34,6 +35,8 @@ export const ISSUE_SPECS: IssueSpec[] = [
   { key: 'triage-3', title: 'Search returns 500 when the query contains a quote', body: 'Searching for `it\'s` returns HTTP 500. Searching without the quote works.', labels: [], triage: 'bug' },
   { key: 'triage-4', title: 'Support exporting reports as PDF', body: 'Please add PDF as an export format next to CSV.', labels: [], triage: 'feature' },
   { key: 'triage-5', title: 'Is there a rate limit on the public API?', body: 'What is the request limit per minute for the public API?', labels: [], triage: 'question' },
+  // Real bugs in textkit-app/, fixed by the fix-issue tasks (code-fixture.ts).
+  ...CODE_BUGS.map((b) => ({ key: b.key, title: b.title, body: b.body, labels: ['bug'] })),
 ];
 
 export type PullSpec = { key: string; branch: string; title: string; kind: 'merged' | 'stale' | 'active'; file: string };
@@ -70,6 +73,7 @@ export const FIXTURE_FILES: { path: string; content: string }[] = [
     path: 'src/fixture/checksum/index.ts',
     content: `// Monk eval fixture. Re-exports only; the definition lives elsewhere.\nexport { ${FUNCTION_NAME} } from './rolling.ts';\n`,
   },
+  ...CODE_FILES,
 ];
 
 /**
