@@ -17,6 +17,10 @@ describe('mapSession', () => {
     expect(out.find((e) => e.type === 'human_wait')).toMatchObject({ input_id: 'c3' });
     expect(out.find((e) => e.type === 'human_input')).toMatchObject({ fw_kind: 'message', response: 'List open bugs and delete branch old' });
     expect(out.find((e) => e.type === 'human_input' && e.fw_kind === 'approval')).toMatchObject({ input_id: 'c3', fw_approved: true });
+    // The gated delete shows up after its approval, not when the model proposed it.
+    const idx = (pred: (e: Record<string, unknown>) => boolean) => out.findIndex(pred);
+    expect(idx((e) => e.type === 'tool_use' && e.tool_call_id === 'c3')).toBeGreaterThan(idx((e) => e.type === 'human_input' && e.fw_approved === true));
+    expect(idx((e) => e.type === 'human_wait')).toBeLessThan(idx((e) => e.type === 'human_input' && e.fw_approved === true));
     expect(out.at(-1)).toMatchObject({ outcome: 'completed', fw_passed: true, fw_generation: 2, fw_faults_injected: 1, fw_faults_recovered: 1 });
     for (const e of out) {
       expect(e).toMatchObject({ session_id: 's1', agent_id: 'monk', environment: 'gen-2' });

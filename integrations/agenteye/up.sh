@@ -15,9 +15,24 @@ export AGENTEYE_LLM_API_KEY="${LLM_API_KEY:-}"
 export AGENTEYE_JUDGE_MODEL="${JUDGE_MODEL:-${MODEL:-}}"
 # The audit agent reaches the same proxy (Anthropic-style /v1/messages, which LiteLLM serves).
 export AGENTEYE_AGENT_MODEL="${AUDIT_MODEL:-${JUDGE_MODEL:-${MODEL:-claude-sonnet-4-6}}}"
-# JEV (classifier evaluations) needs its own account; unset leaves JEV off and says so.
-export FAILPROOFAI_EVALUATOR_JEV_ACCOUNT_ID="${AGENTEYE_JEV_ACCOUNT_ID:-}"
+# JEV (classifier evaluations) runs on Cloudflare Workers AI: account id + API token, optionally
+# through an AI Gateway. A pasted Cloudflare URL is accepted too; the account id (and gateway
+# name) are read out of it. Unset leaves JEV off and says so.
+jev_acct="${AGENTEYE_JEV_ACCOUNT_ID:-}"
+jev_gateway="${AGENTEYE_JEV_GATEWAY_ID:-}"
+if [[ "$jev_acct" == http* ]]; then
+  if [[ "$jev_acct" =~ gateway\.ai\.cloudflare\.com/v1/([^/]+)/([^/]+) ]]; then
+    jev_gateway="${jev_gateway:-${BASH_REMATCH[2]}}"; jev_acct="${BASH_REMATCH[1]}"
+  elif [[ "$jev_acct" =~ /accounts/([^/]+) ]]; then
+    jev_acct="${BASH_REMATCH[1]}"
+  else
+    echo "! AGENTEYE_JEV_ACCOUNT_ID is a URL without a Cloudflare account id in it; set the id itself" >&2; jev_acct=""
+  fi
+fi
+export FAILPROOFAI_EVALUATOR_JEV_ACCOUNT_ID="$jev_acct"
 export FAILPROOFAI_EVALUATOR_JEV_TOKEN="${AGENTEYE_JEV_TOKEN:-}"
+export FAILPROOFAI_EVALUATOR_JEV_GATEWAY_ID="$jev_gateway"
+export FAILPROOFAI_EVALUATOR_JEV_BASE_URL="${AGENTEYE_JEV_BASE_URL:-https://api.cloudflare.com/client/v4}"
 
 compose=(docker compose -p agenteye-monk -f "$AE/docker-compose.yml" -f "$here/compose.monk.yml")
 "${compose[@]}" up -d postgres redis clickhouse minio minio-init mailpit server dashboard managed-evaluator agent

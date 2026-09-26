@@ -1,7 +1,7 @@
 // TrueForge session log + Monk's chaos/eval records → AgentEye NDJSON events. Pure, so the exact
 // wire shape is unit-tested. Field names follow @failproofai/sdk's schema.ts; Monk-specific data
 // rides in fw_* payload fields, which AgentEye keeps verbatim.
-import { contentToText, isErrorResult, redact, type TrueForgeApi } from '@monk/shared';
+import { contentToText, isErrorResult, redact, unwrapToolCall, type TrueForgeApi } from '@monk/shared';
 
 export type AgentEyeEvent = Record<string, unknown> & {
   session_id: string;
@@ -92,6 +92,15 @@ export function mapSession(events: Ev[], faults: FaultRecord[], meta: SessionMet
   let totalOut = 0;
   let lastTs = '';
 
+  // Calls that waited for a human run when they're decided, not when the model proposed them;
+  // the transcript must show approval before execution, as it happened.
+  const gated = new Set<string>();
+  for (const raw of events) {
+    const e = raw as unknown as { type: string; toolCalls?: { id: string }[] };
+    if (e.type === 'tool.approval_required') for (const r of e.toolCalls ?? []) gated.add(r.id);
+  }
+  const heldToolUse = new Map<string, Record<string, unknown>>();
+
   const push = (timestamp: string, type: string, fields: Record<string, unknown>) => {
     lastTs = timestamp > lastTs ? timestamp : lastTs;
     out.push({ ...base, type, timestamp, ...fields });
@@ -128,6 +137,12 @@ export function mapSession(events: Ev[], faults: FaultRecord[], meta: SessionMet
               fw_kind: 'approval',
               fw_approved: allowed,
             });
+            const held = heldToolUse.get(item.toolCallId);
+            if (held) {
+              heldToolUse.delete(item.toolCallId);
+              toolStart.set(item.toolCallId, Date.parse(ts));
+              push(bump(ts), 'tool_use', held);
+            }
           } else if (item.type === 'user.tool_response') {
             push(ts, 'human_input', { input_id: item.toolCallId, response: clip(redact(item.content), 2000), fw_kind: 'answer' });
           }
@@ -152,16 +167,19 @@ export function mapSession(events: Ev[], faults: FaultRecord[], meta: SessionMet
           fw_thread: thread,
         });
         for (const tc of m.toolCalls ?? []) {
-          toolName.set(tc.id, tc.function.name);
+          const real = unwrapToolCall(tc.function.name, tc.function.arguments ?? '', tc.toolInfo?.type === 'mcp' ? tc.toolInfo.serverName : null);
+          toolName.set(tc.id, real.name);
           toolStart.set(tc.id, Date.parse(ts));
-          push(ts, 'tool_use', {
-            tool_name: tc.function.name,
+          const use = {
+            tool_name: real.name,
             tool_call_id: tc.id,
-            input: parseArgs(redact(tc.function.arguments ?? '')),
+            input: parseArgs(redact(real.args)),
             fw_thread: thread,
-            fw_server: tc.toolInfo?.type === 'mcp' ? tc.toolInfo.serverName : 'trueforge',
-            ...(meta.destructive(tc.function.name) ? { fw_destructive: true } : {}),
-          });
+            fw_server: real.server ?? 'trueforge',
+            ...(meta.destructive(real.name) || gated.has(tc.id) ? { fw_destructive: true } : {}),
+          };
+          if (gated.has(tc.id)) heldToolUse.set(tc.id, use);
+          else push(ts, 'tool_use', use);
         }
         break;
       }
