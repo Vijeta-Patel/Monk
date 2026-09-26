@@ -54,41 +54,12 @@ Needs Node 23.6+ (Node 24+ recommended; the TypeScript runs directly), pnpm 10+,
    approvals on every irreversible tool.
 5. **Talk to it**: `pnpm tui` (or `pnpm tui --continue`), or message the bot.
 6. **Check everything**: `pnpm monk doctor`.
-7. **Keep it running** (Linux): `pnpm monk stack install` installs TrueForge, the Monk services and AgentEye as
+7. **Keep it running** (Linux): `pnpm monk stack install` installs TrueForge and the Monk services as
    systemd user services that restart on failure and start at login. After that, `pnpm tui` is all you need.
    `pnpm monk stack status|restart|stop|logs` manages them.
 
 Docker: `docker compose up` runs TrueForge and the Monk services. The TUI still runs on your host.
 Inside Docker the GitHub MCP server is reached over its hosted endpoint (`GITHUB_MCP=remote`).
-
-## Observability and evals: AgentEye
-
-Monk ships every session to [AgentEye](https://befailproof.ai) (Failproof AI), where its evaluations
-score them. Tool calls, model turns, chaos faults and recoveries, and approvals all go over.
-
-```sh
-pnpm monk agenteye up          # Monk-only AgentEye in docker, built from the agenteye repo's main worktree
-pnpm monk agenteye setup       # Monk's ingest key, AgentEye's evaluations and audit for Monk
-pnpm monk up                   # exports sessions to AgentEye as they finish
-pnpm monk agenteye export --bench <id>   # backfill a benchmark run
-```
-
-Monk posts to its own AgentEye with its own key, so the instance holds only TrueForge sessions,
-not Claude Code or Codex ones. Benchmark sessions are filed under environments `gen-0`, `gen-1`, …
-so AgentEye's evaluations page compares generations directly.
-
-Everything that judges Monk runs inside AgentEye; Monk's code only ships sessions.
-
-| AgentEye feature | what it does for Monk |
-| --- | --- |
-| code evaluations | task success (Monk's checker), fault recovery (rate, steps, seconds), approval safety, retry discipline, efficiency (cost, tokens, calls) |
-| LLM judges | error diagnosis, answer quality, trajectory quality, through the LiteLLM proxy (`LLM_API_KEY`, `JUDGE_MODEL` or `MODEL`) |
-| JEV classifiers | pressure resisted, recovery composure (`AGENTEYE_JEV_ACCOUNT_ID`, `AGENTEYE_JEV_TOKEN`) |
-| audit `monk-reliability` | daily: error clusters, loops and tool misuse, goal failures, drift across generations, cost, coverage gaps (`AUDIT_MODEL` or `MODEL`) |
-
-The evaluation definitions live in `integrations/agenteye/hosted-evals.json` (bump `eval_version` to
-change one). On the cloud: point `AGENTEYE_URL` and `AGENTEYE_INGEST_KEY` at a cloud org and publish
-the same definitions there.
 
 ## The benchmark
 
