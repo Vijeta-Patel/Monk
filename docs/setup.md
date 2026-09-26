@@ -29,6 +29,10 @@ or written into a skill. `pnpm monk doctor` tells you what's missing.
 
 `/link` in one chat gives a code; `/link CODE` in the other joins the same conversation.
 
+**Voice notes (Telegram):** run `bash scripts/setup-stt.sh` once. It installs local speech to text
+(faster-whisper, CPU) under `data/stt-venv`, so audio never leaves the machine. Monk replies with
+what it heard, then answers it like a typed message.
+
 ## Phone (optional, `--phone`)
 
 1. Install the Android command-line tools and set `ANDROID_HOME`.

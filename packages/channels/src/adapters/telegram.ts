@@ -1,6 +1,7 @@
 import { Bot, GrammyError, HttpError, InputFile } from 'grammy';
 import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'grammy/types';
 import { mdToPlain, mdToTelegramHtml } from '../format.ts';
+import type { Transcriber } from '../stt.ts';
 import type { Button, ChannelAdapter, InboundMessage, OutboundMessage } from '../types.ts';
 
 export const TELEGRAM_LIMIT = 4096;
@@ -61,7 +62,7 @@ const COMMANDS = [
   { command: 'help', description: 'what monk can do' },
 ];
 
-export function telegramAdapter(opts: { token: string }): ChannelAdapter {
+export function telegramAdapter(opts: { token: string; transcribe?: Transcriber }): ChannelAdapter {
   const bot = new Bot(opts.token);
   const chat = (id: string) => (/^-?\d+$/.test(id) ? Number(id) : id);
 
@@ -99,6 +100,33 @@ export function telegramAdapter(opts: { token: string }): ChannelAdapter {
           text: ctx.message.text,
           messageId: String(ctx.message.message_id),
         });
+      });
+      // Voice notes and audio files: transcribe locally, show what was heard, then treat it as typed text.
+      bot.on(['message:voice', 'message:audio'], async (ctx) => {
+        const from = ctx.from;
+        const chatId = String(ctx.chat.id);
+        const say = (text: string) => sendText(chatId, { text }).catch(() => {});
+        try {
+          if (!opts.transcribe) return void (await say('Voice notes are off: speech to text is not set up on the Monk host.'));
+          const file = await ctx.getFile();
+          const res = await fetch(`https://api.telegram.org/file/bot${opts.token}/${file.file_path}`);
+          if (!res.ok) throw new Error(`download failed: ${res.status}`);
+          const text = await opts.transcribe(Buffer.from(await res.arrayBuffer()), file.file_path?.split('/').at(-1) ?? 'voice.ogg');
+          if (text === null) return void (await say('Voice notes need speech to text on the Monk host: run scripts/setup-stt.sh.'));
+          if (!text) return void (await say("I couldn't make out any words in that voice note."));
+          await say(`heard: “${text}”`);
+          dispatch({
+            platform: 'telegram',
+            chatId,
+            userId: String(from.id),
+            userName: from.username ? `@${from.username}` : from.first_name,
+            text,
+            messageId: String(ctx.message.message_id),
+          });
+        } catch (err) {
+          console.error('[telegram] voice:', (err as Error).message);
+          await say("Sorry, I couldn't transcribe that voice note. Try again or type it.");
+        }
       });
       bot.on('callback_query:data', async (ctx) => {
         await ctx.answerCallbackQuery().catch(() => {});

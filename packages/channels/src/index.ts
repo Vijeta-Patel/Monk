@@ -2,19 +2,21 @@ import type { MonkConfig, MonkDb, TrueForge } from '@monk/shared';
 import { discordAdapter } from './adapters/discord.ts';
 import { telegramAdapter } from './adapters/telegram.ts';
 import { createGateway } from './gateway.ts';
+import { localTranscriber } from './stt.ts';
 import type { ChannelAdapter, ChaosApi, CronApi, Gateway } from './types.ts';
 
 export type * from './types.ts';
 export { createGateway, approvalCard, type GatewayCore, type GatewayOptions } from './gateway.ts';
 export { ReplyStream, ATTACH_OVER, type ReplySink } from './stream.ts';
 export * from './format.ts';
+export { localTranscriber, type Transcriber } from './stt.ts';
 export { telegramAdapter, toInlineKeyboard, telegramText, TELEGRAM_LIMIT } from './adapters/telegram.ts';
 export { discordAdapter, toActionRows, discordText, DISCORD_LIMIT } from './adapters/discord.ts';
 
 /** One adapter per bot token present in the config. */
 export function adaptersFromConfig(cfg: MonkConfig): ChannelAdapter[] {
   const out: ChannelAdapter[] = [];
-  if (cfg.TELEGRAM_BOT_TOKEN) out.push(telegramAdapter({ token: cfg.TELEGRAM_BOT_TOKEN }));
+  if (cfg.TELEGRAM_BOT_TOKEN) out.push(telegramAdapter({ token: cfg.TELEGRAM_BOT_TOKEN, transcribe: localTranscriber(cfg.rootDir) }));
   if (cfg.DISCORD_BOT_TOKEN) out.push(discordAdapter({ token: cfg.DISCORD_BOT_TOKEN }));
   return out;
 }
