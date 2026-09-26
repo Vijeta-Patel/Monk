@@ -3,8 +3,14 @@ import { existsSync } from 'node:fs';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
+import { isPinnedSkill } from '@monk/shared';
 
 const run = promisify(execFile);
+
+/** Pinned skills are hand-written; the learning loop must never rewrite or delete them. */
+function assertNotPinned(name: string): void {
+  if (isPinnedSkill(name)) throw new Error(`${name} is a pinned skill; the learning loop never writes or removes it`);
+}
 
 export class SkillsRepo {
   readonly dir: string;
@@ -38,6 +44,7 @@ export class SkillsRepo {
 
   /** Writes and commits one skill. Returns the resulting HEAD sha (unchanged if content is identical). */
   async commitSkill(name: string, content: string, message: string): Promise<string | null> {
+    assertNotPinned(name);
     await this.ensure();
     const rel = `${name}/SKILL.md`;
     await mkdir(join(this.dir, name), { recursive: true });
@@ -49,6 +56,7 @@ export class SkillsRepo {
   }
 
   async removeSkill(name: string, message: string): Promise<string | null> {
+    assertNotPinned(name);
     await this.ensure();
     const dir = join(this.dir, name);
     if (!existsSync(dir)) return this.head();

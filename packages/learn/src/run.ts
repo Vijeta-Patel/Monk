@@ -1,5 +1,5 @@
 import { and, gte, inArray, isNotNull, max, sql } from 'drizzle-orm';
-import { publish, schema, type MonkConfig, type MonkDb, type TrueForge } from '@monk/shared';
+import { isPinnedSkill, PINNED_SKILLS, publish, schema, type MonkConfig, type MonkDb, type TrueForge } from '@monk/shared';
 import { detectCandidates } from './candidates.ts';
 import { findDuplicate, mergeSkill, type SkillLike } from './dedupe.ts';
 import { loadEpisode } from './episode.ts';
@@ -139,9 +139,12 @@ export async function runLearning(opts: RunLearningOpts): Promise<LearningReport
   const pending: Pending[] = [];
 
   for (const c of candidates) {
-    const takenNames = [...known, ...pending.map((p) => p.draft.name)];
-    const { draft, reason } = await extractDraft({ llm, candidate: c, existingNames: takenNames, generation: opts.generation, cfg });
+    const takenNames = [...known, ...PINNED_SKILLS.map((p) => p.name), ...pending.map((p) => p.draft.name)];
+    const extracted = await extractDraft({ llm, candidate: c, existingNames: takenNames, generation: opts.generation, cfg });
+    // A draft may never take a pinned skill's name: committing it would overwrite the hand-written skill.
+    const draft = extracted.draft && !isPinnedSkill(extracted.draft.name) ? extracted.draft : null;
     if (!draft) {
+      const reason = extracted.draft ? `name ${extracted.draft.name} belongs to a pinned skill` : extracted.reason;
       report.counts.invalid++;
       report.skills.push({ name: c.key, type: c.type, action: 'invalid', kept: false, reason, version: 0, commitSha: null });
       continue;

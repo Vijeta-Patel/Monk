@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
 import { syncSkillsToTrueForge } from '@monk/learn';
 import {
-  CHAOS_PROXY_SERVER_NAME, MONK_AGENT_NAME, destructiveToolNames, ensureAgent, ensureLlmProvider, ensureRemoteMcpServer,
+  CHAOS_PROXY_SERVER_NAME, MONK_AGENT_NAME, PINNED_SKILLS, destructiveToolNames, ensureAgent, ensureLlmProvider, ensureRemoteMcpServer,
   monkAgentSpec, schema, eq } from '@monk/shared';
 
 import { log, remoteChaos, type Ctx } from './context.ts';
@@ -76,6 +76,8 @@ export async function setup(ctx: Ctx): Promise<void> {
     description: 'Monk: a general agent that acts on your real systems and gets better every time something breaks.',
     manifest: monkAgentSpec({ model: cfg.MODEL, skills: [], approvalTools, reasoningEffort: cfg.REASONING_EFFORT, ...(cfg.TRUEFORGE_SUBAGENT_MODELS && cfg.VISION_MODEL ? { visionModel: cfg.VISION_MODEL } : {}) }),
   });
-  if (active.length && cfg.SKILLS_REPO_URL) await syncSkillsToTrueForge(ctx);
-  log(`✓ agent            ${MONK_AGENT_NAME} (${active.length} learned skills)`);
+  // Pinned skills (machine-workspace) load from the skills repo too, so the sync runs even with no learned skills.
+  if (cfg.SKILLS_REPO_URL) await syncSkillsToTrueForge(ctx);
+  const pinned = cfg.SKILLS_REPO_URL ? `, pinned: ${PINNED_SKILLS.map((s) => s.name).join(', ')}` : '';
+  log(`✓ agent            ${MONK_AGENT_NAME} (${active.length} learned skills${pinned})`);
 }

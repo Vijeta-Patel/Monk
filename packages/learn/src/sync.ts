@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { ensureGitSkill, MONK_AGENT_NAME, schema, type MonkConfig, type MonkDb, type TrueForge } from '@monk/shared';
+import { ensureGitSkill, isPinnedSkill, MONK_AGENT_NAME, PINNED_SKILLS, schema, type MonkConfig, type MonkDb, type TrueForge } from '@monk/shared';
 import { winStats } from './usage.ts';
 
 export const MAX_AGENT_SKILLS = 50;
@@ -19,7 +19,8 @@ export async function rankedActiveSkills(db: MonkDb): Promise<(typeof schema.ski
 
 /**
  * Registers every active skill as a git skill and sets the monk agent's skills[] to the active set.
- * Skills Monk doesn't manage (added by hand) stay on the agent; everything else in the manifest is kept.
+ * Pinned skills are registered and put first every time; skills Monk doesn't manage (added by hand)
+ * stay on the agent; everything else in the manifest is kept.
  */
 export async function syncSkillsToTrueForge(opts: {
   db: MonkDb;
@@ -30,7 +31,7 @@ export async function syncSkillsToTrueForge(opts: {
   const { db, client, cfg } = opts;
   if (!cfg.SKILLS_REPO_URL) return [];
   const agentName = opts.agentName ?? MONK_AGENT_NAME;
-  const ranked = await rankedActiveSkills(db);
+  const ranked = (await rankedActiveSkills(db)).filter((s) => !isPinnedSkill(s.name));
   const managed = new Set((await db.select({ n: schema.skills.name }).from(schema.skills)).map((r) => r.n));
 
   let agent: Awaited<ReturnType<TrueForge['agents']['list']>>['data'][number] | undefined;
@@ -41,16 +42,19 @@ export async function syncSkillsToTrueForge(opts: {
     }
   }
   const current = agent?.manifest.skills ?? [];
-  const foreign = current.filter((s) => !managed.has(s.name));
-  const chosen = ranked.slice(0, Math.max(0, MAX_AGENT_SKILLS - foreign.length));
+  const foreign = current.filter((s) => !managed.has(s.name) && !isPinnedSkill(s.name));
+  const chosen = ranked.slice(0, Math.max(0, MAX_AGENT_SKILLS - PINNED_SKILLS.length - foreign.length));
 
+  for (const p of PINNED_SKILLS) {
+    await ensureGitSkill(client, { ...p, url: cfg.SKILLS_REPO_URL, ref: cfg.SKILLS_REPO_REF, path: p.name });
+  }
   for (const s of chosen) {
     await ensureGitSkill(client, { name: s.name, description: s.description, url: cfg.SKILLS_REPO_URL, ref: cfg.SKILLS_REPO_REF, path: s.name });
   }
   const names = chosen.map((s) => s.name);
   if (agent) {
     const prev = new Map(current.map((s) => [s.name, s]));
-    const skills = [...foreign, ...names.map((name) => prev.get(name) ?? { name })];
+    const skills = [...PINNED_SKILLS.map((p) => ({ name: p.name })), ...foreign, ...names.map((name) => prev.get(name) ?? { name })];
     await client.agents.update(agent.id, { description: agent.description, manifest: { ...agent.manifest, skills } });
   }
   return names;

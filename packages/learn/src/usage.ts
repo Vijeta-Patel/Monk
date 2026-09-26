@@ -1,5 +1,5 @@
 import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm';
-import { publish, schema, type MonkConfig, type MonkDb, type TrueForge, type TrueForgeApi } from '@monk/shared';
+import { isPinnedSkill, publish, schema, type MonkConfig, type MonkDb, type TrueForge, type TrueForgeApi } from '@monk/shared';
 import { SkillsRepo } from './git.ts';
 import { syncSkillsToTrueForge } from './sync.ts';
 
@@ -71,6 +71,7 @@ export async function retireSkills(opts: {
   const repo = new SkillsRepo(opts.cfg.SKILLS_REPO_PATH, opts.cfg.SKILLS_REPO_REF);
   const retired: string[] = [];
   for (const s of active) {
+    if (isPinnedSkill(s.name)) continue;
     const st = await winStats(opts.db, s.name, window);
     if (st.uses < window || st.winRate === null || st.winRate >= threshold) continue;
     const pct = Math.round(st.winRate * 100);

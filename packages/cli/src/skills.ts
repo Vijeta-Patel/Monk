@@ -4,7 +4,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
 
-import { MONK_AGENT_NAME, ensureGitSkill, schema, type MonkConfig, type MonkDb, type TrueForge, eq } from '@monk/shared';
+import { MONK_AGENT_NAME, ensureGitSkill, isPinnedSkill, schema, type MonkConfig, type MonkDb, type TrueForge, eq } from '@monk/shared';
 import { renderSkillMd, syncSkillsToTrueForge, type DraftSkill, type Verifier } from '@monk/learn';
 import type { Verifier as EvalVerifier } from '@monk/evals';
 
@@ -16,12 +16,14 @@ async function git(dir: string, args: string[]): Promise<string> {
   return stdout.trim();
 }
 
-/** Replaces the agent's skills[] (keeping the rest of its manifest). */
+/** Replaces the agent's learned skills[] (keeping pinned skills and the rest of its manifest). */
 export async function setAgentSkills(client: TrueForge, names: string[], agentName = MONK_AGENT_NAME): Promise<void> {
   for await (const agent of await client.agents.list({ agentName })) {
     if (agent.name !== agentName) continue;
     const { data } = await client.agents.get(agent.id);
-    const manifest = { ...data.manifest, skills: names.slice(0, 50).map((name) => ({ name })) };
+    const pinned = (data.manifest.skills ?? []).filter((s) => isPinnedSkill(s.name));
+    const learned = names.filter((n) => !isPinnedSkill(n)).slice(0, 50 - pinned.length);
+    const manifest = { ...data.manifest, skills: [...pinned, ...learned.map((name) => ({ name }))] };
     await client.agents.update(agent.id, { manifest });
     return;
   }
@@ -91,7 +93,7 @@ export function createSkillToggles(deps: { db: MonkDb; client: TrueForge; cfg: M
     }
   };
 
-  /** Benchmark generation 0 starts from an empty skill set; learned skills stay in git history. */
+  /** Benchmark generation 0 starts with no learned skills (pinned ones stay); learned skills stay in git history. */
   const resetSkills = async (): Promise<void> => {
     await deps.db.update(schema.skills).set({ status: 'retired' }).where(eq(schema.skills.status, 'active'));
     await setAgentSkills(deps.client, []);

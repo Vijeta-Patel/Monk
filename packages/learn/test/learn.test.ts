@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { eq } from 'drizzle-orm';
 import { describe, expect, it } from 'vitest';
-import { readEvents, schema, type MonkDb } from '@monk/shared';
+import { PINNED_SKILLS, readEvents, schema, type MonkDb } from '@monk/shared';
 import {
   buildEpisode, detectCandidates, detectSkillsUsed, findDuplicate, loadEpisode, parseSkillMd, recordSkillUses, renderSkillMd,
   retireSkills, runLearning, SkillsRepo, syncSkillsToTrueForge, textSimilarity, type DraftSkill, type Verifier,
@@ -265,8 +265,7 @@ describe('TrueForge sync', () => {
     expect(req.manifest.mcpServers).toEqual([{ name: 'monk-chaos', requireApprovalForTools: ['@destructive'] }]);
     expect(req.manifest.config).toEqual({ iterationLimit: 80 });
     const names = req.manifest.skills.map((s) => s.name);
-    expect(names).toContain('hand-made-skill');
-    expect(req.manifest.skills[0]).toEqual({ name: 'hand-made-skill', preload: true });
+    expect(req.manifest.skills.slice(0, 2)).toEqual([{ name: 'machine-workspace' }, { name: 'hand-made-skill', preload: true }]);
     expect(names).not.toContain('old-monk-skill');
     expect(names).toContain('github-rate-limit-recovery');
   });
@@ -277,10 +276,49 @@ describe('TrueForge sync', () => {
       await db.insert(schema.skills).values({ name: `skill-${String(i).padStart(2, '0')}`, type: 'procedure', description: 'Use when x.', body: '1. x', status: 'active', verification: { withSkillPass: i / 100 } });
     }
     const names = await syncSkillsToTrueForge({ db, client, cfg });
-    expect(names).toHaveLength(48); // two slots kept for the skills Monk doesn't manage
+    expect(names).toHaveLength(47); // one slot for the pinned skill, two for the skills Monk doesn't manage
     expect(names[0]).toBe('skill-54');
     const req = update.mock.calls[0]![1] as { manifest: { skills: unknown[] } };
     expect(req.manifest.skills).toHaveLength(50);
+  });
+});
+
+describe('pinned skills', () => {
+  const pinned = { name: 'machine-workspace', description: PINNED_SKILLS[0]!.description };
+
+  it('are registered and put first on every sync, even with no learned skills', async () => {
+    const { db, cfg, client, createOrUpdate, update } = await setup({ agent: true, url: 'https://github.com/acme/monk-skills' });
+    // A stray row with the pinned name must not turn it into a learned skill.
+    await db.insert(schema.skills).values({ name: 'machine-workspace', type: 'procedure', description: 'Use when learned.', body: '1. x', status: 'active' });
+    expect(await syncSkillsToTrueForge({ db, client, cfg })).toEqual([]);
+    expect(createOrUpdate).toHaveBeenCalledTimes(1);
+    expect(createOrUpdate).toHaveBeenCalledWith({
+      manifest: { type: 'git', ...pinned, url: 'https://github.com/acme/monk-skills', ref: 'main', path: 'machine-workspace' },
+    });
+    const req = update.mock.calls[0]![1] as { manifest: { skills: { name: string }[] } };
+    expect(req.manifest.skills.map((s) => s.name)).toEqual(['machine-workspace', 'hand-made-skill', 'old-monk-skill']);
+  });
+
+  it('never become learned skills: a draft with the name is invalid and git refuses to write or remove it', async () => {
+    const { db, cfg, client } = await setup();
+    const llm = fakeLlm({ recovery: { ...RECOVERY, name: 'machine-workspace' } });
+    const report = await runLearning({ db, client, cfg, tfSessionIds: ['s1'], generation: 1, llm, verifier: improving });
+    expect(report.skills.find((s) => s.action === 'invalid')?.reason).toBe('name machine-workspace belongs to a pinned skill');
+    expect(await skillRow(db, 'machine-workspace')).toBeUndefined();
+    expect(llm.mock.calls[0]![0].user).toContain('machine-workspace');
+    const repo = new SkillsRepo(cfg.SKILLS_REPO_PATH, 'main');
+    await expect(repo.commitSkill('machine-workspace', '---\nname: machine-workspace\n---\n1. x\n', 'learn: add machine-workspace')).rejects.toThrow(/pinned/);
+    await expect(repo.removeSkill('machine-workspace', 'learn: retire machine-workspace')).rejects.toThrow(/pinned/);
+    expect(existsSync(join(cfg.SKILLS_REPO_PATH, 'machine-workspace'))).toBe(false);
+  });
+
+  it('are never retired, whatever their win rate', async () => {
+    const db = freshDb();
+    const cfg = makeCfg();
+    await db.insert(schema.skills).values({ name: 'machine-workspace', type: 'procedure', description: 'Use when x.', body: '1. x', status: 'active' });
+    for (let i = 0; i < 10; i++) await recordSkillUses({ db, tfSessionId: `p${i}`, skills: ['machine-workspace'], succeeded: false });
+    expect(await retireSkills({ db, cfg })).toEqual([]);
+    expect((await skillRow(db, 'machine-workspace'))?.status).toBe('active');
   });
 });
 
@@ -328,7 +366,7 @@ describe('usage and retirement', () => {
     update.mockClear();
     expect(await retireSkills({ db, cfg, client })).toEqual(['triage-stale-bug-issues']);
     const req = update.mock.calls[0]![1] as { manifest: { skills: { name: string }[] } };
-    expect(req.manifest.skills.map((s) => s.name)).toEqual(['hand-made-skill', 'old-monk-skill', 'github-rate-limit-recovery', 'search-issues-needs-repo']);
+    expect(req.manifest.skills.map((s) => s.name)).toEqual(['machine-workspace', 'hand-made-skill', 'old-monk-skill', 'github-rate-limit-recovery', 'search-issues-needs-repo']);
   });
 });
 

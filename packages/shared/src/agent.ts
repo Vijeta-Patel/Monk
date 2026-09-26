@@ -4,6 +4,24 @@ import { CHAOS_PROXY_SERVER_NAME } from './tools.ts';
 
 export const MONK_AGENT_NAME = 'monk';
 
+/**
+ * Hand-written skills in the skills repo that every Monk agent mounts, independent of learned
+ * skills. The learning loop never drafts over, merges into, retires or removes them. TrueForge
+ * rejects `preload` for git skills (422), so the description alone has to say when to open one.
+ */
+export const PINNED_SKILLS: readonly { name: string; description: string }[] = [
+  {
+    // Lays out ~/workspace (a demo company's ops box) in each fresh sandbox so the agent has a machine to explore.
+    name: 'machine-workspace',
+    description:
+      "Use before exploring this machine's files or answering questions about this machine, its workspace, local logs, data, databases, infra or cloud-cost exports, support tickets, access reviews or runbooks. Not for GitHub repos or the web.",
+  },
+];
+
+export function isPinnedSkill(name: string): boolean {
+  return PINNED_SKILLS.some((s) => s.name === name);
+}
+
 export const MONK_INSTRUCTIONS = `You are Monk, a general-purpose agent that acts on the user's real systems.
 You talk like a calm, capable teammate: short sentences, plain words, numbers with units. No emoji.
 
