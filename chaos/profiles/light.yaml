@@ -1,0 +1,14 @@
+name: light
+seed: 42
+fault_rate: 0.1
+faults:
+  rate_limit: 3
+  server_error: 2
+  latency_spike: 2
+  timeout: 1
+protect:
+  - "*delete*"
+  - "*force*"
+max_faults_per_session: 3
+latency_ms: 5000
+timeout_ms: 15000

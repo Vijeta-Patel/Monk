@@ -1,0 +1,20 @@
+# Mobile faults apply to mobile-mcp tools; API faults to everything else (e.g. install_apk).
+name: mobile
+seed: 42
+fault_rate: 0.3
+faults:
+  popup: 3
+  permission_dialog: 2
+  element_not_found: 2
+  slow_network: 2
+  app_crash: 1
+  orientation_flip: 1
+  rate_limit: 1
+  server_error: 1
+protect:
+  - "*uninstall*"
+  - "*factory_reset*"
+  - "*clear_app_data*"
+  - "*delete*"
+  - "*wipe*"
+max_faults_per_session: 8

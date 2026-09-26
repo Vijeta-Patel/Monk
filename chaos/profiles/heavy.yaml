@@ -1,0 +1,20 @@
+name: heavy
+seed: 42
+fault_rate: 0.5
+faults:
+  rate_limit: 3
+  timeout: 2
+  server_error: 2
+  malformed_json: 2
+  schema_drift: 2
+  auth_expired: 1
+  permission_denied: 1
+  stale_data: 2
+  partial_result: 2
+  latency_spike: 1
+protect:
+  - "*delete*"
+  - "*force*"
+max_faults_per_session: 20
+latency_ms: 8000
+timeout_ms: 20000

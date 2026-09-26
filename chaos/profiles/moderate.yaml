@@ -1,0 +1,14 @@
+name: moderate
+seed: 42              # deterministic, so before/after runs see the same faults
+fault_rate: 0.3       # share of tool calls that get a fault
+faults:
+  rate_limit: 3       # relative weights
+  timeout: 2
+  malformed_json: 2
+  schema_drift: 1
+  auth_expired: 1
+  server_error: 1
+protect:
+  - "*delete*"        # never inject on destructive tools
+  - "*force*"
+max_faults_per_session: 8

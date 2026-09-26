@@ -1,0 +1,9 @@
+# Pure pass-through: every call is forwarded and logged, nothing is injected.
+name: off
+seed: 42
+fault_rate: 0
+faults: {}
+protect:
+  - "*delete*"
+  - "*force*"
+max_faults_per_session: 0
