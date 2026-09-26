@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tally</string>
+    <string name="title">Habits</string>
+    <string name="streak">%1$d day streak</string>
+</resources>

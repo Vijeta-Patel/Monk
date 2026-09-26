@@ -1,0 +1,36 @@
+diff --git a/packages/trueforge-core/src/agent-session/builtinsFromSpec.ts b/packages/trueforge-core/src/agent-session/builtinsFromSpec.ts
+index cb01390..938dda5 100644
+--- a/packages/trueforge-core/src/agent-session/builtinsFromSpec.ts
++++ b/packages/trueforge-core/src/agent-session/builtinsFromSpec.ts
+@@ -47,6 +47,7 @@ export function builtinsFromSpec(input: {
+   if (!isChild && dynamicSubAgentsEnabled) {
+     capabilities.push(
+       dynamicSubAgents({
++        modelSetConfig: config.dynamic_sub_agents.models,
+         sandboxAvailable,
+         tracing,
+       }),
+diff --git a/packages/trueforge-core/src/agent-session/schemas/agentSpec.ts b/packages/trueforge-core/src/agent-session/schemas/agentSpec.ts
+index c513487..4392117 100644
+--- a/packages/trueforge-core/src/agent-session/schemas/agentSpec.ts
++++ b/packages/trueforge-core/src/agent-session/schemas/agentSpec.ts
+@@ -169,9 +169,19 @@ const SandboxConfigSchema = z
+   })
+   .openapi('SandboxConfig');
+ 
++const DynamicSubAgentModelSchema = z
++  .object({
++    description: z.string().min(1).describe('When the agent should pick this model for a subagent.'),
++  })
++  .openapi('DynamicSubAgentModel');
++
+ const DynamicSubAgentsConfigSchema = z
+   .object({
+     enabled: z.boolean().default(true).describe('Allow the agent to spawn dynamic subagents. Default: true.'),
++    models: z
++      .record(z.string().min(1), DynamicSubAgentModelSchema)
++      .optional()
++      .describe('Catalog models a subagent may run on, keyed by model name. Omitted: subagents use the agent model.'),
+   })
+   .openapi('DynamicSubAgentsConfig');
+ 
