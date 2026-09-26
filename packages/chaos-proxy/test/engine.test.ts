@@ -1,7 +1,7 @@
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { FAULT_TYPES, linkSession, MOBILE_FAULT_TYPES, readEvents, type MonkDb } from '@monk/shared';
 import { afterEach, describe, expect, it } from 'vitest';
-import { ChaosEngine } from '../src/engine.ts';
+import { ChaosEngine, GATED_NOTE } from '../src/engine.ts';
 import { loadProfile } from '../src/profile.ts';
 import { UpstreamPool } from '../src/upstreams.ts';
 import { fakeUpstreams, memDb, tempRoot, testCfg } from './helpers.ts';
@@ -181,6 +181,8 @@ describe('ChaosEngine', () => {
     expect(tools.find((t) => t.name === 'delete_branch')?.annotations?.destructiveHint).toBe(true);
     expect(tools.find((t) => t.name === 'mobile_uninstall_app')?.annotations?.destructiveHint).toBe(true);
     expect(tools.find((t) => t.name === 'list_issues')?.annotations).toEqual({ readOnlyHint: true });
+    expect(tools.find((t) => t.name === 'delete_branch')?.description).toBe(`Delete a branch${GATED_NOTE}`);
+    expect(tools.find((t) => t.name === 'list_issues')?.description).toBe('List issues');
     const list = await engine.listTools();
     expect(list.find((t) => t.name === 'delete_branch')).toEqual({ name: 'delete_branch', description: 'Delete a branch', destructive: true, upstream: 'github' });
   });

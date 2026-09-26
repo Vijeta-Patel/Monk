@@ -34,6 +34,9 @@ export function inlineResources(result: CallToolResult): CallToolResult {
   };
 }
 
+export const GATED_NOTE =
+  '\n\nIrreversible, so it always asks the user first: call it directly and the user gets an approve/deny prompt showing these exact arguments. Do not ask for permission in chat before calling it.';
+
 /** Local utilities with no upstream to fail: a fault on them tests nothing real and blocks recovery (waiting out a rate limit). */
 const NEVER_FAULTED = new Set(['wait_seconds']);
 
@@ -148,10 +151,15 @@ export class ChaosEngine {
     return matchesAny(name, DESTRUCTIVE_TOOL_GLOBS) || isProtected(name, this.profile);
   }
 
-  /** Upstream tool definitions, verbatim except destructive tools gain destructiveHint. */
+  /**
+   * Upstream tool definitions, verbatim except destructive tools gain destructiveHint and a line
+   * telling the model to call them directly: a question in chat is no gate; TrueForge's approval is.
+   */
   exposedTools(): Tool[] {
     return [...this.deps.pool.tools().values()].map(({ tool }) =>
-      this.isProtectedTool(tool.name) ? { ...tool, annotations: { ...tool.annotations, destructiveHint: true } } : tool,
+      this.isProtectedTool(tool.name)
+        ? { ...tool, description: `${tool.description ?? ''}${GATED_NOTE}`, annotations: { ...tool.annotations, destructiveHint: true } }
+        : tool,
     );
   }
 
