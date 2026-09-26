@@ -184,6 +184,13 @@ export function goalFromMessage(text: string): string {
   return truncate(`${gerund(verb)} ${rest.join(' ')}`.trim(), 28);
 }
 
+/** The line an answered question leaves in the conversation: `› Which repo? · acme/web`. */
+export function answeredNote(question: string, answer: string): { glyph: string; text: string; tone: 'muted' } {
+  const a = answer.trim().replace(/\s+/g, ' ');
+  const q = question.trim().replace(/\s+/g, ' ');
+  return { glyph: '›', text: q ? `${truncate(q, 40)} · ${a}` : `answered · ${a}`, tone: 'muted' };
+}
+
 /** Sidebar skill names drop filler words: github-rate-limit-recovery → github-rate-limit. */
 export function shortSkillName(name: string): string {
   const parts = name.split('-').filter((p) => !['recovery', 'rating', 'after', 'the', 'on'].includes(p));

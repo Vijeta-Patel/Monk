@@ -7,6 +7,7 @@ import { CHAOS_PROXY_SERVER_NAME } from '@monk/shared/tools';
 import { createTrueForgeClient, normalizeTurnStream, runTurn, type TrueForge, type TrueForgeApi, type TurnEvent, type TurnInput } from '@monk/shared/trueforge';
 import type { Action, Extra } from '../state/actions.ts';
 import type { Effect } from '../state/keys.ts';
+import { answeredNote } from '../state/describe.ts';
 import type { AppState, Connection, SessionSummary, SkillInfo } from '../state/types.ts';
 import { decodeScreen, tapCell } from './phone-frame.ts';
 import { lastSessionId, rememberSession } from './session-file.ts';
@@ -225,7 +226,7 @@ export class LiveBackend implements MonkBackend {
         await this.api.linkSession({ tfSessionId: sessionId, mcpSessionId: mine.sessionId }).catch(() => {});
       }
     }
-    if (ev.type === 'approval.required') process.stdout.write('\x07');
+    if (ev.type === 'approval.required' || ev.type === 'question') process.stdout.write('\x07');
     if (ev.type === 'tool.call' && /click|tap|press/.test(ev.name) && ev.name.startsWith('mobile_')) {
       try {
         const a = JSON.parse(ev.args) as { x?: number; y?: number };
@@ -286,9 +287,10 @@ export class LiveBackend implements MonkBackend {
         return;
       }
       case 'answer': {
-        const q = this.getState().question;
-        if (!q) return;
-        this.queue.unshift({ kind: 'answers', answers: q.calls.map((c) => ({ threadId: c.threadId, callId: c.callId, content: effect.content })) });
+        // The key that answered already closed the card, so the calls come with the effect.
+        if (effect.answers.length === 0) return;
+        for (const a of effect.answers) this.extra({ kind: 'note', ...answeredNote(a.question, redact(a.content)) });
+        this.queue.unshift({ kind: 'answers', answers: effect.answers.map((a) => ({ threadId: a.threadId, callId: a.callId, content: a.content })) });
         if (!this.running) this.running = this.drain().finally(() => (this.running = null));
         return;
       }
@@ -389,6 +391,9 @@ export class LiveBackend implements MonkBackend {
         if (created?.type === 'turn.created') {
           for (const inp of created.input ?? []) {
             if (inp.type === 'user.message') this.dispatch({ type: 'send', text: typeof inp.content === 'string' ? inp.content : '(attachment)', at: Date.parse(created.createdAt) } as Action);
+            // An answer (from here or Telegram) closes the question the turn before asked.
+            if (inp.type === 'user.tool_response')
+              this.dispatch({ type: 'turn', ev: { type: 'tool.result', threadId: inp.threadId, callId: inp.toolCallId, name: 'ask_user_question', content: typeof inp.content === 'string' ? inp.content : '', isError: false }, at: Date.parse(created.createdAt) });
           }
         }
         async function* gen() {

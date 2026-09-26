@@ -138,10 +138,16 @@ export type ApprovalState = {
   sent: boolean;
 };
 
+export type QuestionCall = ToolCallInfo & { question: string; options: string[] };
+
 export type QuestionState = {
-  calls: (ToolCallInfo & { question: string; options: string[] })[];
+  calls: QuestionCall[];
+  /** Answers to the calls before the one on screen; a batch is asked one question at a time. */
+  answered: string[];
   selected: number;
   openedAt: number;
+  /** The turn that asked; a later turn means it was answered somewhere else. */
+  turnId: string | null;
 };
 
 export type PhoneState = {
@@ -194,6 +200,16 @@ export type Popup =
 
 export type Focus = 'input' | 'conversation' | 'sidebar' | 'well' | 'phone';
 
+/** Conversation scrollback, in rows. */
+export type ConvScroll = {
+  /** Rows between the bottom of the view and the newest row; 0 follows new content. */
+  up: number;
+  /** Content height when `up` was set: rows added since push `up` along, so the view stays put. */
+  base: number;
+  /** Content height when following stopped: rows past it are new. */
+  from: number;
+};
+
 export type UiState = {
   focus: Focus;
   popup: Popup | null;
@@ -203,6 +219,7 @@ export type UiState = {
   phoneHidden: boolean;
   selectedStep: string | null;
   wellOpen: string | null;
+  scroll: ConvScroll;
   inputSince: number;
   bootAt: number;
 };

@@ -138,9 +138,14 @@ function paintPhone(c: Canvas, s: AppState, l: Layout, clock: Clock): void {
   c.put(px + 8, top + 2 + screenRows, '───────', S.muted);
 }
 
+/** Under 120 cols a phone in use is a one-line strip above the conversation. */
+export function phoneStripShown(s: AppState, l: Layout, clock: Clock): boolean {
+  return !l.full && phoneShown(s, clock);
+}
+
 /** One-line phone strip at 80 cols. Returns true when drawn (the conversation starts a row lower). */
 export function paintPhoneStrip(c: Canvas, s: AppState, l: Layout, clock: Clock): boolean {
-  if (l.full || !phoneShown(s, clock)) return false;
+  if (!phoneStripShown(s, l, clock)) return false;
   const y = l.bodyTop;
   c.fill(l.convX, y, l.convW, 1, { bg: 'bg-raised' });
   const last = s.phone.lastTap ? `last tap: ${s.phone.lastTap.label}${s.phone.lastAction ? `, ${s.phone.lastAction}` : ''}` : (s.phone.lastAction ?? 'waiting');

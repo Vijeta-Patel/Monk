@@ -5,6 +5,7 @@ import { APPROVAL_CONTEXT, DEMO_PLAN, DEMO_PREVIEW, DEMO_SKILLS, DEMO_REPO, OVER
 import { demoPhoneFrame } from '../demo/phone.ts';
 import type { Action, Extra } from '../state/actions.ts';
 import type { Effect } from '../state/keys.ts';
+import { answeredNote } from '../state/describe.ts';
 import type { AppState } from '../state/types.ts';
 import type { Dispatch, MonkBackend } from './types.ts';
 
@@ -217,7 +218,10 @@ export class DemoBackend implements MonkBackend {
         return;
       }
       case 'answer':
-        this.note(`answered: ${effect.content}`);
+        for (const a of effect.answers) {
+          const n = answeredNote(a.question, a.content);
+          this.note(n.text, n.tone, n.glyph);
+        }
         return;
       case 'chaos': {
         const st = this.getState().status;

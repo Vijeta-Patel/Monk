@@ -302,6 +302,9 @@ export const HELP_KEYS: [string, string][] = [
   ['/', 'commands'],
   ['ctrl+p', 'everything'],
   ['tab', 'move around'],
+  ['pgup pgdn', 'scroll back · shift+↑↓ a line'],
+  ['home end', 'oldest · back to the newest'],
+  ['shift+drag', 'select text'],
   ['ctrl+o', 'details of a step'],
   ['ctrl+l', 'sidebar'],
   ['ctrl+k', 'chaos profile'],
@@ -311,7 +314,8 @@ export const HELP_KEYS: [string, string][] = [
 
 export function paintHelp(c: Canvas, l: Layout): void {
   const b = centeredBox(c, l, 52, HELP_KEYS.length + 4, 'keys', '?');
-  HELP_KEYS.forEach(([k, v], i) => {
+  // Short terminals get as many rows as fit inside the box.
+  HELP_KEYS.slice(0, Math.max(0, b.h - 4)).forEach(([k, v], i) => {
     c.put(b.x + 4, b.y + 2 + i, k, S.saffron);
     c.put(b.x + 18, b.y + 2 + i, v, S.muted);
   });

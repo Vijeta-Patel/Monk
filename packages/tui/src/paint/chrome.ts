@@ -26,6 +26,8 @@ export function paintTopBar(c: Canvas, s: AppState, l: Layout, clock: Clock, moo
   let rightEdge = l.w - 2;
   if (s.approval) {
     right.push([pick(PULSE.frames, clock, PULSE.ms), S.gate], [' waiting for you', S.gate]);
+  } else if (s.question) {
+    right.push(['•', S.saffron], [' waiting for your answer', S.ink]);
   } else if (s.turn.running) {
     rightEdge = l.w - 3;
     const goal = s.turn.goal ?? 'working';

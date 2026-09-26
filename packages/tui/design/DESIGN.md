@@ -55,7 +55,7 @@ See the Motion card for each one live. Rules:
 
 ## Borders
 
-- Rounded `╭╮╰╯`: the input, the try card, popups, the skill preview, chaos cards (in the fault color).
+- Rounded `╭╮╰╯`: the input, the try card, popups, the skill preview, chaos cards (in the fault color), the `• monk asks` card (saffron).
 - Dashed rounded `╭┄╮┆` on `bg-sunken` with an inverse `▣ sandbox` chip: anything that ran in the Daytona sandbox.
 - Double `╔═╗║` in yellow: the approval screen, nowhere else.
 - Panels have no boxes; one faint vertical rule separates the sidebar.
@@ -63,3 +63,7 @@ See the Motion card for each one live. Rules:
 ## Keys
 
 `enter` send · `esc` stop · `/` commands · `ctrl+p` everything · `tab` move around · `ctrl+o` details · `ctrl+l` sidebar · `ctrl+k` chaos · `ctrl+s` skills · `?` help. Popups trap focus; only the approval screen ignores `esc`.
+
+The conversation scrolls back with `pgup`/`pgdn`, `shift+↑↓` (or `ctrl+↑↓`) and the wheel (3 rows a notch); `home` is the oldest row, `end` the newest. Scrolled back, the view stays put while monk keeps working, and the blank row above the input says so in faint type: `↓ 3 new · end to follow`. Sending a message follows again. An open sandbox well keeps `↑↓` and `end` for its own output.
+
+When monk asks a question, a `• monk asks` card sits just above the input, in the conversation column: the question in bold, the options numbered with `›` on the selected one, `(Recommended)` as a hint, and the keys on its bottom border. `↑↓` choose, `1`–`N` on an empty input pick that option and `enter` answers it, typing on after the digit (`2 days please`) or anything else typed is an answer in your own words, and an `Other` option waits for the typed answer. The conversation ends a blank row above the card, and the approval screen still comes first.

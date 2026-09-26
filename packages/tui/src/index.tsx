@@ -21,7 +21,10 @@ const reduced = isReducedMotion();
 const ticker = new Ticker();
 const theme = createTheme(detectThemeName(), detectColorDepth());
 
-const renderer = await createCliRenderer({ exitOnCtrlC: false, targetFps: 25, useMouse: false });
+// Mouse reporting brings the wheel in to scroll the conversation; most terminals still select
+// text with shift+drag. MONK_MOUSE=0 leaves the mouse to the terminal (plain drag selects again).
+const mouse = process.env.MONK_MOUSE !== '0';
+const renderer = await createCliRenderer({ exitOnCtrlC: false, targetFps: 25, useMouse: mouse, enableMouseMovement: false });
 const root = createRoot(renderer);
 
 let quitting = false;

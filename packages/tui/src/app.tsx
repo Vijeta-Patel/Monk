@@ -1,5 +1,5 @@
 // The OpenTUI shell: one full-screen box whose renderAfter blits the painted canvas. State lives
-// in a ref updated by the reducer and the key handler; the single 25 fps ticker drives repaints.
+// in a ref updated by the reducer, the key handler and the wheel; the single 25 fps ticker drives repaints.
 import { TextAttributes, type OptimizedBuffer } from '@opentui/core';
 import { useKeyboard, usePaste, useRenderer, useTerminalDimensions } from '@opentui/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -9,7 +9,7 @@ import { paintScreen } from './paint/screen.ts';
 import type { Canvas } from './render/canvas.ts';
 import { width } from './render/text.ts';
 import type { Action } from './state/actions.ts';
-import { handleKey, type Effect, type Key } from './state/keys.ts';
+import { handleKey, handleWheel, type Effect, type Key, type Screen } from './state/keys.ts';
 import { initialState, reduce } from './state/reducer.ts';
 import type { AppState } from './state/types.ts';
 import type { Theme } from './theme.ts';
@@ -34,6 +34,7 @@ export function App(props: { backend: MonkBackend; ticker: Ticker; theme: Theme;
   const stateRef = useRef<AppState>(initialState(Date.now()));
   const [, setVersion] = useState(0);
   const [now, setNow] = useState(() => ticker.now());
+  const screen: Screen = { w: Math.max(20, w), h: Math.max(10, h) };
 
   const dispatch = useCallback((a: Action) => {
     stateRef.current = reduce(stateRef.current, a);
@@ -64,7 +65,7 @@ export function App(props: { backend: MonkBackend; ticker: Ticker; theme: Theme;
 
   useKeyboard((k) => {
     const key: Key = { name: k.name, ctrl: k.ctrl, shift: k.shift, meta: k.meta, sequence: k.sequence };
-    const r = handleKey(stateRef.current, key, Date.now());
+    const r = handleKey(stateRef.current, key, Date.now(), screen);
     if (r.state !== stateRef.current) {
       stateRef.current = r.state;
       setVersion((v) => v + 1);
@@ -80,7 +81,7 @@ export function App(props: { backend: MonkBackend; ticker: Ticker; theme: Theme;
   });
 
   const canvas = useMemo(
-    () => paintScreen(stateRef.current, { now, still: false, reduced }, Math.max(20, w), Math.max(10, h)),
+    () => paintScreen(stateRef.current, { now, still: false, reduced }, screen.w, screen.h),
     // Repaint on every tick and on any state change (version bumps rerender this component).
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [now, w, h, reduced, stateRef.current],
@@ -96,6 +97,14 @@ export function App(props: { backend: MonkBackend; ticker: Ticker; theme: Theme;
       height={h}
       renderAfter={function (this: unknown, buffer: OptimizedBuffer) {
         drawCanvas(buffer, canvas, theme);
+      }}
+      onMouseScroll={(e) => {
+        const dir = e.scroll?.direction;
+        if (dir !== 'up' && dir !== 'down') return;
+        const next = handleWheel(stateRef.current, dir, screen, Date.now(), e.scroll?.delta ?? 1);
+        if (next === stateRef.current) return;
+        stateRef.current = next;
+        setVersion((v) => v + 1);
       }}
     />
   );

@@ -7,11 +7,12 @@ import type { AppState, StepItem } from '../state/types.ts';
 import { paintApproval } from './approval.ts';
 import { paintHints, paintInput, paintTopBar, type InputView } from './chrome.ts';
 import { S } from './common.ts';
-import { paintConversation } from './conversation.ts';
+import { conversationView, paintConversation, type ConvView } from './conversation.ts';
 import { idlePlaceholder, paintIdle } from './idle.ts';
 import { moodOf, type Mood } from './mood.ts';
 import { paintChaosPicker, paintDetails, paintHelp, paintPalette, paintResume, paintSlash, slashView } from './popups.ts';
-import { paintPhoneStrip, paintSidebar, phoneShown } from './sidebar.ts';
+import { currentCall, isOther, paintQuestion, questionHeight } from './question.ts';
+import { paintPhoneStrip, paintSidebar, phoneShown, phoneStripShown } from './sidebar.ts';
 import { paintSkillsBrowser } from './skills.ts';
 
 type Pairs = (readonly [string, string])[];
@@ -54,6 +55,12 @@ function inputFor(s: AppState, l: Layout, clock: Clock): InputView {
     return { ...base, text: f, focused: pop.filtering, placeholder: 'press / to filter skills', right: 'esc back' };
   }
   if (slashView(ui.input.text, 0)) return { ...base, placeholder: '', right: l.full ? 'tab complete · enter go' : 'tab complete' };
+  const q = s.question;
+  const call = q ? currentCall(q) : undefined;
+  if (q && call) {
+    const own = call.options.length === 0 || isOther(call.options[q.selected] ?? '');
+    return { ...base, placeholder: own ? 'type your answer' : 'or type your own answer', right: 'enter ↵' };
+  }
   if (s.turn.running) return { ...base, placeholder: l.full ? 'type to queue a message for after this' : 'queue a message', right: 'esc stop' };
   const idle = s.items.length === 0;
   return {
@@ -64,10 +71,26 @@ function inputFor(s: AppState, l: Layout, clock: Clock): InputView {
   };
 }
 
+/** The layout a frame of this state uses; the input grows with its lines. */
+export function screenLayout(s: AppState, w: number, h: number): Layout {
+  return computeLayout(w, h, Math.min(4, s.ui.input.text.split('\n').length));
+}
+
+/** The conversation's share of the body: an open question's card takes the rows above the input. */
+function conversationLayout(s: AppState, l: Layout): Layout {
+  const card = questionHeight(s, l);
+  return card === 0 ? l : { ...l, bodyBottom: l.bodyBottom - card - 1 };
+}
+
+/** The conversation's view as paintScreen draws it at this size, for scrolling by keys and wheel. */
+export function screenConversation(s: AppState, clock: Clock, w: number, h: number): ConvView {
+  const l = screenLayout(s, w, h);
+  return conversationView(s, conversationLayout(s, l), clock, phoneStripShown(s, l, clock) ? l.bodyTop + 1 : l.bodyTop);
+}
+
 export function paintScreen(s: AppState, clock: Clock, w: number, h: number): Canvas {
   const c = new Canvas(w, h, { bg: 'bg' });
-  const inputLines = Math.min(4, s.ui.input.text.split('\n').length);
-  const l = computeLayout(w, h, inputLines);
+  const l = screenLayout(s, w, h);
   const mood = moodOf(s, clock);
 
   if (s.approval) {
@@ -81,8 +104,10 @@ export function paintScreen(s: AppState, clock: Clock, w: number, h: number): Ca
     paintSkillsBrowser(c, s, l, clock, pop);
   } else {
     const strip = paintPhoneStrip(c, s, l, clock);
-    if (s.items.length === 0) paintIdle(c, s, l, clock);
-    else paintConversation(c, s, l, clock, strip ? { top: l.bodyTop + 1 } : {});
+    // The welcome screen doesn't fit under a question's card.
+    if (s.items.length === 0 && !s.question) paintIdle(c, s, l, clock);
+    else paintConversation(c, s, conversationLayout(s, l), clock, strip ? { top: l.bodyTop + 1 } : {});
+    paintQuestion(c, s, l);
     if (l.full) {
       for (let y = l.bodyTop; y <= l.bodyBottom; y++) c.put(l.ruleX, y, '│', S.ghost);
       paintSidebar(c, s, l, clock, mood);

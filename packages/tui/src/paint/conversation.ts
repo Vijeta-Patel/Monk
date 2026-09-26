@@ -299,15 +299,12 @@ function blocksFor(ctx: Ctx, items: readonly Item[]): Block[] {
   return out;
 }
 
-/** Lays blocks out top-down with one blank row between groups; shows the tail when it overflows. */
-export function paintConversation(c: Canvas, s: AppState, l: Layout, clock: Clock, opts: { top?: number } = {}): void {
-  const ctx: Ctx = { s, l, clock, x: l.convX, w: l.convW };
+/** Lays blocks out top-down with one blank row between groups. */
+function layOut(ctx: Ctx): { blocks: Block[]; ys: number[]; total: number } {
+  const items = ctx.s.items;
   // A milestone summarizes everything before it ("↑ earlier: …"), so older items stay hidden.
-  const cut = s.items.findLastIndex((it) => it.kind === 'milestone');
-  const blocks = blocksFor(ctx, cut >= 0 ? s.items.slice(cut) : s.items);
-  const top = opts.top ?? l.bodyTop;
-  const avail = l.bodyBottom - top + 1;
-  if (blocks.length === 0 || avail <= 0) return;
+  const cut = items.findLastIndex((it) => it.kind === 'milestone');
+  const blocks = blocksFor(ctx, cut >= 0 ? items.slice(cut) : items);
   const ys: number[] = [];
   let y = 1; // leading blank row
   let prev: Group | null = null;
@@ -317,14 +314,63 @@ export function paintConversation(c: Canvas, s: AppState, l: Layout, clock: Cloc
     y += b.h;
     prev = b.group;
   }
-  const total = y;
-  const tmp = new Canvas(l.convX + l.convW, total);
-  blocks.forEach((b, i) => b.draw(tmp, ys[i]!));
-  const skip = Math.max(0, total - avail);
-  for (let row = 0; row < Math.min(avail, total); row++) {
+  return { blocks, ys, total: y };
+}
+
+export type ConvView = {
+  /** First screen row and how many rows the conversation gets. */
+  top: number;
+  avail: number;
+  /** Rows the whole conversation takes. */
+  total: number;
+  /** Rows below the view, after new content and clamping; 0 is following. */
+  up: number;
+  /** The most `up` can be: the oldest row at the top of the view. */
+  max: number;
+  /** Rows that arrived below the view since following stopped. */
+  fresh: number;
+};
+
+function viewOf(s: AppState, l: Layout, top: number, total: number): ConvView {
+  const avail = Math.max(0, l.bodyBottom - top + 1);
+  const max = Math.max(0, total - avail);
+  const sc = s.ui.scroll;
+  // Rows added since the view was placed push it along, so reading history isn't yanked down.
+  const up = sc.up > 0 ? Math.min(max, Math.max(0, sc.up + total - sc.base)) : 0;
+  const fresh = up > 0 ? Math.min(up, Math.max(0, total - sc.from)) : 0;
+  return { top, avail, total, up, max, fresh };
+}
+
+/** Where the conversation sits on screen for this state, without drawing it. */
+export function conversationView(s: AppState, l: Layout, clock: Clock, top = l.bodyTop): ConvView {
+  return viewOf(s, l, top, layOut({ s, l, clock, x: l.convX, w: l.convW }).total);
+}
+
+/** Shows the tail when it overflows, or wherever `ui.scroll` holds the view. */
+export function paintConversation(c: Canvas, s: AppState, l: Layout, clock: Clock, opts: { top?: number } = {}): void {
+  const ctx: Ctx = { s, l, clock, x: l.convX, w: l.convW };
+  const { blocks, ys, total } = layOut(ctx);
+  const v = viewOf(s, l, opts.top ?? l.bodyTop, total);
+  if (blocks.length === 0 || v.avail <= 0) return;
+  const rows = Math.min(v.avail, total);
+  const skip = Math.max(0, total - v.avail - v.up);
+  // Only blocks in view are drawn; the canvas clips the ones its edges cut through.
+  const tmp = new Canvas(l.convX + l.convW, rows);
+  blocks.forEach((b, i) => {
+    const y = ys[i]! - skip;
+    if (y + b.h > 0 && y < rows) b.draw(tmp, y);
+  });
+  for (let row = 0; row < rows; row++) {
     for (let col = 0; col < tmp.w; col++) {
-      const cell = tmp.cell(col, row + skip);
-      c.put(col, top + row, cell.ch === '' ? '' : cell.ch, { ...(cell.fg ? { fg: cell.fg } : {}), ...(cell.bg ? { bg: cell.bg } : {}), bold: cell.bold, underline: cell.underline });
+      const cell = tmp.cell(col, row);
+      c.put(col, v.top + row, cell.ch === '' ? '' : cell.ch, { ...(cell.fg ? { fg: cell.fg } : {}), ...(cell.bg ? { bg: cell.bg } : {}), bold: cell.bold, underline: cell.underline });
     }
   }
+  if (v.up > 0) paintScrollHint(c, l, v);
+}
+
+/** `↓ 3 new · end to follow`, right-aligned in the blank row under the conversation while scrolled back. */
+function paintScrollHint(c: Canvas, l: Layout, v: ConvView): void {
+  const what: Seg = v.fresh > 0 ? [`${v.fresh} new`, S.muted] : [`${v.up} more`, S.faint];
+  c.segsRight(l.convX + l.convW - 1, l.bodyBottom + 1, [['↓ ', S.faint], what, [' · ', S.faint], ['end', S.muted], [' to follow', S.faint]]);
 }

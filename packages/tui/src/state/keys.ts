@@ -2,17 +2,29 @@
 import { isArmed } from '../paint/approval.ts';
 import { chaosArgOptions, COMMANDS, filterPalette, paletteItems, slashMatches, slashView } from '../paint/popups.ts';
 import { SHOWCASE } from '../paint/idle.ts';
+import { currentCall, isOther } from '../paint/question.ts';
+import { screenConversation } from '../paint/screen.ts';
 import { orderedSkills } from '../paint/skills.ts';
 import { phoneShown } from '../paint/sidebar.ts';
+import { FOLLOW } from './reducer.ts';
 import type { AppState, StepItem } from './types.ts';
 
 export type Key = { name: string; ctrl: boolean; shift: boolean; meta: boolean; sequence: string };
+
+/** Terminal size in cells; scrolling needs it to know a page and where history ends. */
+export type Screen = { w: number; h: number };
+
+/** The reference size, for callers (tests) that don't pass one. */
+const REFERENCE: Screen = { w: 120, h: 36 };
+
+/** Rows one wheel notch moves the conversation. */
+export const WHEEL_ROWS = 3;
 
 export type Effect =
   | { kind: 'send'; text: string }
   | { kind: 'cancel' }
   | { kind: 'approve'; allow: boolean; reason?: string }
-  | { kind: 'answer'; content: string }
+  | { kind: 'answer'; answers: Answer[] }
   | { kind: 'chaos'; profile?: string; enabled?: boolean; fault?: string }
   | { kind: 'new' }
   | { kind: 'resume'; sessionId: string }
@@ -27,6 +39,9 @@ export type Effect =
   | { kind: 'bell' }
   | { kind: 'quit' }
   | { kind: 'notice'; text: string };
+
+/** One answered question call; the backend sends them together once the whole batch is answered. */
+export type Answer = { threadId: string; callId: string; question: string; content: string };
 
 export type KeyResult = { state: AppState; effects: Effect[] };
 
@@ -53,7 +68,7 @@ export function runCommand(s: AppState, line: string, now: number): KeyResult {
   const [cmd = '', ...rest] = line.trim().split(/\s+/);
   const arg = rest.join(' ');
   const cleared = setInput(s, '', now);
-  const next = { ...cleared, ui: { ...cleared.ui, popup: null, history: [line, ...s.ui.history].slice(0, 50) } };
+  const next = { ...cleared, ui: { ...cleared.ui, popup: null, history: [line, ...s.ui.history].slice(0, 50), scroll: FOLLOW } };
   switch (cmd) {
     case '/new':
       return { state: next, effects: [{ kind: 'new' }] };
@@ -111,18 +126,54 @@ function approvalKeys(s: AppState, k: Key, now: number): KeyResult {
   }
 }
 
-function questionKeys(s: AppState, k: Key): KeyResult {
+/** Answers the question on screen; the last one of a batch sends them all and closes the card. */
+function answerQuestion(s: AppState, content: string, now: number): KeyResult {
   const q = s.question!;
-  const opts = q.calls[0]?.options ?? [];
-  if (k.name === 'up') return { state: { ...s, question: { ...q, selected: Math.max(0, q.selected - 1) } }, effects: NONE };
-  if (k.name === 'down') return { state: { ...s, question: { ...q, selected: Math.min(Math.max(0, opts.length - 1), q.selected + 1) } }, effects: NONE };
-  if (k.name === 'return') {
-    const typed = s.ui.input.text.trim();
-    const content = typed || opts[q.selected] || '';
-    if (!content) return { state: s, effects: NONE };
-    return { state: { ...setInput(s, '', 0), question: null }, effects: [{ kind: 'answer', content }] };
+  const answered = [...q.answered, content];
+  const cleared = ui(setInput(s, '', now), { scroll: FOLLOW });
+  if (answered.length < q.calls.length) return { state: { ...cleared, question: { ...q, answered, selected: 0 } }, effects: NONE };
+  const answers = q.calls.map((c, i) => ({ threadId: c.threadId, callId: c.callId, question: c.question, content: answered[i] ?? content }));
+  return { state: { ...cleared, question: null }, effects: [{ kind: 'answer', answers }] };
+}
+
+/** The option a lone number stands for: `2` with three options is the second one. */
+function optionNumbered(text: string, n: number): number | null {
+  return /^[1-9]$/.test(text) && Number(text) <= n ? Number(text) - 1 : null;
+}
+
+/**
+ * An open question takes ↑↓ (with options), 1–N on an empty input and enter before the input does.
+ * A digit picks its option and stays in the input: enter answers it, and typing on makes it an
+ * answer in your own words ("2 days please"). A slash command being typed keeps its own keys.
+ */
+function questionKeys(s: AppState, k: Key, now: number): KeyResult | null {
+  const q = s.question!;
+  const opts = currentCall(q)?.options ?? [];
+  const text = s.ui.input.text;
+  const sv = slashView(text, 0);
+  if (sv && (sv.mode === 'args' || slashMatches(sv.query).some((m) => m.hits !== null))) return null;
+  const plain = !k.ctrl && !k.meta && !k.shift;
+  const select = (st: AppState, i: number): AppState => ({ ...st, question: { ...q, selected: i } });
+  if (plain && opts.length > 0 && (k.name === 'up' || k.name === 'down')) {
+    const i = k.name === 'up' ? Math.max(0, q.selected - 1) : Math.min(opts.length - 1, q.selected + 1);
+    // The arrows take over from a digit typed to pick, so the digit goes.
+    return { state: select(optionNumbered(text, opts.length) === null ? s : setInput(s, '', now), i), effects: NONE };
   }
-  return { state: s, effects: NONE };
+  if (!k.ctrl && !k.meta && text === '' && optionNumbered(k.sequence, opts.length) !== null) {
+    const i = Number(k.sequence) - 1;
+    // "Other" waits for the typed answer.
+    return { state: select(isOther(opts[i]!) ? s : setInput(s, k.sequence, now), i), effects: NONE };
+  }
+  if (k.name === 'return' && !k.shift && !k.meta) {
+    const typed = text.trim();
+    const i = optionNumbered(typed, opts.length) ?? (typed ? null : q.selected);
+    if (i === null) return answerQuestion(s, typed, now);
+    const picked = opts[i];
+    if (picked === undefined) return { state: s, effects: NONE };
+    if (isOther(picked)) return { state: typed ? select(setInput(s, '', now), i) : s, effects: NONE };
+    return answerQuestion(s, picked, now);
+  }
+  return null;
 }
 
 function editInput(s: AppState, k: Key, now: number): KeyResult | null {
@@ -137,7 +188,7 @@ function editInput(s: AppState, k: Key, now: number): KeyResult | null {
   return null;
 }
 
-export function handleKey(s: AppState, k: Key, now: number): KeyResult {
+export function handleKey(s: AppState, k: Key, now: number, screen: Screen = REFERENCE): KeyResult {
   if (k.ctrl && k.name === 'c') return { state: s, effects: [{ kind: 'quit' }] };
   if (s.approval) return approvalKeys(s, k, now);
 
@@ -196,8 +247,12 @@ export function handleKey(s: AppState, k: Key, now: number): KeyResult {
   }
   if (k.ctrl && k.name === 'o') return toggleDetails(s);
 
+  const scrolled = scrollKeys(s, k, screen, now);
+  if (scrolled) return scrolled;
+
   if (s.question && s.ui.focus === 'input') {
-    if (k.name === 'up' || k.name === 'down' || (k.name === 'return' && !k.shift)) return questionKeys(s, k);
+    const asked = questionKeys(s, k, now);
+    if (asked) return asked;
   }
 
   if (k.name === 'escape') {
@@ -242,7 +297,7 @@ export function handleKey(s: AppState, k: Key, now: number): KeyResult {
     if (!line) return { state: s, effects: NONE };
     if (line.startsWith('/')) return runCommand(s, line, now);
     const cleared = setInput(s, '', now);
-    return { state: ui(cleared, { popup: null, history: [line, ...s.ui.history].slice(0, 50) }), effects: [{ kind: 'send', text: line }] };
+    return { state: ui(cleared, { popup: null, history: [line, ...s.ui.history].slice(0, 50), scroll: FOLLOW }), effects: [{ kind: 'send', text: line }] };
   }
   const edited = editInput(s, k, now);
   if (edited) {
@@ -326,6 +381,43 @@ function conversationKeys(s: AppState, k: Key, now: number): KeyResult {
   // Typing goes back to the input.
   const edited = editInput(ui(s, { focus: 'input', selectedStep: null }), k, now);
   return edited ?? { state: s, effects: NONE };
+}
+
+/**
+ * Moves the conversation view `rows` back in time (negative: forward), clamped to the oldest row.
+ * Reaching the newest row follows new content again.
+ */
+export function scrollConversation(s: AppState, rows: number, screen: Screen, now: number): AppState {
+  const v = screenConversation(s, { now, still: false, reduced: false }, screen.w, screen.h);
+  const up = Math.min(v.max, Math.max(0, v.up + rows));
+  if (up === v.up && (up > 0 || s.ui.scroll.up === 0)) return s;
+  if (up === 0) return ui(s, { scroll: FOLLOW });
+  return ui(s, { scroll: { up, base: v.total, from: v.up === 0 ? v.total : s.ui.scroll.from } });
+}
+
+/** The wheel scrolls the conversation; popups and the approval screen ignore it. */
+export function handleWheel(s: AppState, direction: 'up' | 'down', screen: Screen, now: number, notches = 1): AppState {
+  if (s.approval || (s.ui.popup !== null && s.ui.popup.kind !== 'slash')) return s;
+  return scrollConversation(s, (direction === 'up' ? 1 : -1) * WHEEL_ROWS * notches, screen, now);
+}
+
+/**
+ * pgup/pgdn a page (two rows overlap), shift+↑↓ (or ctrl+↑↓) a row, home the oldest, end the newest.
+ * None of them edit the input. An open well keeps ↑↓ and end for its own output.
+ */
+function scrollKeys(s: AppState, k: Key, screen: Screen, now: number): KeyResult | null {
+  const well = s.ui.focus === 'well';
+  const byRow = (k.shift || k.ctrl) && !well;
+  let rows: number;
+  if (k.name === 'pageup' || k.name === 'pagedown') {
+    const page = Math.max(1, screenConversation(s, { now, still: false, reduced: false }, screen.w, screen.h).avail - 2);
+    rows = k.name === 'pageup' ? page : -page;
+  } else if (byRow && k.name === 'up') rows = 1;
+  else if (byRow && k.name === 'down') rows = -1;
+  else if (k.name === 'home') rows = Infinity;
+  else if (k.name === 'end' && !well) rows = -Infinity;
+  else return null;
+  return { state: scrollConversation(s, rows, screen, now), effects: NONE };
 }
 
 function wellKeys(s: AppState, k: Key): KeyResult {

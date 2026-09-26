@@ -6,6 +6,7 @@ import type { Action, Extra } from './actions.ts';
 import type {
   AppState,
   CardItem,
+  ConvScroll,
   Item,
   MonkItem,
   PlanStep,
@@ -13,7 +14,10 @@ import type {
   StepItem,
   Status,
 } from './types.ts';
-import { describeApproval, describeCall, faultPhrase, goalFromMessage, parsePlan, roleOf } from './describe.ts';
+import { answeredNote, describeApproval, describeCall, faultPhrase, goalFromMessage, parsePlan, roleOf } from './describe.ts';
+
+/** The conversation view pinned to the newest row. */
+export const FOLLOW: ConvScroll = { up: 0, base: 0, from: 0 };
 
 export function initialStatus(): Status {
   return {
@@ -78,6 +82,7 @@ export function initialState(now = 0): AppState {
       phoneHidden: false,
       selectedStep: null,
       wellOpen: null,
+      scroll: FOLLOW,
       inputSince: now,
       bootAt: now,
     },
@@ -201,6 +206,8 @@ function onTurn(state: AppState, ev: TurnEvent, at: number): AppState {
   const s = clone(state);
   switch (ev.type) {
     case 'turn.started':
+      // A later turn only starts once the asking one was answered (here, on Telegram, or before a resume).
+      if (s.question && s.question.turnId !== ev.turnId) s.question = null;
       s.turn.turnId = ev.turnId;
       s.turn.running = true;
       if (s.turn.startedAt === null) s.turn.startedAt = at;
@@ -265,8 +272,14 @@ function onTurn(state: AppState, ev: TurnEvent, at: number): AppState {
       return s;
     }
     case 'tool.result': {
+      // The answer to an open question, given somewhere else or replayed on resume.
+      const asked = s.question?.calls.find((c) => c.callId === ev.callId);
+      if (asked) {
+        s.question = null;
+        if (!ev.isError && ev.content.trim()) s.items.push({ kind: 'note', id: nextId(s, 'n'), ...answeredNote(asked.question, ev.content), at });
+      }
       const idx = stepIndexByCall(s, ev.callId);
-      if (idx < 0) return state;
+      if (idx < 0) return asked ? s : state;
       const step = s.items[idx] as StepItem;
       const d = describeCall(step.tool, step.args);
       const patch: Partial<StepItem> = {
@@ -302,7 +315,10 @@ function onTurn(state: AppState, ev: TurnEvent, at: number): AppState {
       return s;
     }
     case 'question':
-      s.question = { calls: ev.calls, selected: 0, openedAt: at };
+      if (ev.calls.length === 0) return state;
+      s.question = { calls: ev.calls, answered: [], selected: 0, openedAt: at, turnId: s.turn.turnId };
+      // The card's keys work from the input; focus left in a sandbox well or on a step keeps ↑↓, digits and enter.
+      if (s.ui.focus !== 'input') s.ui = { ...s.ui, focus: 'input', selectedStep: null };
       return s;
     case 'subagent.started': {
       const role = roleOf(ev.name, ev.input);
@@ -327,6 +343,8 @@ function onTurn(state: AppState, ev: TurnEvent, at: number): AppState {
       if (!paused) {
         s.turn.startedAt = null;
         s.turn.goal = null;
+        // Only a paused turn is still waiting for an answer.
+        s.question = null;
       }
       s.items = s.items.map((it) => {
         if (it.kind === 'monk' && it.streaming) return { ...it, streaming: false };
@@ -594,6 +612,8 @@ function onExtra(state: AppState, ev: Extra, at: number): AppState {
       return s;
     case 'milestone':
       s.items.push({ kind: 'milestone', id: nextId(s, 'ms'), text: ev.text });
+      // It hides everything above it, so a place held back in that history is gone: follow again.
+      s.ui = { ...s.ui, scroll: FOLLOW };
       return s;
     case 'skill.note':
       s.skillNotes = { ...s.skillNotes, [ev.name]: ev.detail };
