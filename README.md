@@ -77,7 +77,7 @@ flowchart TB
     TUI["Terminal UI"]
     TG["Telegram<br/>text + voice"]
     CRON["Cron"]
-    EVAL["Benchmark"]
+   
   end
 
   subgraph TFH["TrueForge, unmodified"]
