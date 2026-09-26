@@ -25,6 +25,24 @@ describe('Monk tools', () => {
     expect(Object.keys(by)).toEqual(expect.arrayContaining(['install_apk', 'wait_seconds', 'delete_branch', 'close_issue']));
     expect(by.delete_branch?.annotations?.destructiveHint).toBe(true);
     expect(by.close_issue?.annotations?.destructiveHint).toBe(true);
+    expect(by.create_release?.annotations?.destructiveHint).toBe(true);
+  });
+
+  it('create_release refuses an existing tag and publishes a new one', async () => {
+    const calls: { m: string; u: string; b: unknown }[] = [];
+    const fetchImpl = (async (url: string, init?: RequestInit) => {
+      const u = url.replace('https://api.github.com', '');
+      calls.push({ m: init?.method ?? 'GET', u, b: init?.body ? JSON.parse(String(init.body)) : null });
+      if (u.endsWith('/git/ref/tags/v1.0.0')) return new Response('{}', { status: 200 });
+      if (u.includes('/git/ref/tags/')) return new Response('{}', { status: 404 });
+      return new Response(JSON.stringify({ html_url: 'https://github.com/o/r/releases/tag/v1.1.0' }), { status: 201 });
+    }) as unknown as typeof fetch;
+    const c = await connect(fetchImpl);
+    const dup = (await c.callTool({ name: 'create_release', arguments: { owner: 'o', repo: 'r', tag: 'v1.0.0', notes: 'x' } })) as CallToolResult;
+    expect(dup.isError).toBe(true);
+    const r = (await c.callTool({ name: 'create_release', arguments: { owner: 'o', repo: 'r', tag: 'v1.1.0', notes: '- fix', target: 'main' } })) as CallToolResult;
+    expect(text(r)).toBe('published v1.1.0: https://github.com/o/r/releases/tag/v1.1.0');
+    expect(calls.at(-1)).toEqual({ m: 'POST', u: '/repos/o/r/releases', b: { tag_name: 'v1.1.0', name: 'v1.1.0', body: '- fix', target_commitish: 'main' } });
   });
 
   it('wait_seconds sleeps the asked time, capped at 60s', async () => {

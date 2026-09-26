@@ -87,6 +87,24 @@ const GITHUB_TOOLS: Tool[] = [
     },
     annotations: { destructiveHint: true },
   },
+  {
+    name: 'create_release',
+    description:
+      'Publish a GitHub release: creates the tag at the target commit and the release with your notes. Public and irreversible: asks the user first. Refuses a tag that already exists.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        owner: { type: 'string' },
+        repo: { type: 'string' },
+        tag: { type: 'string', description: 'New tag, e.g. v1.1.0' },
+        name: { type: 'string', description: 'Release title (defaults to the tag)' },
+        notes: { type: 'string', description: 'Release notes, markdown' },
+        target: { type: 'string', description: 'Branch or commit SHA to tag (defaults to the default branch)' },
+      },
+      required: ['owner', 'repo', 'tag', 'notes'],
+    },
+    annotations: { destructiveHint: true },
+  },
 ];
 
 const err = (text: string): CallToolResult => ({ isError: true, content: [{ type: 'text', text }] });
@@ -133,6 +151,18 @@ async function githubAction(deps: MonkToolsDeps, name: string, args: Record<stri
     if (r.status === 204) return { content: [{ type: 'text', text: `deleted branch ${branch}` }] };
     return err(`delete_branch ${branch}: ${r.status} ${JSON.stringify(r.json).slice(0, 200)}`);
   }
+  if (name === 'create_release') {
+    const tag = String(args.tag ?? '').trim();
+    if (!tag) return err('create_release needs tag');
+    const existing = await github(deps, 'GET', `${repoPath(args)}/git/ref/tags/${encodeURIComponent(tag)}`);
+    if (existing.status === 200) return err(`tag ${tag} already exists; pick a new version`);
+    const body: Record<string, unknown> = { tag_name: tag, name: String(args.name ?? tag), body: String(args.notes ?? '') };
+    if (args.target) body.target_commitish = String(args.target);
+    const r = await github(deps, 'POST', `${repoPath(args)}/releases`, body);
+    const url = (r.json as { html_url?: string } | null)?.html_url;
+    if (r.status === 201) return { content: [{ type: 'text', text: `published ${tag}: ${url ?? ''}`.trim() }] };
+    return err(`create_release ${tag}: ${r.status} ${JSON.stringify(r.json).slice(0, 200)}`);
+  }
   const n = Number(args.issue_number);
   if (!Number.isInteger(n)) return err('close_issue needs issue_number');
   if (typeof args.comment === 'string' && args.comment.trim()) {
@@ -176,7 +206,7 @@ export function monkToolsServer(deps: MonkToolsDeps): Server {
         if (!args.url) return err('web_fetch needs url');
         return { content: [{ type: 'text', text: await webFetch(String(args.url), deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}) }] };
       }
-      if (req.params.name === 'delete_branch' || req.params.name === 'close_issue') return await githubAction(deps, req.params.name, args);
+      if (req.params.name === 'delete_branch' || req.params.name === 'close_issue' || req.params.name === 'create_release') return await githubAction(deps, req.params.name, args);
       return err(`unknown tool ${req.params.name}`);
     } catch (e) {
       return err(redact(e instanceof Error ? e.message : String(e)));
