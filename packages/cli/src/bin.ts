@@ -22,7 +22,7 @@ usage
                                  chaos proxy, Monk API + dashboard, channels, cron
   monk setup                     configure TrueForge for Monk (models, MCP, sandbox, agent)
   monk doctor                    check keys, services and local tools
-  monk ask "<message>" [--approve]
+  monk ask "<message>" [--approve] [--session <id>]
                                  one headless turn with Monk; irreversible steps are denied unless --approve
   monk models [--all]            models on the LLM proxy, cheapest with tool calling first
   monk stack [install|status|restart|stop|logs]
@@ -115,11 +115,13 @@ async function main(argv: string[]): Promise<number> {
   }
 
   if (cmd === 'ask') {
-    const { values, positionals } = parseArgs({ args: argv.slice(1), options: { approve: { type: 'boolean' } }, allowPositionals: true });
+    const { values, positionals } = parseArgs({ args: argv.slice(1), options: { approve: { type: 'boolean' }, session: { type: 'string' } }, allowPositionals: true });
     const message = positionals.join(' ').trim();
     if (!message) throw new Error('usage: monk ask "<message>"');
     const ctx = context();
-    const { data: session } = await ctx.client.sessions.create({ agent: { name: MONK_AGENT_NAME }, metadata: { monk_client: 'cli' } });
+    const session = values.session
+      ? { id: values.session }
+      : (await ctx.client.sessions.create({ agent: { name: MONK_AGENT_NAME }, metadata: { monk_client: 'cli' } })).data;
     log(`session ${session.id}`);
     let input: TurnInput = { kind: 'message', content: message };
     for (let turn = 0; turn < 10; turn++) {
