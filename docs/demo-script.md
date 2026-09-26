@@ -1,34 +1,38 @@
 # Demo script (5 minutes)
 
-Ends on the before/after number, with one unscripted moment a judge controls.
+Everything here runs live on real GitHub, a real Daytona sandbox and seeded chaos. The phone
+half (Tally on an emulator) is built but parked; see the end.
 
 ## Before you go on
 
-- `pnpm monk trueforge`, `pnpm monk up --phone`, `pnpm monk setup`, `pnpm monk doctor` all green.
-- The demo repo is published: https://github.com/chhhee10/tally with PR #1 open (`demo/scripts/make-demo-repo.sh --publish`).
-  The fix is ready on `fix/undo-insets`, not yet pushed to the PR.
-- The emulator is booted from `monk-clean`, and mirrored on the left of the screen (`scrcpy`).
-- Right of the screen: `pnpm tui`, 120×36 or larger. Dashboard on the second display at :8788.
-- The benchmark report from the last full run is open in a tab (`benchmarks/results/<date>/REPORT.md`).
-- Record with a throwaway GitHub token and bot; revoke both afterwards.
+- The stack is running: `pnpm monk stack status` shows TrueForge, monk-up (and the emulator) active;
+  `pnpm monk doctor` is all green.
+- `pnpm monk bench seed` has run: issues #18–#20 in `chhhee10/monk-sandbox` are open (real bugs in
+  `textkit-app/`).
+- Screen: `pnpm tui` (120×36 or larger) on one side; the TrueForge UI (http://localhost:8790) and
+  the dashboard (http://localhost:8788) in tabs. Telegram open on your phone.
+- Chaos is on (`moderate`). Keys stay in `.env`; nothing secret is on screen.
 
 ## Beats
 
-| time | beat | on screen | you do |
+| time | beat | you type / do | what the audience sees |
 | --- | --- | --- | --- |
-| 0:00 | "An agent that acts on your real systems and gets better every time something breaks." | one slide | |
-| 0:20 | On Telegram: **"Test PR #1 on github.com/chhhee10/tally on the phone before we ship"** | phone in hand + big screen | send it |
-| 0:40 | Monk plans six steps, then builds and tests in the sandbox | TUI: plan, `ctrl+o` on the build step shows the dashed ▣ sandbox well | point at "isolated · can't touch your machine" |
-| 1:20 | APK installs; the Phone helper taps through swipe-to-archive; chaos drops a popup and crashes the app; Monk recovers with learned skills | emulator left, TUI chaos card right | |
-| 2:00 | Finds the planted bug: UNDO hides under the nav bar. Files issue #13 with a screenshot and repro steps | GitHub issue | open it |
-| 2:30 | Push the fix: `git push origin fix/undo-insets:feature/swipe-to-archive`. Monk re-tests on the phone; it passes | emulator + TUI | push |
-| 2:50 | Approval: "merge PR #1 and publish v1.3.0?" with the exact repo, SHAs, tag and file hash | yellow screen in the TUI + buttons on Telegram | tap **✓ Approve** on the phone (filmed) |
-| 3:20 | Learning curve: generations 0–5, success up, chaos tax down, confidence intervals don't overlap | dashboard | |
-| 3:50 | A judge picks any fault (API or phone). `/chaos <fault>` injects it into the live session; Monk recovers | Telegram + TUI chaos feed | hand them the phone |
-| 4:30 | "Same agent, different job, just message it. All stock TrueForge plus Monk plugins." | README | |
+| 0:00 | "An agent that acts on real systems, stops before it hurts, and gets better every time something breaks." | | one line |
+| 0:20 | **Fix a real bug** | `Fix issue #20 in chhhee10/monk-sandbox and open a PR with the fix.` | Plan; a Coder helper clones the repo into the sandbox, reproduces the bug, fixes it, adds a regression test, runs the suite; chaos throws timeouts / 429s / expired tokens and it recovers; a PR opens that says "Fixes #20" with the test output |
+| 2:00 | **Stop before it hurts** | `Merge it.` | The yellow approval screen with the exact repo and PR; approve with `y` (or the ✓ button on Telegram) |
+| 2:40 | **Release captain** | `Cut a release: everything merged since the last tag, run the tests, write notes, publish as v1.1.0.` | Tests run in the sandbox, notes are written, and it stops at `create_release` for approval; deny it live |
+| 3:30 | **Numbers** | README "Results so far" | 12/13 GitHub tasks under chaos, hidden-test-checked bug fixes, 100% approval safety, chaos cost (92% → 50% under heavy chaos), verified skills (1 of 9 kept) |
+| 4:15 | **Audience fault** | `ctrl+p` → chaos → pick a fault, or `/chaos rate_limit` on Telegram | The next call fails and Monk recovers on screen |
+| 4:45 | "Stock TrueForge underneath; Monk adds chaos, verified learning and the benchmark. Any TrueForge agent can use them." | | README |
 
 ## If something breaks on stage
 
-- Wi-Fi or an API down: switch to the recorded 2-minute backup video.
-- The model stalls: `esc` in the TUI or `/stop` in Telegram, then resend.
-- To show the TUI without keys at all: `pnpm demo` plays the same story offline.
+- The model stalls: `esc` in the TUI (or `/stop` on Telegram), then resend.
+- GitHub is slow: chaos is part of the show; say so. To go clean, `/chaos off`.
+- No network: `pnpm demo` plays the TUI story offline.
+
+## Parked: the phone
+
+The emulator (AVD `monk`, snapshot `monk-clean`) and mobile-mcp (32 tools) work, and Monk can drive
+the phone. The Tally APK builds on the host but not in the Daytona sandbox (no JDK, 3 GB disk), so
+the "test the PR on the phone" story waits for a host build tool or a bigger sandbox image.

@@ -77,7 +77,32 @@ unseen-fault recovery and 95% bootstrap confidence intervals. It also has ablati
 verification, learning with chaos off, shuffled skills, no retirement. See
 [benchmarks/README.md](benchmarks/README.md).
 
-Results aren't committed yet. They need a real run with keys.
+### Results so far (live, 2026-09-26)
+
+Real GitHub (`chhhee10/monk-sandbox`), real Daytona sandbox, model `gpt-6-luna` through a LiteLLM
+proxy, one seed (42). Tables come from the stored runs: `node scripts/bench-table.ts <run-id>…`.
+
+| run | chaos | skills | tasks passed | faults recovered | steps | tokens | cost | cost per solved task | approval safety |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| GitHub suite, all 13 tasks | moderate | 1 learned skill | 12/13 (92%) | 29/40 (73%) | 225 | 4275k | $0.435 | $0.036 | 100% |
+| 6-task subset, generation 0 | heavy | none (vanilla) | 3/6 (50%) | 3/17 (18%) | 57 | 1172k | $0.119 | $0.040 | 100% |
+
+- **The three real bug fixes (gh-11 to gh-13) passed.** Each PR was checked by running the repo's
+  tests and a hidden regression test on the PR branch, not by reading the agent's answer.
+- **Nothing irreversible without approval:** every merge, branch delete and release waited for a
+  person, in every run (approval safety 100%).
+- **Chaos costs a lot:** the same agent solves 92% of tasks under moderate chaos but 50% of the
+  harder subset under heavy chaos, where it recovered only 18% of faults. That gap is what the
+  learning loop is meant to close.
+- **Learning is verified, not assumed:** each drafted skill is re-run on its source tasks under the
+  same seeded chaos, with and without it, and kept only if results improve. In the first live
+  learning run, 1 of 9 drafts survived (`github-rate-limit-safe-file-deletion`: its task went
+  from 1 of 2 to 2 of 2 passing); the other 8 were thrown away for no gain.
+- **Caveats:** one seed, so no confidence intervals yet. The heavy-chaos generation 0 overlapped a
+  service restart during development, so it may be slightly low. The first gate-bypass failure
+  (gh-08: the model asked in chat instead of calling the gated tool, and deleted nothing) was fixed
+  and the task passes on a rerun. The generation-1 run (heavy chaos, after learning) was still
+  running at the time of writing.
 
 ## What's in the repo
 
@@ -85,7 +110,7 @@ Results aren't committed yet. They need a real run with keys.
 | --- | --- |
 | `packages/chaos-proxy` | Remote MCP server in front of every real MCP server (GitHub, mobile-mcp, anything in `mcp-servers.json`). It injects 10 API faults and 6 phone faults per a seeded YAML profile, never on destructive tools, tracks recoveries, and has a kill switch and live control. |
 | `packages/learn` | Session events + fault log → episodes → drafted `SKILL.md` (strict JSON from the model) → dedupe/merge → verified under the same chaos seed → git commit → registered in TrueForge. Retires skills that drop below 50% over their last 10 uses. |
-| `packages/evals` | Monk-Bench GitHub (10 tasks, 3 held out) and Mobile (6 tasks, 2 held out), repo and emulator reset, checkers that read real state, the runner (approvals, step caps, metrics), learning-curve bench, ablations, stats and report. |
+| `packages/evals` | Monk-Bench GitHub (13 tasks including 3 real bug fixes checked by a hidden test, 4 held out) and Mobile (6 tasks, 2 held out), repo and emulator reset, checkers that read real state, the runner (approvals, step caps, metrics), learning-curve bench, ablations, stats and report. |
 | `packages/channels` | Telegram (grammY) and Discord (discord.js) gateway: one conversation across platforms via `/link`, streamed replies, approval and question buttons, `/chaos`, `/skills`, `/cron`, `/screen`. |
 | `packages/cron` | Natural-language schedules ("every weekday 9am …"), confirm-then-save, a fresh session per run, delivery to a channel, and a nightly chaos drill. |
 | `packages/server` | The Monk API: event stream (SSE), skills, faults, heatmap, runs, learning curve, chaos control. It also serves the dashboard. |
