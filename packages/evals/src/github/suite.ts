@@ -5,6 +5,7 @@ import {
   FIXTURE_LABEL, FUNCTION_NAME, FUNCTION_PATH, ISSUE_SPECS, PULL_SPECS, README_BLOCK_TYPO, README_FIXED_SENTENCE,
   TEMPLATE_HEADINGS, TEMPLATE_LABELS, TEMPLATE_PATH, TYPO_FIX_BRANCH, readmeBlock,
 } from './fixtures.ts';
+import { githubFixTasks } from './fix.ts';
 
 // GitHub timestamps come from GitHub's clock, ours from the runner's.
 const CLOCK_SLACK_MS = 120_000;
@@ -225,4 +226,5 @@ export const githubSuite: Task[] = [
       return ok(`PR #${pr.number} fixes the typo`);
     },
   },
+  ...githubFixTasks,
 ];

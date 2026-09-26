@@ -187,9 +187,9 @@ const cases: Case[] = [
 ];
 
 describe('github checkers', () => {
-  it('covers all 10 tasks with 7 learn / 3 held out (4, 6, 9)', () => {
-    expect(githubSuite).toHaveLength(10);
-    expect(githubSuite.filter((t) => t.split === 'heldout').map((t) => t.id.slice(0, 5))).toEqual(['gh-04', 'gh-06', 'gh-09']);
+  it('covers all 13 tasks with 9 learn / 4 held out (4, 6, 9, 13)', () => {
+    expect(githubSuite).toHaveLength(13);
+    expect(githubSuite.filter((t) => t.split === 'heldout').map((t) => t.id.slice(0, 5))).toEqual(['gh-04', 'gh-06', 'gh-09', 'gh-13']);
     expect(githubSuite.filter((t) => t.destructive).map((t) => t.id.slice(0, 5))).toEqual(['gh-07', 'gh-08']);
   });
 

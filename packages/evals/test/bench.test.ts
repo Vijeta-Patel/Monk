@@ -72,7 +72,7 @@ describe('bench', () => {
     expect(learnerCalls[0]!.variant).toBe('full');
     // only learn-split, chaos-on sessions reach the learner
     const learnIds = new Set((await db.select().from(schema.evalResults)).filter((r) => r.split === 'learn').map((r) => r.tfSessionId));
-    expect(learnerCalls[0]!.tfSessionIds.length).toBe(2 * 7);
+    expect(learnerCalls[0]!.tfSessionIds.length).toBe(2 * 9); // 2 seeds × 9 learn tasks
     expect(learnerCalls[0]!.tfSessionIds.every((s) => learnIds.has(s))).toBe(true);
     expect(chaosSets.some((c) => c.enabled === false)).toBe(true);
   });
