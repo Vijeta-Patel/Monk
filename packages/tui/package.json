@@ -1,0 +1,24 @@
+{
+  "name": "@monk/tui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.tsx",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@monk/shared": "workspace:*",
+    "@opentui/core": "^0.5.12",
+    "@opentui/react": "^0.5.12",
+    "pngjs": "^7.0.0",
+    "react": "^19.3.0",
+    "string-width": "^8.2.2"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "@types/pngjs": "^6.0.5",
+    "@types/react": "^19.3.0"
+  }
+}

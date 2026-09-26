@@ -1,0 +1,24 @@
+ (o o) monk · chaos moderate · gen 3 · $0.18           ⠋ testing PR #12  01:12  
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+   › Test PR #12 on the phone before we ship                                    
+                                                                                
+  • On it. Six steps: read the PR, build and test it in the sandbox, try it     
+    on the phone, report back. I'll stop and ask before merging or              
+    publishing.                                                                 
+                                                                                
+  ✓  read PR #12 · 6 files changed                             operator   0.8s  
+  ⚡ GitHub said slow down · rate_limit                        operator   0.3s  
+     ↳ used skill github-rate-limit-recovery · waited 12s, batched reads        
+  ✓  got the changed files · recovered                         operator  12.6s  
+  ✓  built the app in the sandbox · 4.2 MB apk                    coder  48.2s  
+  ⠋  running unit tests in the sandbox                            coder  00:21  
+     ▓███████████████████████░░░░░░ 31/38 passed                                
+                                                                                
+  • Build is green. 31 of 38 tests passed so far; next I'll install the app     
+    on the phone and try the new swipe-to-archive.▌                             
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ › █queue a message                                                  esc stop │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  esc stop   ctrl+o details   ctrl+l sidebar   ? help                           

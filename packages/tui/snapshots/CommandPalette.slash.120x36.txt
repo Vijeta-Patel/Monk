@@ -1,0 +1,36 @@
+ (- -) monk  ·  deepseek-v3.2  ·  chaos moderate  ·  gen 3  ·  $0.00                                              ready 
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                  │                                     
+                                                                                  │                                     
+                               █▀▄▀█ █▀▀█ █▀▀▄ █ ▄▀                               │           .                         
+                               █ ▀ █ █  █ █  █ █▀▄                                │                 ___     .           
+                               ▀   ▀ ▀▀▀▀ ▀  ▀ ▀  ▀                               │          .     (- -)                
+                                                                                  │               __) (__    .          
+              an agent that gets better every time something breaks               │           .  /  \_/  \              
+                                                                                  │             (____|____)  .          
+                                                                                  │             ~~~~~~~~~~~             
+            ╭─ try ──────────────────────────────────────────────────╮            │                                     
+            │ › Test PR #12 on the phone before we ship              │            │         ready when you are          
+            │ › /resume  pick up where Telegram left off             │            │                                     
+            │ › /chaos   break something on purpose                  │            │                                     
+            │ › /skills  see what monk has learned                   │            │                                     
+            ╰────────────────────────────────────────────────────────╯            │  skills                   14 known  
+  ╭─ commands ──────────────────────────────────── 2 match ─╮                     │  ✦ android-dismiss-popup       new  
+  │   /new      start fresh                                 │                     │  ✦ android-relaunch-crash      new  
+  │   /agent    talk to a different agent                   │                     │  ↳ github-rate-limit           90%  
+  │   /link     join from Telegram or Discord               │                     │  ↳ android-emulator-inst…      93%  
+  │   /stop     stop what monk is doing                     │                     │  · 10 more  ·  ctrl+s               
+  │ › /chaos    break something on purpose                  │                     │                                     
+  │   /skills   see what monk has learned                   │                     │  chaos                    moderate  
+  │   /cron     schedule a task                             │                     │  30% of tool calls get a fault      
+  │   /status   what's connected right now                  │                     │  seed 42 · same faults every run    
+  │   /bench    run the benchmark, watch it live            │                     │  never on delete, merge, publish    
+  │   /resume   pick up a Telegram or Discord chat          │                     │                                     
+  │                                                         │                     │  generation 3                       
+  │   the rest stay listed, dimmed                          │                     │  each run teaches the next one      
+  ╰─────────────────────────────────────────────────────────╯                     │                                     
+                                                                                                                        
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ › /ch█                                                                                       tab complete · enter go │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  enter send   / commands   ctrl+p everything   tab move around   ? help                                                

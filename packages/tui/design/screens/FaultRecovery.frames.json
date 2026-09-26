@@ -1,0 +1,957 @@
+{
+ "120 × 36": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 450,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(O o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o O)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(^ ^)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(^ ^)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 95,
+   "y": 0,
+   "label": "top bar spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 8,
+   "label": "bolt flash",
+   "ms": 110,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "   /|  ",
+     "color": "fault",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 9,
+   "label": "bolt flash",
+   "ms": 110,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "  / |  ",
+     "color": "fault",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 10,
+   "label": "bolt flash",
+   "ms": 110,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": " /  |_ ",
+     "color": "fault",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 11,
+   "label": "bolt flash",
+   "ms": 110,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "/__   /",
+     "color": "fault",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 12,
+   "label": "bolt flash",
+   "ms": 110,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "   | / ",
+     "color": "fault",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 13,
+   "label": "bolt flash",
+   "ms": 110,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "ink-ghost",
+     "bold": true
+    },
+    {
+     "text": "   |/  ",
+     "color": "fault",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 45,
+   "y": 12,
+   "label": "sparkle",
+   "ms": 220,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "*  ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": " + ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "  *",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": " + ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "   ",
+     "color": "ok",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 24,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 96,
+   "y": 5,
+   "label": "mascot · fault",
+   "ms": 420,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "   (O o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o O)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (O o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o O)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (^ ^)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (^ ^)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (^ ^)   ",
+     "color": "ink",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 99,
+   "y": 3,
+   "label": "mascot · fault",
+   "ms": 420,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "\\ | /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " \\|/ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "\\ | /",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": " \\|/ ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "     ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "     ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "* + *",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "+ * +",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "* + *",
+     "color": "ok",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 85,
+   "y": 11,
+   "label": "mascot caption",
+   "ms": 420,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "               whoa              ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "               whoa              ",
+     "color": "fault",
+     "bold": true
+    },
+    {
+     "text": "               hmm               ",
+     "color": "ink-muted",
+     "bold": true
+    },
+    {
+     "text": "               hmm               ",
+     "color": "ink-muted",
+     "bold": true
+    },
+    {
+     "text": "              got it             ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "              got it             ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "              got it             ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "              got it             ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "              got it             ",
+     "color": "ok",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 87,
+   "y": 28,
+   "label": "drafting dots",
+   "ms": 400,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "drafting.  ",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "drafting.. ",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "drafting...",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 33,
+   "label": "caret",
+   "ms": 530,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "█",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  }
+ ],
+ "80 × 24": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 450,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(O o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o O)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(^ ^)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(^ ^)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 55,
+   "y": 0,
+   "label": "top bar spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 35,
+   "y": 9,
+   "label": "sparkle",
+   "ms": 220,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "*  ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": " + ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "  *",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": " + ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "   ",
+     "color": "ok",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 21,
+   "label": "caret",
+   "ms": 530,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "█",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  }
+ ]
+}

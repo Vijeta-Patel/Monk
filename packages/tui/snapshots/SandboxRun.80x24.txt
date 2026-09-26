@@ -1,0 +1,24 @@
+ (o o) monk · chaos moderate · gen 3 · $0.18           ⠋ testing PR #12  01:12  
+────────────────────────────────────────────────────────────────────────────────
+  ✓  built the app in the sandbox · 4.2 MB apk                    coder  48.2s  
+  ⠋  running unit tests in the sandbox  ▾                         coder  00:21  
+    ╭┄ ▣ sandbox  daytona · /work/tally ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ isolated ┄╮  
+    ┆  $ ./gradlew testDebugUnitTest                              ~          ┆  
+    ┆  > Task :app:compileDebugKotlin  UP-TO-DATE               +-------+    ┆  
+    ┆  > Task :app:testDebugUnitTest                           /       /|    ┆  
+    ┆  ✓ archive_removesFromActive                            +-------+ |    ┆  
+    ┆  ✓ archive_keepsHistory                                 | ▣ box | +    ┆  
+    ┆  ✓ undoArchive_restoresOrder                            |       |/     ┆  
+    ┆  ✓ swipe_emitsArchiveEvent                              +-------+      ┆  
+    ┆  ✓ undo_withinWindow                                                   ┆  
+    ┆  ✓ dailyStreak_acrossMidnight                                          ┆  
+    ┆                                                                        ┆  
+    ┆  ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓·······  31/38                         ┆  
+    ┆  ⠋  2 cpu · 4 GB · 00:21                                               ┆  
+    ┆                                                                        ┆  
+    ╰┄ following ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ ↑↓ scroll · ctrl+o fold ┄╯  
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ ›  queue a message                                                  esc stop │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  ↑↓ scroll   end follow   ctrl+o fold   esc stop                               

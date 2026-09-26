@@ -1,0 +1,24 @@
+ (o o) monk · chaos moderate · gen 3 · $0.27   ⠋ trying it on the phone  02:48  
+────────────────────────────────────────────────────────────────────────────────
+   ▣ phone Pixel 7 · last tap: UNDO, nothing happened             ctrl+l show   
+                                                                                
+  ✓  installed Tally 1.3.0                                        phone   3.8s  
+  ✓  swiped "Read 20 min" away · archived                         phone   1.4s  
+  ✓  tapped UNDO                                                  phone   0.5s  
+  ✗  nothing came back · row still archived                       phone   0.3s  
+  ⠋  taking a screenshot for the issue                            phone  00:01  
+                                                                                
+  • Undo didn't work. On screen, the Undo button starts at y 2262 but the       
+    navigation bar starts at y 2274, so the bar covers it. That's the bug.▌     
+                                                                                
+      ┌─ snackbar ───────────────────────────[ UNDO ] ─┐  y 2262                
+      │  Archived "Read 20 min"                        │                        
+  ════╪══ nav bar · y 2274 ════════════════════════════╪════  ← 44 px hidden    
+      └────────────────────────────────────────────────┘  y 2318                
+                                                                                
+                                                                                
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ › █queue a message                                                  esc stop │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  esc stop   ctrl+l show phone   ? help                                         

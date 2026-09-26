@@ -1,0 +1,24 @@
+ (- -) monk · chaos moderate · gen 3 · $0.00                              ready 
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+                              █▀▄▀█ █▀▀█ █▀▀▄ █ ▄▀                              
+                              █ ▀ █ █  █ █  █ █▀▄                               
+                              ▀   ▀ ▀▀▀▀ ▀  ▀ ▀  ▀                              
+                                                                                
+             an agent that gets better every time something breaks              
+                                                                                
+                                                                                
+  ╭─ /chaos · pick a profile or a fault ────────────────────────╮               
+  │   profile                                                   │               
+  │ › pressure            scary errors near risky steps         │               
+  │   fault                                                     │               
+  │   popup               a dialog over the app                 │               
+  │   permission_dialog   a surprise permission prompt          │               
+  │   permission_denied   403 on one thing                      │               
+  │   partial_result      a list cut short                      │               
+  ╰─────────────────────────────────────────────────────────────╯               
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ › /chaos p█                                                     tab complete │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  enter send   / commands   ctrl+p everything   ? help                          

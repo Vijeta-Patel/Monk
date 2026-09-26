@@ -1,0 +1,36 @@
+ (o o) monk  ·  deepseek-v3.2  ·  chaos moderate  ·  gen 3  ·  $0.18                  ⚡2 ✓2   ⠋ testing PR #12  01:12  
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                  │                                     
+   › Test PR #12 on the phone before we ship                                      │                    .                
+                                                                                  │                 ___                 
+  • On it. Six steps: read the PR, build and test it in the sandbox, try it on    │                (o o)                
+    the phone, report back. I'll stop and ask before merging or publishing.       │               __) (__               
+                                                                                  │              /  \_/  \              
+  ✓  read PR #12 · 6 files changed                               operator   0.8s  │             (____|____)             
+  ⚡ GitHub said slow down · rate_limit                          operator   0.3s  │             ~~~~~~~~~~~             
+     ↳ used skill github-rate-limit-recovery · waited 12s, batched reads          │                                     
+  ✓  got the changed files · recovered                           operator  12.6s  │       thinking with 2 helpers       
+  ✓  built the app in the sandbox · 4.2 MB apk                      coder  48.2s  │                                     
+  ⠋  running unit tests in the sandbox                              coder  00:21  │  plan                       1 of 6  
+     ▓███████████████████████░░░░░░ 31/38 passed                                  │  ▓███████░░░░░░░░░░░░░░░░░░░░░░░░░  
+                                                                                  │  ✓ read the PR            operator  
+  • Build is green. 31 of 38 tests passed so far; next I'll install the app on    │  ⠋ build + test              coder  
+    the phone and try the new swipe-to-archive.▌                                  │  ○ try it on the phone       phone  
+                                                                                  │  ○ report back            operator  
+                                                                                  │  ○ re-test the fix           phone  
+                                                                                  │  ◆ merge + publish       needs you  
+                                                                                  │                                     
+                                                                                  │  chaos                    moderate  
+                                                                                  │  ⚡ rate_limit     ✓ 2 steps        
+                                                                                  │  ⚡ latency_spike  ✓ 1 step         
+                                                                                  │                                     
+                                                                                  │  skills                   14 known  
+                                                                                  │  ↳ github-rate-limit         using  
+                                                                                  │  ↳ gradle-offline-cache     loaded  
+                                                                                  │  ↳ android-emulator-inst…   loaded  
+                                                                                  │                                     
+                                                                                                                        
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ › █type to queue a message for after this                                                                   esc stop │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  esc stop   ctrl+o details   tab move around   ctrl+l sidebar   ctrl+p everything   ? help                             

@@ -1,0 +1,24 @@
+ (o o) monk · chaos moderate · gen 3 · $0.52                  ◆ waiting for you 
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  ◆ HOLD ON · I need your ok · this can't be undone               ╱╱╱  ╱╱╱  ╱ ║
+║                                                                              ║
+║  Before I ship this, I need your ok.                                         ║
+║  ✗ this can't be undone                                                      ║
+║                                                                              ║
+║  1 merge PR #12 into main                                                    ║
+║    monk-demo/tally · squash a3f9c1e → main 7d20b44                           ║
+║  2 publish release v1.3.0                                                    ║
+║    app-release.apk 4.2 MB · public · 38 watchers emailed                     ║
+║                                                                              ║
+║  why it's safe                                                               ║
+║  ✓ sandbox build   ✓ 38/38 tests   ✓ phone re-test   ✓ #13 fixed             ║
+║                                                                              ║
+║  also asked on Telegram · first answer wins                                  ║
+║                                                                              ║
+║  ╭────────────────────╮   ╭────────────────╮   ╭──────────────────╮          ║
+║  │  y  yes, ship it   │   │  n  not now    │   │  e  edit first   │          ║
+║  ╰────────────────────╯   ╰────────────────╯   ╰──────────────────╯          ║
+║                                                                              ║
+║  keys wake up in 0.6s...   a exact calls · d diff                            ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝

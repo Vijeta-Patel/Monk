@@ -1,0 +1,930 @@
+{
+ "120 × 36": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 500,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 95,
+   "y": 0,
+   "label": "top bar spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 13,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 14,
+   "label": "test progress",
+   "ms": 70,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▓███████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "▓▓██████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█▓▓█████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██▓▓████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███▓▓███████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████▓▓██████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████▓▓█████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████▓▓████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████▓▓███████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████▓▓██████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████▓▓█████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████▓▓████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████▓▓███████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████▓▓██████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████████▓▓█████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████████▓▓████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████████▓▓███████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████▓▓██████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████████████▓▓█████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████████████▓▓████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████████████▓▓███░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████▓▓██░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████████████████▓▓█░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████████████████▓▓░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████████████████▓░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 47,
+   "y": 17,
+   "label": "streaming cursor",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▌",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "▌",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 96,
+   "y": 5,
+   "label": "mascot · work",
+   "ms": 450,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (- -)   ",
+     "color": "ink",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 103,
+   "y": 3,
+   "label": "mascot · work",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": ".  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": ".. ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "...",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": " ..",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  .",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "   ",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 85,
+   "y": 14,
+   "label": "plan progress",
+   "ms": 70,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▓███████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "▓▓██████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█▓▓█████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██▓▓████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███▓▓███░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████▓▓██░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████▓▓█░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████▓▓░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████▓░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 85,
+   "y": 16,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 33,
+   "label": "caret",
+   "ms": 530,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "█",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  }
+ ],
+ "80 × 24": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 500,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 55,
+   "y": 0,
+   "label": "top bar spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 14,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 15,
+   "label": "test progress",
+   "ms": 70,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▓███████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "▓▓██████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█▓▓█████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██▓▓████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███▓▓███████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████▓▓██████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████▓▓█████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████▓▓████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████▓▓███████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████▓▓██████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████▓▓█████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████▓▓████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████▓▓███████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████▓▓██████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████████▓▓█████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████████▓▓████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████████▓▓███████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████▓▓██████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████████████▓▓█████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████████████▓▓████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████████████▓▓███░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████▓▓██░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "█████████████████████▓▓█░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "██████████████████████▓▓░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "███████████████████████▓░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "████████████████████████░░░░░░",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 50,
+   "y": 18,
+   "label": "streaming cursor",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▌",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "▌",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 21,
+   "label": "caret",
+   "ms": 530,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "█",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  }
+ ]
+}

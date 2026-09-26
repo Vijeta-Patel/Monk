@@ -1,0 +1,24 @@
+ (O o) monk · chaos moderate · gen 3 · $0.31           ⠋ testing PR #12  03:27  
+────────────────────────────────────────────────────────────────────────────────
+  ✓  installed Tally 1.3.0 on the phone                           phone   3.8s  
+  ✓  opened the habits list                                       phone   1.9s  
+  ╭─ ⚡ chaos ──────────────────────────────────────────── f_0417 · seed 42 ─╮  
+  │  chaos dropped a popup on the phone                                      │  
+  │  popup · "Enjoying Tally?" covered the list                              │  
+  │  ↳ used skill android-dismiss-rating-popup                               │  
+  │  1 found "Not now"  ›  2 tapped it  ›  3 swiped again                    │  
+  │  ✓ recovered in 3 steps · 1.4s *                                         │  
+  ╰──────────────────────────────────────────────────────────────────────────╯  
+  ⚡ the app crashed · app_crash                                  phone   0.2s  
+     ↳ used skill android-relaunch-after-crash · relaunched, reopened the li…   
+  ✓  back on the habits list · recovered                          phone   2.1s  
+  ✓  tapped UNDO · nothing happened                               phone   0.5s  
+                                                                                
+  • Found the bug. After you archive a habit, the Undo button hides behind      
+    the navigation bar, so you can't tap it. Filing an issue with a             
+    screenshot.                                                                 
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ › █queue a message                                                  esc stop │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  esc stop   ctrl+o details   ctrl+l sidebar   ? help                           

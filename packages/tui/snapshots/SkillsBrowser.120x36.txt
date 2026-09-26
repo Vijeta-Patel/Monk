@@ -1,0 +1,36 @@
+ (- -) monk  ·  deepseek-v3.2  ·  chaos moderate  ·  gen 3  ·  $0.52                                     ⚡5 ✓5   ready 
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skills what monk has learned           14 active · 2 retired                                                          
+                                                                ╭─ SKILL.md ──────────────────────────────────────────╮ 
+             ██                   ██ ██                         │                                                     │ 
+    ██       ██ ██ ██ ██          ██ ██                         │  github-rate-limit-recovery                         │ 
+    ██       ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██        each book  │  recovery · v2 · verified ✓ · wins 9 of 10          │ 
+    ██       ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██    ▒▒  is a skill │                                                     │ 
+    ██       ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ▒▒ ▒▒  taller =   │  use when a GitHub tool returns 429                 │ 
+    ██ ▐▌ ▐▌ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ▒▒ ▒▒  wins more  │  or "rate limit exceeded"                           │ 
+   ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀            │                                                     │ 
+    ▲                                                           │  1  read retry_after from the error;                │ 
+                                                                │     if it is missing, wait 20s                      │ 
+    name                        type      v   win rate   ok?    │  2  never retry more than 3 times                   │ 
+  › github-rate-limit-recovery  recovery  v2   90% ████▌ ✓      │  3  batch the remaining reads into                  │ 
+  ✦ android-dismiss-rating-pop… recovery  v1    new      ✓      │     one search call when you can                    │ 
+  ✦ android-relaunch-after-cra… recovery  v1    new      ⠋      │                                                     │ 
+    android-emulator-install    procedure v3   93% ████▌ ✓      │  win rate over time                                 │ 
+    gradle-offline-cache        procedure v1   88% ████░ ✓      │  ▁▂▃▅▆▇▇█  40% → 90% over 10 uses                   │ 
+    mobile-permission-grant     recovery  v1   83% ████░ ✓      │                                                     │ 
+    github-pr-qa-report         procedure v2   80% ████░ ✓      │  learned from                                       │ 
+    mobile-wait-for-spinner     recovery  v2   75% ███▌░ ✓      │  sessions s_812, s_847 · fault rate_limit           │ 
+    github-partial-list-cursor  recovery  v2   71% ███▌░ ✓      │                                                     │ 
+    auth-expired-refresh        recovery  v1   70% ███▌░ ✓      │  history                                            │ 
+    github-search-needs-repo    quirk     v1  100% █████ ✓      │  4e1a9d0  v2 · merged in batched reads          3d  │ 
+    sandbox-apk-handoff         procedure v1  100% █████ ✓      │  b72c310  v1 · verified, 3.1 fewer steps        6d  │ 
+    github-schema-drift-files   recovery  v1   67% ███░░ ✓      │  19fe0a2  v1 · drafted from s_812               6d  │ 
+    android-rotation-recoords   recovery  v1   60% ███░░ ✓      │                                                     │ 
+                                                                │  saves 3.1 steps per rate_limit on average          │ 
+  retired · won less than half of their last 10 uses            │                                                     │ 
+    github-retry-immediately    recovery  v1   40% ██░░░ ✗      ╰─────────────────────────────────────────────────────╯ 
+    popup-press-back            recovery  v2   45% ██░░░ ✗                                                              
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ›  press / to filter skills                                                                                 esc back │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  ↑↓ pick   enter open   / filter   v check it again   r retire   g git log   esc back                                  

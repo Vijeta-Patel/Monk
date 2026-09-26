@@ -1,0 +1,1425 @@
+{
+ "120 × 36": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 900,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 4,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 5,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 6,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 7,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 8,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 9,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 4,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 5,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 6,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 7,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 8,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 9,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 11,
+   "label": "selected book",
+   "ms": 500,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▲",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▲",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 15,
+   "label": "new skill twinkle",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 16,
+   "label": "new skill twinkle",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 57,
+   "y": 16,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "skill",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 67,
+   "y": 18,
+   "label": "win-rate sparkline draw",
+   "ms": 180,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁       ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂      ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃     ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅    ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆   ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇  ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇ ",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "▁▂▃▅▆▇▇█",
+     "color": "skill",
+     "bold": true
+    }
+   ]
+  }
+ ],
+ "80 × 24": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 900,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 3,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 4,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 5,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 7,
+   "y": 6,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 3,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 4,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 5,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "  ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 10,
+   "y": 6,
+   "label": "new skill book growing",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▐▌",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 8,
+   "label": "selected book",
+   "ms": 500,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▲",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "▲",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 12,
+   "label": "new skill twinkle",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 13,
+   "label": "new skill twinkle",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "✦",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 61,
+   "y": 13,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "skill",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "skill",
+     "bold": true
+    }
+   ]
+  }
+ ]
+}

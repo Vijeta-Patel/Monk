@@ -1,0 +1,36 @@
+ (o o) monk  ·  deepseek-v3.2  ·  chaos moderate  ·  gen 3  ·  $0.18                  ⚡2 ✓2   ⠋ testing PR #12  01:12  
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                  │                                     
+   › Test PR #12 on the phone before we ship                                      │                    .                
+                                                                                  │                 ___                 
+  • Building and testing it in the sandbox first, so nothing runs on your         │                (o o)                
+    machine.                                                                      │               __) (__               
+                                                                                  │              /  \_/  \              
+  ✓  built the app in the sandbox · 4.2 MB apk                      coder  48.2s  │             (____|____)             
+  ⠋  running unit tests in the sandbox  ▾                           coder  00:21  │             ~~~~~~~~~~~             
+    ╭┄ ▣ sandbox  daytona · /work/tally ┄ isolated · can't touch your machine ┄╮  │                                     
+    ┆  $ ./gradlew testDebugUnitTest                                ~          ┆  │         watching the tests          
+    ┆  > Task :app:compileDebugKotlin  UP-TO-DATE                 +-------+    ┆  │                                     
+    ┆  > Task :app:testDebugUnitTest                             /       /|    ┆  │  plan                       1 of 6  
+    ┆  ✓ archive_removesFromActive                              +-------+ |    ┆  │  ▓███████░░░░░░░░░░░░░░░░░░░░░░░░░  
+    ┆  ✓ archive_keepsHistory                                   | ▣ box | +    ┆  │  ✓ read the PR            operator  
+    ┆  ✓ undoArchive_restoresOrder                              |       |/     ┆  │  ⠋ build + test              coder  
+    ┆  ✓ swipe_emitsArchiveEvent                                +-------+      ┆  │  ○ try it on the phone       phone  
+    ┆  ✓ undo_withinWindow                                                     ┆  │  ○ report back            operator  
+    ┆  ✓ dailyStreak_acrossMidnight                                            ┆  │  ○ re-test the fix           phone  
+    ┆                                                                          ┆  │  ◆ merge + publish       needs you  
+    ┆  ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓·······  31/38                           ┆  │                                     
+    ┆  ⠋  2 cpu · 4 GB · 00:21                                                 ┆  │  skills                   14 known  
+    ╰┄ following ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ ↑↓ scroll · ctrl+o fold ┄╯  │  ↳ gradle-offline-cache      using  
+                                                                                  │  ↳ android-emulator-inst…   loaded  
+                                                                                  │                                     
+                                                                                  │                                     
+                                                                                  │                                     
+                                                                                  │                                     
+                                                                                  │                                     
+                                                                                  │                                     
+                                                                                                                        
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ›  type to queue a message for after this                                                                   esc stop │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  ↑↓ scroll   end follow   ctrl+o fold   c copy   tab move around   esc stop                                            

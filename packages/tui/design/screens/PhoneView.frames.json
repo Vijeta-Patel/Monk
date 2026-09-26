@@ -1,0 +1,458 @@
+{
+ "120 × 36": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 600,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 87,
+   "y": 0,
+   "label": "top bar spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 10,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 62,
+   "y": 17,
+   "label": "overlap arrow",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "← 44 px hidden  ",
+     "color": "fail",
+     "bold": true
+    },
+    {
+     "text": " ← 44 px hidden ",
+     "color": "fail",
+     "bold": true
+    },
+    {
+     "text": "  ← 44 px hidden",
+     "color": "fail",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 112,
+   "y": 2,
+   "label": "live dot",
+   "ms": 500,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "● live",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "● live",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "○ live",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 105,
+   "y": 28,
+   "label": "tap ripple",
+   "ms": 260,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": " + ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(+)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "( )",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "   ",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "   ",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 33,
+   "label": "caret",
+   "ms": 530,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "█",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  }
+ ],
+ "80 × 24": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 600,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 47,
+   "y": 0,
+   "label": "top bar spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 2,
+   "y": 8,
+   "label": "spinner",
+   "ms": 80,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "⠋",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠙",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠹",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠸",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠼",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠴",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠦",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠧",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠇",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "⠏",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 74,
+   "y": 11,
+   "label": "streaming cursor",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "▌",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": "▌",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 62,
+   "y": 15,
+   "label": "overlap arrow",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "← 44 px hidden  ",
+     "color": "fail",
+     "bold": true
+    },
+    {
+     "text": " ← 44 px hidden ",
+     "color": "fail",
+     "bold": true
+    },
+    {
+     "text": "  ← 44 px hidden",
+     "color": "fail",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 4,
+   "y": 21,
+   "label": "caret",
+   "ms": 530,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "█",
+     "color": "saffron",
+     "bold": false
+    },
+    {
+     "text": " ",
+     "color": "saffron",
+     "bold": false
+    }
+   ]
+  }
+ ]
+}

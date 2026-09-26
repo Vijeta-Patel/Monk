@@ -1,0 +1,24 @@
+ (- -) monk · chaos moderate · gen 3 · $0.00                              ready 
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+                              █▀▄▀█ █▀▀█ █▀▀▄ █ ▄▀                              
+                              █ ▀ █ █  █ █  █ █▀▄                               
+                              ▀   ▀ ▀▀▀▀ ▀  ▀ ▀  ▀                              
+                                                                                
+             an agent that gets better every time something breaks              
+                                                                                
+                                                                                
+          ╭─ try ────────────────────────────────────────────────────╮          
+          │ › Test PR #12 on the phone before we ship                │          
+          │ › /resume  pick up where Telegram left off               │          
+          │ › /chaos   break something on purpose                    │          
+          │ › /skills  see what monk has learned                     │          
+          ╰──────────────────────────────────────────────────────────╯          
+                                                                                
+                                                                                
+      ✓ github    ✓ sandbox    ✓ phone    ⚡ chaos moderate    ↳ 14 skills      
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ › Test PR #12 on the phone before we ship█                           enter ↵ │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  enter send   / commands   ctrl+p everything   ? help                          

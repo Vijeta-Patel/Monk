@@ -1,0 +1,365 @@
+{
+ "120 × 36": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 700,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 3,
+   "y": 2,
+   "label": "gate pulse",
+   "ms": 400,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "◆",
+     "color": "on-gate",
+     "bold": true
+    },
+    {
+     "text": "◆",
+     "color": "on-gate",
+     "bold": true
+    },
+    {
+     "text": "◇",
+     "color": "on-gate",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 96,
+   "y": 2,
+   "label": "hazard stripes",
+   "ms": 160,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": " ╱╱╱  ╱╱╱  ╱╱╱  ╱╱╱  ╱",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "  ╱╱╱  ╱╱╱  ╱╱╱  ╱╱╱  ",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "╱  ╱╱╱  ╱╱╱  ╱╱╱  ╱╱╱ ",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "╱╱  ╱╱╱  ╱╱╱  ╱╱╱  ╱╱╱",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "╱╱╱  ╱╱╱  ╱╱╱  ╱╱╱  ╱╱",
+     "color": "on-gate",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 6,
+   "label": "approval sign",
+   "ms": 700,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": " |  need your  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |  need your  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |  need your  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |  need your  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " | this one's  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " | this one's  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " | this one's  | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " | this one's  | ",
+     "color": "gate",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 5,
+   "y": 7,
+   "label": "approval sign",
+   "ms": 700,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": " |     ok!     | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |     ok!     | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |     ok!     | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |     ok!     | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |   forever   | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |   forever   | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |   forever   | ",
+     "color": "gate",
+     "bold": true
+    },
+    {
+     "text": " |   forever   | ",
+     "color": "gate",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 14,
+   "y": 11,
+   "label": "mascot · hold",
+   "ms": 600,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (- -)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    },
+    {
+     "text": "   (o o)   ",
+     "color": "ink",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 32,
+   "y": 25,
+   "label": "key arming",
+   "ms": 300,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "keys wake up in 0.6s.  ",
+     "color": "ink-faint",
+     "bold": true
+    },
+    {
+     "text": "keys wake up in 0.6s.. ",
+     "color": "ink-faint",
+     "bold": true
+    },
+    {
+     "text": "keys wake up in 0.6s...",
+     "color": "ink-faint",
+     "bold": true
+    },
+    {
+     "text": "✓ keys are live        ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "✓ keys are live        ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "✓ keys are live        ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "✓ keys are live        ",
+     "color": "ok",
+     "bold": true
+    }
+   ]
+  }
+ ],
+ "80 × 24": [
+  {
+   "x": 1,
+   "y": 0,
+   "label": "top bar face",
+   "ms": 700,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(o o)",
+     "color": "saffron",
+     "bold": true
+    },
+    {
+     "text": "(- -)",
+     "color": "saffron",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 3,
+   "y": 2,
+   "label": "gate pulse",
+   "ms": 400,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "◆",
+     "color": "on-gate",
+     "bold": true
+    },
+    {
+     "text": "◆",
+     "color": "on-gate",
+     "bold": true
+    },
+    {
+     "text": "◇",
+     "color": "on-gate",
+     "bold": true
+    }
+   ]
+  },
+  {
+   "x": 66,
+   "y": 2,
+   "label": "hazard stripes",
+   "ms": 160,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": " ╱╱╱  ╱╱╱  ╱",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "  ╱╱╱  ╱╱╱  ",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "╱  ╱╱╱  ╱╱╱ ",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "╱╱  ╱╱╱  ╱╱╱",
+     "color": "on-gate",
+     "bold": false
+    },
+    {
+     "text": "╱╱╱  ╱╱╱  ╱╱",
+     "color": "on-gate",
+     "bold": false
+    }
+   ]
+  },
+  {
+   "x": 3,
+   "y": 21,
+   "label": "key arming",
+   "ms": 600,
+   "phase_ms": 0,
+   "frames": [
+    {
+     "text": "keys wake up in 0.6s...",
+     "color": "ink-faint",
+     "bold": true
+    },
+    {
+     "text": "✓ keys are live        ",
+     "color": "ok",
+     "bold": true
+    },
+    {
+     "text": "✓ keys are live        ",
+     "color": "ok",
+     "bold": true
+    }
+   ]
+  }
+ ]
+}

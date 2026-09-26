@@ -1,0 +1,36 @@
+ (o o) monk  ·  deepseek-v3.2  ·  chaos moderate  ·  gen 3  ·  $0.18                  ⚡2 ✓2   ⠋ testing PR #12  01:12  
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                  │                                     
+   › Test PR #12 on the phone before we ship                                      │                    .                
+                                                                                  │                 ___                 
+  • On it. Six steps: re╭─ everything ──────────────────────────────────────────────── ctrl+p ─╮   (o o)                
+    the phone, report ba│                                                                      │  __) (__               
+                        │  › chaos█                                                   5 of 22  │ /  \_/  \              
+  ✓  read PR #12 · 6 fil│ ──────────────────────────────────────────────────────────────────── │(____|____)             
+  ⚡ GitHub said slow do│  chaos                                                               │~~~~~~~~~~~             
+     ↳ used skill github│ ›  switch chaos profile                 moderate             ctrl+k  │                        
+  ✓  got the changed fil│    throw a fault right now              api or phone                 │ng with 2 helpers       
+  ✓  built the app in th│    set how often faults happen          30%                          │                        
+  ⠋  running unit tests │    turn chaos off for a bit                                          │                1 of 6  
+     ▓██████████████████│                                                                      │░░░░░░░░░░░░░░░░░░░░░░  
+                        │  bench                                                               │PR            operator  
+  • Build is green. 31 o│    run the benchmark under chaos        /bench                       │est              coder  
+    the phone and try th│                                                                      │ the phone       phone  
+                        │  recent                                                              │ck            operator  
+                        │    open skills                          14 known             ctrl+s  │he fix           phone  
+                        │    resume a telegram chat               /resume                      │ublish       needs you  
+                        │    start fresh                          /new                         │                        
+                        │                                                                      │              moderate  
+                        │                                                                      │it     ✓ 2 steps        
+                        │                                                                      │spike  ✓ 1 step         
+                        │                                                                      │                        
+                        │  ↑↓ move   enter go   esc close                                      │              14 known  
+                        ╰──────────────────────────────────────────────────────────────────────╯te-limit         using  
+                                                                                  │  ↳ gradle-offline-cache     loaded  
+                                                                                  │  ↳ android-emulator-inst…   loaded  
+                                                                                  │                                     
+                                                                                                                        
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ › █type to queue a message for after this                                                                   esc stop │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  esc stop   ctrl+o details   tab move around   ctrl+l sidebar   ctrl+p everything   ? help                             

@@ -1,0 +1,24 @@
+ (- -) monk · chaos moderate · gen 3 · $0.52                              ready 
+────────────────────────────────────────────────────────────────────────────────
+  skills what monk has learned                           14 active · 2 retired  
+    ██       ██ ██                ██ ██                                         
+    ██       ██ ██ ██ ██ ██ ██ ██ ██ ██ ██              each book is a skill    
+    ██       ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ▒▒ ▒▒     taller = wins more      
+    ██ ▐▌ ▐▌ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ▒▒ ▒▒                             
+   ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀                            
+    ▲                                                                           
+                                                                                
+    name                          type       v    win rate   verified           
+  › github-rate-limit-recovery    recovery   v2    90% ████▌ ✓ yes              
+  ✦ android-dismiss-rating-pop…   recovery   v1     new      ✓ yes              
+  ✦ android-relaunch-after-cra…   recovery   v1     new      ⠋ checking         
+    android-emulator-install      procedure  v3    93% ████▌ ✓ yes              
+    gradle-offline-cache          procedure  v1    88% ████░ ✓ yes              
+    mobile-permission-grant       recovery   v1    83% ████░ ✓ yes              
+    github-pr-qa-report           procedure  v2    80% ████░ ✓ yes              
+    + 7 more · ↓ to scroll · enter to read one                                  
+                                                                                
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ ›  press / to filter skills                                         esc back │
+╰──────────────────────────────────────────────────────────────────────────────╯
+  ↑↓ pick   enter read   / filter   esc back                                    
