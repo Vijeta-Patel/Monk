@@ -225,7 +225,8 @@ export async function injectFault(ctx: FaultContext): Promise<FaultOutcome> {
         result: errorResult(`MCP error -32001: Request timed out: upstream ${ctx.upstream} did not respond to ${ctx.tool} within ${(ctx.timeoutMs / 1000).toFixed(1)}s`),
       };
     case 'rate_limit': {
-      const retryAfter = 5 + Math.floor(r() * 55);
+      // Short enough that waiting it out is the right move, long enough to punish instant retries.
+      const retryAfter = 3 + Math.floor(r() * 13);
       return {
         forwarded: false,
         effect: `retry_after=${retryAfter}`,

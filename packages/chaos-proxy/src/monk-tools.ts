@@ -42,6 +42,38 @@ const TOOLS: Tool[] = [
     description: 'Take a PNG screenshot of the Android emulator screen.',
     inputSchema: { type: 'object', properties: {} },
   },
+  {
+    name: 'wait_seconds',
+    description: 'Pause before the next step, e.g. for the retry_after a rate limit asked for. At most 60 seconds.',
+    inputSchema: { type: 'object', properties: { seconds: { type: 'number', description: 'How long to wait (1-60)' }, reason: { type: 'string' } }, required: ['seconds'] },
+    annotations: { readOnlyHint: true },
+  },
+];
+
+/** GitHub actions GitHub's MCP server lacks; irreversible, so TrueForge asks the user first (by name). */
+const GITHUB_TOOLS: Tool[] = [
+  {
+    name: 'delete_branch',
+    description: 'Delete a branch in a GitHub repository. Irreversible: asks the user first. Never deletes the default branch.',
+    inputSchema: { type: 'object', properties: { owner: { type: 'string' }, repo: { type: 'string' }, branch: { type: 'string' } }, required: ['owner', 'repo', 'branch'] },
+    annotations: { destructiveHint: true },
+  },
+  {
+    name: 'close_issue',
+    description: 'Close a GitHub issue, optionally as a duplicate or not planned, with a comment. Irreversible: asks the user first. Use this rather than issue_write to close.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        owner: { type: 'string' },
+        repo: { type: 'string' },
+        issue_number: { type: 'number' },
+        reason: { type: 'string', enum: ['completed', 'not_planned', 'duplicate'] },
+        comment: { type: 'string', description: 'Posted on the issue before closing' },
+      },
+      required: ['owner', 'repo', 'issue_number'],
+    },
+    annotations: { destructiveHint: true },
+  },
 ];
 
 const err = (text: string): CallToolResult => ({ isError: true, content: [{ type: 'text', text }] });
@@ -50,12 +82,60 @@ export type MonkToolsDeps = {
   cfg: MonkConfig;
   device: () => Promise<Device | null>;
   fetchImpl?: typeof fetch;
+  sleep?: (ms: number) => Promise<void>;
 };
+
+async function github(deps: MonkToolsDeps, method: string, path: string, body?: unknown): Promise<{ status: number; json: unknown }> {
+  const res = await (deps.fetchImpl ?? fetch)(`https://api.github.com${path}`, {
+    method,
+    headers: {
+      authorization: `Bearer ${deps.cfg.GITHUB_TOKEN}`,
+      accept: 'application/vnd.github+json',
+      'x-github-api-version': '2022-11-28',
+      ...(body === undefined ? {} : { 'content-type': 'application/json' }),
+    },
+    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+  });
+  const text = await res.text();
+  let json: unknown = text;
+  try {
+    json = text ? JSON.parse(text) : null;
+  } catch {
+    /* plain text */
+  }
+  return { status: res.status, json };
+}
+
+const repoPath = (a: Record<string, unknown>) => `/repos/${encodeURIComponent(String(a.owner))}/${encodeURIComponent(String(a.repo))}`;
+
+async function githubAction(deps: MonkToolsDeps, name: string, args: Record<string, unknown>): Promise<CallToolResult> {
+  if (!args.owner || !args.repo) return err(`${name} needs owner and repo`);
+  if (name === 'delete_branch') {
+    const branch = String(args.branch ?? '');
+    if (!branch) return err('delete_branch needs branch');
+    const repo = await github(deps, 'GET', repoPath(args));
+    const def = (repo.json as { default_branch?: string } | null)?.default_branch;
+    if (def && branch === def) return err(`refusing to delete the default branch ${def}`);
+    const r = await github(deps, 'DELETE', `${repoPath(args)}/git/refs/heads/${branch.split('/').map(encodeURIComponent).join('/')}`);
+    if (r.status === 204) return { content: [{ type: 'text', text: `deleted branch ${branch}` }] };
+    return err(`delete_branch ${branch}: ${r.status} ${JSON.stringify(r.json).slice(0, 200)}`);
+  }
+  const n = Number(args.issue_number);
+  if (!Number.isInteger(n)) return err('close_issue needs issue_number');
+  if (typeof args.comment === 'string' && args.comment.trim()) {
+    const c = await github(deps, 'POST', `${repoPath(args)}/issues/${n}/comments`, { body: args.comment });
+    if (c.status >= 300) return err(`close_issue #${n}: comment failed ${c.status}`);
+  }
+  const reason = args.reason === 'not_planned' || args.reason === 'duplicate' ? args.reason : 'completed';
+  const r = await github(deps, 'PATCH', `${repoPath(args)}/issues/${n}`, { state: 'closed', state_reason: reason });
+  if (r.status < 300) return { content: [{ type: 'text', text: `closed #${n} (${reason})` }] };
+  return err(`close_issue #${n}: ${r.status} ${JSON.stringify(r.json).slice(0, 200)}`);
+}
 
 /** In-process MCP server for Monk's own tools (APK hand-off, screenshots). */
 export function monkToolsServer(deps: MonkToolsDeps): Server {
   const server = new Server({ name: 'monk', version: '0.1.0' }, { capabilities: { tools: {} } });
-  const tools = TOOLS.filter((t) => t.name !== 'phone_screenshot' || deps.cfg.MONK_PHONE);
+  const tools = [...TOOLS.filter((t) => t.name !== 'phone_screenshot' || deps.cfg.MONK_PHONE), ...(deps.cfg.GITHUB_TOKEN ? GITHUB_TOOLS : [])];
   server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools }));
   server.setRequestHandler(CallToolRequestSchema, async (req): Promise<CallToolResult> => {
     const args = (req.params.arguments ?? {}) as Record<string, unknown>;
@@ -67,6 +147,12 @@ export function monkToolsServer(deps: MonkToolsDeps): Server {
         return { content: [{ type: 'image', data: png.toString('base64'), mimeType: 'image/png' }] };
       }
       if (req.params.name === 'install_apk') return await installApk(deps, args);
+      if (req.params.name === 'wait_seconds') {
+        const secs = Math.max(1, Math.min(60, Number(args.seconds) || 1));
+        await (deps.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms))))(secs * 1000);
+        return { content: [{ type: 'text', text: `waited ${secs}s` }] };
+      }
+      if (req.params.name === 'delete_branch' || req.params.name === 'close_issue') return await githubAction(deps, req.params.name, args);
       return err(`unknown tool ${req.params.name}`);
     } catch (e) {
       return err(redact(e instanceof Error ? e.message : String(e)));

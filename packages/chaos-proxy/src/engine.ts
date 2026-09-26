@@ -235,6 +235,11 @@ export class ChaosEngine {
 
     const upstream = entry.upstream;
     const forward = async (): Promise<CallToolResult> => {
+      // Closing through a generic write tool would skip the approval gate TrueForge keys on by name.
+      const a = args as Record<string, unknown>;
+      if (/^(issue_write|update_issue)$/.test(name) && String(a.state ?? '').toLowerCase() === 'closed') {
+        return errorResult('Closing an issue is irreversible and needs the user\'s ok: use the close_issue tool instead.');
+      }
       try {
         return await pool.call(upstream, name, args);
       } catch (err) {
