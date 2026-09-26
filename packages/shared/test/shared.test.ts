@@ -88,7 +88,7 @@ describe('helpers', () => {
     expect(redact('key sk-or-v1-0123456789abcdef0123456789abcdef', {})).toBe('key [redacted]');
   });
   it('expands destructive globs to exact names', () => {
-    expect(destructiveToolNames(['list_issues', 'merge_pull_request', 'delete_branch', 'mobile_uninstall_app', 'get_file_contents']))
+    expect(destructiveToolNames(['list_issues', 'merge_pull_request', 'delete_branch', 'mobile_uninstall_app', 'get_file_contents', 'list_releases', 'get_latest_release']))
       .toEqual(['merge_pull_request', 'delete_branch', 'mobile_uninstall_app']);
   });
   it('slugs model ids to TrueForge names', () => {
@@ -126,5 +126,14 @@ describe('llm proxy models', () => {
     expect(rankForAgent(models).map((m) => m.id)).toEqual(['small', 'big']);
     expect(blendedCost(models.find((m) => m.id === 'small')!)).toBeCloseTo((10 * 0.15 + 0.6) / 11);
     expect(tfModelName('openai/gpt-4o-mini')).toBe('litellm/openai-gpt-4o-mini');
+  });
+});
+
+describe('unwrapToolCall', () => {
+  it('turns TrueForge call_tool into the real MCP tool', async () => {
+    const { unwrapToolCall } = await import('../src/index.ts');
+    expect(unwrapToolCall('call_tool', JSON.stringify({ mcp_server: 'monk-chaos', tool_name: 'delete_file', input: { path: 'README.md' } }), null)).toEqual({ name: 'delete_file', args: '{"path":"README.md"}', server: 'monk-chaos' });
+    expect(unwrapToolCall('list_issues', '{}', 'monk-chaos')).toEqual({ name: 'list_issues', args: '{}', server: 'monk-chaos' });
+    expect(unwrapToolCall('call_tool', 'not json', null).name).toBe('call_tool');
   });
 });

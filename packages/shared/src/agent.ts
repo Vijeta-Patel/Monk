@@ -41,17 +41,22 @@ export function monkAgentSpec(opts: {
   sandbox?: boolean;
   /** Set only when TrueForge has patches/0001-subagent-models applied. */
   visionModel?: string;
+  webSearch?: boolean;
+  reasoningEffort?: string;
 }): TrueForgeApi.AgentSpec {
   // The generated SDK type predates the patch; the extra field is passed through as JSON.
   const dynamicSubAgents = opts.visionModel
     ? ({ enabled: true, models: subagentModels(opts.model, opts.visionModel) } as TrueForgeApi.DynamicSubAgentsConfig)
     : { enabled: true };
   return {
-    model: { name: tfModelName(opts.model) },
+    model: { name: tfModelName(opts.model), ...(opts.reasoningEffort ? { params: { reasoningEffort: opts.reasoningEffort } } : {}) },
     instructions: MONK_INSTRUCTIONS,
     mcpServers: [
       {
         name: CHAOS_PROXY_SERVER_NAME,
+        // Expose the tools directly instead of behind list_tools/call_tool, so every call carries its
+        // real name: approvals, chaos, evals and AgentEye all key on it.
+        preload: true,
         // '@destructive' uses the proxy's destructiveHint annotations; exact names are the backstop.
         requireApprovalForTools: ['@destructive', ...opts.approvalTools],
       },
@@ -62,7 +67,8 @@ export function monkAgentSpec(opts: {
       dynamicSubAgents,
       askUserQuestions: { enabled: true },
       sandbox: { enabled: opts.sandbox ?? true },
-      webSearch: { enabled: true },
+      // TrueForge rejects web search without a configured search provider; enable it once one is.
+      webSearch: { enabled: opts.webSearch ?? false },
     },
   };
 }

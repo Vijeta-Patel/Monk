@@ -72,7 +72,7 @@ export async function setup(ctx: Ctx): Promise<void> {
   await ensureAgent(client, {
     name: MONK_AGENT_NAME,
     description: 'Monk: a general agent that acts on your real systems and gets better every time something breaks.',
-    manifest: monkAgentSpec({ model: cfg.MODEL, skills: [], approvalTools, ...(cfg.TRUEFORGE_SUBAGENT_MODELS && cfg.VISION_MODEL ? { visionModel: cfg.VISION_MODEL } : {}) }),
+    manifest: monkAgentSpec({ model: cfg.MODEL, skills: [], approvalTools, reasoningEffort: cfg.REASONING_EFFORT, ...(cfg.TRUEFORGE_SUBAGENT_MODELS && cfg.VISION_MODEL ? { visionModel: cfg.VISION_MODEL } : {}) }),
   });
   if (active.length && cfg.SKILLS_REPO_URL) await syncSkillsToTrueForge(ctx);
   log(`✓ agent            ${MONK_AGENT_NAME} (${active.length} learned skills)`);

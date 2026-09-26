@@ -102,6 +102,26 @@ export function isErrorResult(content: string): boolean {
 }
 
 /**
+ * TrueForge can route MCP tools through its generic `call_tool {mcp_server, tool_name, input}`.
+ * Everything downstream (approvals, chaos accounting, evals, AgentEye, the UIs) keys on the real
+ * tool, so unwrap it here, once.
+ */
+export function unwrapToolCall(name: string, args: string, server: string | null): { name: string; args: string; server: string | null } {
+  if (name !== 'call_tool') return { name, args, server };
+  try {
+    const parsed = JSON.parse(args) as { mcp_server?: unknown; tool_name?: unknown; input?: unknown };
+    if (typeof parsed.tool_name !== 'string' || !parsed.tool_name) return { name, args, server };
+    return {
+      name: parsed.tool_name,
+      args: JSON.stringify(parsed.input ?? {}),
+      server: typeof parsed.mcp_server === 'string' ? parsed.mcp_server : server,
+    };
+  } catch {
+    return { name, args, server };
+  }
+}
+
+/**
  * Converts a raw TrueForge event stream into TurnEvents. Pure over its input so it can be tested
  * with recorded streams; `runTurn` feeds it live events.
  */
@@ -135,13 +155,8 @@ export async function* normalizeTurnStream(
         yield { type: 'usage', threadId: t, inputTokens: msg.usage.inputTokens, outputTokens: msg.usage.outputTokens };
       }
       for (const tc of msg.toolCalls ?? []) {
-        const info: ToolCallInfo = {
-          threadId: t,
-          callId: tc.id,
-          name: tc.function.name,
-          server: tc.toolInfo?.type === 'mcp' ? tc.toolInfo.serverName : null,
-          args: tc.function.arguments ?? '',
-        };
+        const real = unwrapToolCall(tc.function.name, tc.function.arguments ?? '', tc.toolInfo?.type === 'mcp' ? tc.toolInfo.serverName : null);
+        const info: ToolCallInfo = { threadId: t, callId: tc.id, name: real.name, server: real.server, args: real.args };
         callsById.set(tc.id, info);
         yield { type: 'tool.call', ...info };
       }
@@ -259,7 +274,12 @@ export async function ensureLlmProvider(client: TrueForge, cfg: MonkConfig): Pro
   if (!cfg.LLM_BASE_URL) throw new Error('LLM_BASE_URL is not set');
   if (!cfg.MODEL) throw new Error('MODEL is not set; run `monk models` to pick one');
   const ids = [...new Set([cfg.MODEL, cfg.VISION_MODEL].filter(Boolean))];
-  const models = ids.map((modelId) => ({ modelId, name: modelSlug(modelId), properties: {} }));
+  // Advertising the efforts lets the agent pin `none`: some proxied models refuse tool calls under any other.
+  const models = ids.map((modelId) => ({
+    modelId,
+    name: modelSlug(modelId),
+    properties: { reasoningEfforts: ['none', 'minimal', 'low', 'medium', 'high'] as TrueForgeApi.ReasoningEffort[] },
+  }));
   await client.settings.modelProviders.createOrUpdate({
     manifest: {
       type: 'custom',

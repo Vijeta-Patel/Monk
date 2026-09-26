@@ -14,6 +14,8 @@ const ConfigSchema = z.object({
   /** Model names as the proxy knows them; `monk models` suggests the cheapest with tool calling. */
   MODEL: z.string().default(''),
   VISION_MODEL: z.string().default(''),
+  /** Sent as the model's reasoning effort. `none` because some proxied models refuse tool calls otherwise. */
+  REASONING_EFFORT: z.enum(['none', 'minimal', 'low', 'medium', 'high']).default('none'),
   TRUEFORGE_URL: z.string().default('http://localhost:8790'),
   TRUEFORGE_TOKEN: z.string().default(''),
   GITHUB_TOKEN: z.string().default(''),

@@ -19,7 +19,9 @@ export const DESTRUCTIVE_TOOL_GLOBS = [
   '*force*',
   '*merge*',
   '*publish*',
-  '*release*',
+  // Creating or editing a release; reading one (list_releases, get_latest_release) is harmless.
+  '*create_release*',
+  '*update_release*',
   '*uninstall*',
   '*factory_reset*',
   '*clear_app_data*',
