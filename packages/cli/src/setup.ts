@@ -40,9 +40,11 @@ export async function setup(ctx: Ctx): Promise<void> {
         type: 'daytona',
         auth: { apiKey: cfg.DAYTONA_API_KEY },
         execTimeoutMs: 600_000,
-        autoStopIntervalInMinutes: 15,
-        autoArchiveIntervalInMinutes: 60,
-        autoDeleteIntervalInMinutes: 1440,
+        // One ~3 GiB sandbox per session and Daytona caps an account at 30 GiB, so a benchmark run
+        // would fill it within the hour: stop after 10 idle minutes, delete 20 minutes after that.
+        autoStopIntervalInMinutes: 10,
+        autoArchiveIntervalInMinutes: 30,
+        autoDeleteIntervalInMinutes: 20,
       },
     });
     log('✓ sandbox          daytona');
