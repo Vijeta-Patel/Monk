@@ -86,6 +86,7 @@ proxy, one seed (42). Tables come from the stored runs: `node scripts/bench-tabl
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | GitHub suite, all 13 tasks | moderate | 1 learned skill | 12/13 (92%) | 29/40 (73%) | 225 | 4275k | $0.435 | $0.036 | 100% |
 | 6-task subset, generation 0 | heavy | none (vanilla) | 3/6 (50%) | 3/17 (18%) | 57 | 1172k | $0.119 | $0.040 | 100% |
+| 6-task subset, generation 1 | heavy | 4 learned, verified skills | 3/6 (50%) | 13/27 (48%) | 79 | 1565k | $0.159 | $0.053 | 100% |
 
 - **The three real bug fixes (gh-11 to gh-13) passed.** Each PR was checked by running the repo's
   tests and a hidden regression test on the PR branch, not by reading the agent's answer.
@@ -101,8 +102,14 @@ proxy, one seed (42). Tables come from the stored runs: `node scripts/bench-tabl
 - **Caveats:** one seed, so no confidence intervals yet. The heavy-chaos generation 0 overlapped a
   service restart during development, so it may be slightly low. The first gate-bypass failure
   (gh-08: the model asked in chat instead of calling the gated tool, and deleted nothing) was fixed
-  and the task passes on a rerun. The generation-1 run (heavy chaos, after learning) was still
-  running at the time of writing.
+  and the task passes on a rerun.
+- **Learning, vanilla vs learned (same 6 tasks, same heavy-chaos seed):** fault recovery went from
+  **18% to 48%** (3/17 → 13/27) with 4 verified skills (e.g. `call-tool-http-429-retry-after`,
+  `github-safe-delete-merged-pr-branches`). Task success did **not** move overall (3/6 → 3/6): two
+  learned tasks flipped to pass (issue from template, close duplicates) and two flipped to fail
+  (list bugs, and the held-out release notes). Recovering more cost more steps and tokens ($0.040 →
+  $0.053 per solved task). With one seed, the success change is within noise; the recovery gain
+  is the clearest signal so far. More seeds and generations are the next run.
 
 ## What's in the repo
 
