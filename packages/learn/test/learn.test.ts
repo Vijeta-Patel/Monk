@@ -312,6 +312,18 @@ describe('pinned skills', () => {
     expect(existsSync(join(cfg.SKILLS_REPO_PATH, 'machine-workspace'))).toBe(false);
   });
 
+  it('are never a merge target, even when a stray row carries the name', async () => {
+    const { db, cfg, client } = await setup();
+    await db.insert(schema.skills).values({
+      name: 'machine-workspace', type: 'recovery', description: RECOVERY.description, body: RECOVERY.steps.map((s, i) => `${i + 1}. ${s}`).join('\n'),
+      faultTypes: ['rate_limit'], tools: ['list_issues'], status: 'active',
+    });
+    const report = await runLearning({ db, client, cfg, tfSessionIds: ['s1'], generation: 1, llm: fakeLlm(), verifier: improving });
+    expect(report.skills.some((s) => s.mergedInto === 'machine-workspace' || s.name === 'machine-workspace')).toBe(false);
+    expect((await skillRow(db, 'github-rate-limit-recovery'))?.status).toBe('active');
+    expect(existsSync(join(cfg.SKILLS_REPO_PATH, 'machine-workspace'))).toBe(false);
+  });
+
   it('are never retired, whatever their win rate', async () => {
     const db = freshDb();
     const cfg = makeCfg();

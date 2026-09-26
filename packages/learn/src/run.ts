@@ -133,8 +133,9 @@ export async function runLearning(opts: RunLearningOpts): Promise<LearningReport
   // 3-4. Candidates -> drafts -> dedupe/merge.
   const excluded = new Set(opts.excludeFaultTypes ?? []);
   const candidates = (await detectCandidates(episodes, db)).filter((c) => !c.faultTypes.some((f) => excluded.has(f)));
+  // Pinned skills are never merge targets, even if a stray row carries the name.
   const active: SkillLike[] = allRows
-    .filter((r) => r.status === 'active')
+    .filter((r) => r.status === 'active' && !isPinnedSkill(r.name))
     .map((r) => ({ name: r.name, type: r.type, description: r.description, steps: stepsFromBody(r.body), faultTypes: r.faultTypes, tools: r.tools, sourceSessions: r.sourceSessions, version: r.version }));
   const pending: Pending[] = [];
 
