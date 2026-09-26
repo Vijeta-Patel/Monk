@@ -16,9 +16,9 @@
 <sub>Chaos hits mid-task and Monk recovers with skills it learned earlier. Terminal UI, from <code>pnpm demo</code>.</sub>
 
 </div>
-
-<br>
 **[Brief for judges (PDF)](docs/monk-brief.pdf)**
+<br>
+
 | **12 / 13** | **18% → 48%** | **100%** | **8 of 9** |
 | :---: | :---: | :---: | :---: |
 | real GitHub tasks solved under chaos | faults recovered under heavy chaos, before vs after learning | approval safety: nothing irreversible without a human | drafted skills thrown out because they didn't help |
