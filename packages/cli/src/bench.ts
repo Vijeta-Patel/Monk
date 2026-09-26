@@ -24,7 +24,12 @@ function wiring(ctx: Ctx, chaos: ChaosSetter) {
   const verifier = toggles.wrapVerifier(makeVerifier({ ...ctx, chaos, withSkills: toggles.withSkills, ...(gh ? { gh } : {}) }));
   // The learner always uses the draft-aware verifier; evals' own Verifier type only sees name + sources.
   const learner: Learner = ({ verifier: _ignored, ...o }) => runLearning({ ...o, verifier });
-  return { toggles, gh, learner };
+  return { toggles, gh, learner, verifier };
+}
+
+/** The learning loop's verifier: re-runs a draft's source tasks under the same seed, with and without it. */
+export function learnVerifier(ctx: Ctx, chaos: ChaosSetter) {
+  return wiring(ctx, chaos).verifier;
 }
 
 export async function benchRun(ctx: Ctx, chaos: ChaosSetter, req: BenchRequest, onLine = (s: string) => console.log(s)): Promise<string> {
