@@ -115,6 +115,8 @@ export function mapSession(events: Ev[], faults: FaultRecord[], meta: SessionMet
                 fw_model: meta.model,
                 ...(meta.eval ? { fw_task_id: meta.eval.taskId, fw_generation: meta.eval.generation, fw_seed: meta.eval.seed, fw_profile: meta.eval.profile, fw_variant: meta.eval.variant, fw_split: meta.eval.split } : {}),
               });
+              // AgentEye's judges read user turns from human_input, so the request itself is one too.
+              push(ts, 'human_input', { input_id: String(ev.id), response: clip(text, 4000), fw_kind: 'message' });
             } else {
               push(ts, 'human_input', { input_id: String(ev.id), response: clip(text, 2000), fw_kind: 'message' });
             }
