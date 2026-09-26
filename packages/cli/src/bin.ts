@@ -4,8 +4,8 @@ import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 import { exportSession, sessionsToExport } from '@monk/agenteye';
 import { learnFromRecentSessions, retireSkills } from '@monk/learn';
-import { ABLATION_VARIANTS, githubFromConfig, resetRepo, type AblationVariant, type Suite } from '@monk/evals';
-import { blendedCost, findRootDir, listProxyModels, loadConfig, rankForAgent } from '@monk/shared';
+import { ABLATION_VARIANTS, githubFromConfig, resetRepo, runSuite, type AblationVariant, type Suite } from '@monk/evals';
+import { MONK_AGENT_NAME, blendedCost, findRootDir, listProxyModels, loadConfig, rankForAgent, redact, runMonkTurn, type TurnInput } from '@monk/shared';
 import { benchAblate, benchReport, benchRun } from './bench.ts';
 import { context, log, remoteChaos } from './context.ts';
 import { doctor, printChecks } from './doctor.ts';
@@ -22,6 +22,8 @@ usage
                                  chaos proxy, Monk API + dashboard, channels, cron
   monk setup                     configure TrueForge for Monk (models, MCP, sandbox, agent)
   monk doctor                    check keys, services and local tools
+  monk ask "<message>" [--approve]
+                                 one headless turn with Monk; irreversible steps are denied unless --approve
   monk models [--all]            models on the LLM proxy, cheapest with tool calling first
   monk agenteye up               start the local, Monk-only AgentEye (docker)
   monk agenteye setup            keys, plus AgentEye's evaluations and audit for Monk (integrations/agenteye)
@@ -29,6 +31,8 @@ usage
                                  send sessions to AgentEye (live sessions export on their own under monk up)
   monk learn [--since 24h]       run the learning loop over recent sessions
   monk bench seed                seed or reset the eval repo fixtures
+  monk bench task <id,...> [--profile moderate] [--seed 42]
+                                 run single benchmark tasks (e.g. gh-01-list-bugs) and print their results
   monk bench run --suite github,mobile --profile moderate --seeds 3 --generations 5 [--stress] [--keep-skills]
   monk bench ablate --suite github --variants all --seeds 3 --generations 3
   monk bench report --format md,json
@@ -120,6 +124,42 @@ async function main(argv: string[]): Promise<number> {
     }
   }
 
+  if (cmd === 'ask') {
+    const { values, positionals } = parseArgs({ args: argv.slice(1), options: { approve: { type: 'boolean' } }, allowPositionals: true });
+    const message = positionals.join(' ').trim();
+    if (!message) throw new Error('usage: monk ask "<message>"');
+    const ctx = context();
+    const { data: session } = await ctx.client.sessions.create({ agent: { name: MONK_AGENT_NAME }, metadata: { monk_client: 'cli' } });
+    log(`session ${session.id}`);
+    let input: TurnInput = { kind: 'message', content: message };
+    for (let turn = 0; turn < 10; turn++) {
+      let pending: { threadId: string; callId: string; name: string }[] = [];
+      let questions: { threadId: string; callId: string }[] = [];
+      for await (const ev of runMonkTurn(ctx, session.id, input)) {
+        if (ev.type === 'text' && ev.threadId === 'main') process.stdout.write(ev.delta);
+        else if (ev.type === 'tool.call') log(`\n▸ ${ev.name} ${redact(ev.args).slice(0, 120)}`);
+        else if (ev.type === 'tool.result') log(`  ${ev.isError ? '✗' : '✓'} ${redact(ev.content).replace(/\s+/g, ' ').slice(0, 140)}`);
+        else if (ev.type === 'subagent.started') log(`\n◇ helper ${ev.name}`);
+        else if (ev.type === 'approval.required') pending = ev.calls;
+        else if (ev.type === 'question') questions = ev.calls;
+        else if (ev.type === 'turn.done') log(`\n— turn ${ev.status}${ev.error ? `: ${ev.error}` : ''} · ${ev.inputTokens} in / ${ev.outputTokens} out tokens`);
+      }
+      if (pending.length) {
+        const allow = values.approve ?? false;
+        log(`◆ ${pending.map((p) => p.name).join(', ')} needs approval → ${allow ? 'approved (--approve)' : 'denied (pass --approve to allow)'}`);
+        input = { kind: 'approvals', decisions: pending.map((p) => ({ threadId: p.threadId, callId: p.callId, allow, ...(allow ? {} : { reason: 'denied in monk ask' }) })) };
+        continue;
+      }
+      if (questions.length) {
+        input = { kind: 'answers', answers: questions.map((q) => ({ threadId: q.threadId, callId: q.callId, content: 'Use your best judgement.' })) };
+        continue;
+      }
+      break;
+    }
+    log(`session ${session.id}`);
+    return 0;
+  }
+
   if (cmd === 'models') {
     const cfg = loadConfig();
     const all = await listProxyModels(cfg);
@@ -149,6 +189,7 @@ async function main(argv: string[]): Promise<number> {
   if (cmd === 'bench') {
     const { values } = parseArgs({
       args: argv.slice(2),
+      allowPositionals: true,
       options: {
         suite: { type: 'string' },
         profile: { type: 'string', default: 'moderate' },
@@ -167,6 +208,15 @@ async function main(argv: string[]): Promise<number> {
       const ids = await resetRepo(githubFromConfig(ctx.cfg));
       process.stdout.write(`${JSON.stringify(ids, null, 2)}\n`);
       return 0;
+    }
+    if (sub === 'task') {
+      const ids = (argv[2] ?? '').split(',').map((t) => t.trim()).filter(Boolean);
+      if (!ids.length) throw new Error('usage: monk bench task <task-id>[,<task-id>…]');
+      const suite: Suite = ids[0]!.startsWith('mob') ? 'mobile' : 'github';
+      const { values: v } = parseArgs({ args: argv.slice(3), options: { profile: { type: 'string', default: 'moderate' }, seed: { type: 'string', default: '42' } } });
+      const s = await runSuite({ ...ctx, suite, profile: v.profile ?? 'moderate', seed: Number(v.seed), generation: 0, variant: 'check', taskIds: ids, chaos, ...(suite === 'github' ? { gh: githubFromConfig(ctx.cfg) } : {}) });
+      for (const r of s.results) log(`${r.passed ? '✓' : '✗'} ${r.taskId}  ${r.detail}  · ${r.steps} steps · faults ${r.faultsInjected}/${r.faultsRecovered} recovered · $${r.costUsd.toFixed(4)}${r.tfSessionId ? ` · ${r.tfSessionId}` : ''}`);
+      return s.results.every((r) => r.passed) ? 0 : 1;
     }
     if (sub === 'run') {
       const benchId = await benchRun(ctx, chaos, {
