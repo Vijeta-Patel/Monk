@@ -1,5 +1,4 @@
 import { join } from 'node:path';
-import { startAgentEyeExporter } from '@monk/agenteye';
 import { startChaosProxy } from '@monk/chaos-proxy';
 import { startGateway } from '@monk/channels';
 import { createCronApi, nextRuns, startCron } from '@monk/cron';
@@ -8,6 +7,7 @@ import { newId, refreshPricing } from '@monk/shared';
 import { startApiServer } from '@monk/server';
 import { benchRun } from './bench.ts';
 import { log, type Ctx } from './context.ts';
+import { loadPlugins } from './plugins.ts';
 
 /** Starts the chaos proxy, Monk API + dashboard, channels gateway and cron in one process. */
 export async function up(ctx: Ctx, opts: { channels: boolean; cron: boolean }): Promise<() => Promise<void>> {
@@ -75,11 +75,14 @@ export async function up(ctx: Ctx, opts: { channels: boolean; cron: boolean }): 
     log('cron          on');
   }
 
-  if (cfg.AGENTEYE_INGEST_KEY) {
-    const exporter = startAgentEyeExporter({ db, client, cfg, log });
-    closers.push(exporter.close);
-  } else {
-    log('agenteye      off (no AGENTEYE_INGEST_KEY)');
+  for (const plugin of await loadPlugins(cfg.rootDir)) {
+    if (!plugin.up) continue;
+    try {
+      const close = await plugin.up({ ...ctx, log });
+      if (close) closers.push(close);
+    } catch (err) {
+      log(`plugin ${plugin.name}: ${(err as Error).message}`);
+    }
   }
 
   return async () => {

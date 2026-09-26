@@ -179,12 +179,6 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(@types/node@26.6.2)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
-  packages/agenteye:
-    dependencies:
-      '@monk/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/channels:
     dependencies:
       '@monk/shared':
@@ -195,7 +189,7 @@ importers:
         version: 14.27.0
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       grammy:
         specifier: ^1.46.0
         version: 1.46.0
@@ -213,7 +207,7 @@ importers:
         version: link:../shared
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
@@ -223,9 +217,6 @@ importers:
 
   packages/cli:
     dependencies:
-      '@monk/agenteye':
-        specifier: workspace:*
-        version: link:../agenteye
       '@monk/channels':
         specifier: workspace:*
         version: link:../channels
@@ -265,7 +256,7 @@ importers:
         version: 3.27.0
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       zod:
         specifier: ^4.6.5
         version: 4.6.5
@@ -314,7 +305,7 @@ importers:
         version: 22.0.1
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
@@ -329,7 +320,7 @@ importers:
         version: link:../shared
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
@@ -344,7 +335,7 @@ importers:
         version: link:../shared
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       zod:
         specifier: ^4.6.5
         version: 4.6.5
@@ -359,7 +350,7 @@ importers:
         version: 18.0.3
       drizzle-orm:
         specifier: ^0.45.3
-        version: 0.45.3
+        version: 0.45.3(bun-types@1.4.2)
       yaml:
         specifier: ^2.9.1
         version: 2.9.1
@@ -3042,7 +3033,9 @@ snapshots:
 
   dotenv@18.0.3: {}
 
-  drizzle-orm@0.45.3: {}
+  drizzle-orm@0.45.3(bun-types@1.4.2):
+    optionalDependencies:
+      bun-types: 1.4.2
 
   dunder-proto@1.0.1:
     dependencies:

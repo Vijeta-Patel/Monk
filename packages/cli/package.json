@@ -12,7 +12,6 @@
     "monk": "node src/bin.ts"
   },
   "dependencies": {
-    "@monk/agenteye": "workspace:*",
     "@monk/channels": "workspace:*",
     "@monk/chaos-proxy": "workspace:*",
     "@monk/cron": "workspace:*",

@@ -2,7 +2,6 @@
 import { spawn } from 'node:child_process';
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
-import { exportSession, sessionsToExport } from '@monk/agenteye';
 import { learnFromRecentSessions, retireSkills } from '@monk/learn';
 import { ABLATION_VARIANTS, SUITES, githubFromConfig, resetRepo, runSuite, suiteOfTask, usesGithub, type AblationVariant, type Suite } from '@monk/evals';
 import { MONK_AGENT_NAME, blendedCost, findRootDir, listProxyModels, loadConfig, rankForAgent, redact, runMonkTurn, type TurnInput } from '@monk/shared';
@@ -12,6 +11,7 @@ import { doctor, printChecks } from './doctor.ts';
 import { runTrueForge } from './trueforge.ts';
 import { setup } from './setup.ts';
 import { up } from './up.ts';
+import { loadPlugins } from './plugins.ts';
 
 const HELP = `monk: an agent that acts on your real systems and gets better every time something breaks
 
@@ -26,11 +26,7 @@ usage
                                  one headless turn with Monk; irreversible steps are denied unless --approve
   monk models [--all]            models on the LLM proxy, cheapest with tool calling first
   monk stack [install|status|restart|stop|logs]
-                                 the stack as background services (TrueForge, monk up, AgentEye)
-  monk agenteye up               start the local, Monk-only AgentEye (docker)
-  monk agenteye setup            keys, plus AgentEye's evaluations and audit for Monk (integrations/agenteye)
-  monk agenteye export [--bench <id>] [--session <id>]
-                                 send sessions to AgentEye (live sessions export on their own under monk up)
+                                 the stack as background services (TrueForge, monk up, emulator)
   monk learn [--since 24h]       run the learning loop over recent sessions
   monk bench seed                seed or reset the eval repo fixtures
   monk bench task <id,...> [--profile moderate] [--seed 42]
@@ -68,8 +64,10 @@ function openTui(args: string[]): Promise<number> {
 async function main(argv: string[]): Promise<number> {
   const [cmd, sub] = argv;
   if (!cmd || cmd.startsWith('--')) return openTui(argv);
+  const plugins = await loadPlugins(findRootDir());
+  const help = HELP + plugins.map((p) => p.usage ?? '').join('');
   if (cmd === 'help' || cmd === '-h') {
-    process.stdout.write(HELP);
+    process.stdout.write(help);
     return 0;
   }
 
@@ -99,7 +97,7 @@ async function main(argv: string[]): Promise<number> {
 
   if (cmd === 'stack') {
     const root = findRootDir();
-    const units = ['monk-trueforge', 'monk-up', 'monk-agenteye', 'monk-emulator'];
+    const units = ['monk-trueforge', 'monk-up', 'monk-emulator', ...(await loadPlugins(root)).flatMap((p) => p.units ?? [])];
     const run = (bin: string, args: string[]) =>
       new Promise<number>((resolve) => spawn(bin, args, { stdio: 'inherit' }).on('exit', (code) => resolve(code ?? 0)));
     switch (sub ?? 'status') {
@@ -113,36 +111,6 @@ async function main(argv: string[]): Promise<number> {
         return run('tail', ['-n', '60', '-f', join(root, 'data/monk-up.log'), join(root, 'data/trueforge.log')]);
       default:
         return run('systemctl', ['--user', '--no-pager', 'status', ...units]);
-    }
-  }
-
-  if (cmd === 'agenteye') {
-    const root = findRootDir();
-    if (sub === 'up') {
-      const child = spawn('bash', [join(root, 'integrations/agenteye/up.sh')], { stdio: 'inherit' });
-      return new Promise((resolve) => child.on('exit', (code) => resolve(code ?? 0)));
-    }
-    if (sub === 'setup') {
-      const child = spawn(process.execPath, [join(root, 'packages/agenteye/scripts/setup-local.ts')], { stdio: 'inherit' });
-      return new Promise((resolve) => child.on('exit', (code) => resolve(code ?? 0)));
-    }
-    if (sub === 'export') {
-      const { values } = parseArgs({ args: argv.slice(2), options: { bench: { type: 'string' }, session: { type: 'string' } } });
-      const ctx = context();
-      if (!ctx.cfg.AGENTEYE_INGEST_KEY) throw new Error('AGENTEYE_INGEST_KEY is not set');
-      const ids = values.session ? [values.session] : await sessionsToExport(ctx.db, values.bench ? { benchId: values.bench } : {});
-      let events = 0;
-      for (const id of ids) {
-        try {
-          const r = await exportSession(ctx, id);
-          events += r.sent;
-          if (r.sent) log(`✓ ${id} → ${r.environment}: ${r.sent} events${r.ended ? '' : ' (still open)'}`);
-        } catch (err) {
-          log(`✗ ${id}: ${(err as Error).message}`);
-        }
-      }
-      log(`sent ${events} events from ${ids.length} session(s) to ${ctx.cfg.AGENTEYE_URL}`);
-      return 0;
     }
   }
 
@@ -276,7 +244,12 @@ async function main(argv: string[]): Promise<number> {
     }
   }
 
-  process.stderr.write(HELP);
+  for (const p of plugins) {
+    const run = p.commands?.[cmd];
+    if (run) return run(argv.slice(1), context);
+  }
+
+  process.stderr.write(help);
   return 2;
 }
 

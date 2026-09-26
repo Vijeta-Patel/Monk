@@ -1,6 +1,6 @@
 [Unit]
-Description=Monk: chaos proxy, API + dashboard, Telegram, cron, AgentEye export
-After=monk-trueforge.service monk-agenteye.service monk-emulator.service
+Description=Monk: chaos proxy, API + dashboard, Telegram, cron, local plugins
+After=monk-trueforge.service monk-emulator.service
 Wants=monk-trueforge.service
 
 [Service]

@@ -103,7 +103,7 @@ export function isErrorResult(content: string): boolean {
 
 /**
  * TrueForge can route MCP tools through its generic `call_tool {mcp_server, tool_name, input}`.
- * Everything downstream (approvals, chaos accounting, evals, AgentEye, the UIs) keys on the real
+ * Everything downstream (approvals, chaos accounting, evals, the UIs) keys on the real
  * tool, so unwrap it here, once.
  */
 export function unwrapToolCall(name: string, args: string, server: string | null): { name: string; args: string; server: string | null } {

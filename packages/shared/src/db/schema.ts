@@ -156,12 +156,3 @@ export const evalResults = sqliteTable('eval_results', {
   skillsLoaded: json<string[]>('skills_loaded').notNull().default([]),
   error: text('error'),
 });
-
-/** Which AgentEye lines have already been sent per TrueForge session (hashes), so re-exports only add. */
-export const agenteyeExports = sqliteTable('agenteye_exports', {
-  tfSessionId: text('tf_session_id').primaryKey(),
-  sentKeys: json<string[]>('sent_keys').notNull().default([]),
-  environment: text('environment').notNull(),
-  ended: integer('ended', { mode: 'boolean' }).notNull().default(false),
-  updatedAt: text('updated_at').notNull().default(now),
-});

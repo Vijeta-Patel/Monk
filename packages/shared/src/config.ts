@@ -45,11 +45,6 @@ const ConfigSchema = z.object({
   /** TrueForge has patches/0001-subagent-models applied: subagents may pick a model. */
   TRUEFORGE_SUBAGENT_MODELS: bool.default(false),
   TIMEZONE: z.string().default('Asia/Kolkata'),
-  /** AgentEye (Failproof AI) for observability + evals; export is off while the key is empty. */
-  AGENTEYE_URL: z.string().default('http://localhost:8080'),
-  AGENTEYE_INGEST_KEY: z.string().default(''),
-  AGENTEYE_ENVIRONMENT: z.string().default('monk-live'),
-  AGENTEYE_AGENT_ID: z.string().default('monk'),
 });
 
 export type MonkConfig = z.infer<typeof ConfigSchema> & {
@@ -93,5 +88,5 @@ export function loadConfig(opts: { env?: Record<string, string | undefined>; roo
   return cfg;
 }
 
-/** Names of config keys that are secrets; used by redaction. */
-export const SECRET_KEYS = ['LLM_API_KEY', 'AGENTEYE_INGEST_KEY', 'GITHUB_TOKEN', 'TELEGRAM_BOT_TOKEN', 'DISCORD_BOT_TOKEN', 'DAYTONA_API_KEY', 'TRUEFORGE_TOKEN', 'TAVILY_API_KEY'] as const;
+/** Names of config keys that are secrets; used by redaction (local plugins add theirs with registerSecretKeys). */
+export const SECRET_KEYS = ['LLM_API_KEY', 'GITHUB_TOKEN', 'TELEGRAM_BOT_TOKEN', 'DISCORD_BOT_TOKEN', 'DAYTONA_API_KEY', 'TRUEFORGE_TOKEN', 'TAVILY_API_KEY'] as const;

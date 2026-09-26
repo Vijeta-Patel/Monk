@@ -10,9 +10,16 @@ const PATTERNS: RegExp[] = [
   /\bBearer\s+[A-Za-z0-9._~+/=-]{16,}/gi,
 ];
 
+const extraKeys = new Set<string>();
+
+/** Secret env keys a local plugin reads, so redaction covers them too. */
+export function registerSecretKeys(keys: string[]): void {
+  for (const k of keys) extraKeys.add(k);
+}
+
 export function redact(text: string, env: Record<string, string | undefined> = process.env): string {
   let out = text;
-  for (const key of SECRET_KEYS) {
+  for (const key of [...SECRET_KEYS, ...extraKeys]) {
     const v = env[key];
     if (v && v.length >= 8) out = out.split(v).join(`[${key}]`);
   }

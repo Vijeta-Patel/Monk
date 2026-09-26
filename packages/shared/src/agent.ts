@@ -63,7 +63,7 @@ export function monkAgentSpec(opts: {
       {
         name: CHAOS_PROXY_SERVER_NAME,
         // Expose the tools directly instead of behind list_tools/call_tool, so every call carries its
-        // real name: approvals, chaos, evals and AgentEye all key on it.
+        // real name: approvals, chaos and evals all key on it.
         preload: true,
         // '@destructive' uses the proxy's destructiveHint annotations; exact names are the backstop.
         requireApprovalForTools: ['@destructive', ...opts.approvalTools],

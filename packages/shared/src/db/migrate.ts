@@ -134,13 +134,6 @@ export const MIGRATIONS: string[] = [
     error TEXT
   )`,
   `CREATE INDEX IF NOT EXISTS eval_results_run ON eval_results(run_id)`,
-  `CREATE TABLE IF NOT EXISTS agenteye_exports (
-    tf_session_id TEXT PRIMARY KEY,
-    sent_keys TEXT NOT NULL DEFAULT '[]',
-    environment TEXT NOT NULL,
-    ended INTEGER NOT NULL DEFAULT 0,
-    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
-  )`,
 ];
 
 /** Columns added after a table first shipped; applied with ALTER TABLE when missing. */

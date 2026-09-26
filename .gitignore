@@ -13,3 +13,6 @@ mcp-servers.json
 *.log
 *.swp
 *.swo
+
+# Machine-local plugins and their settings (see packages/cli/src/plugins.ts); never committed.
+.local/
